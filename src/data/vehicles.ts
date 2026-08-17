@@ -1,0 +1,21 @@
+// src/data/vehicles.ts
+import { Vehicle } from '@/types/vehicle';
+import { generateId } from '@/lib/utils';
+
+export const mockVehicles: Vehicle[] = [
+  { id: generateId(), vehicleId: 'VH-1025', vehicleType: 'Truck', assetType: 'Heavy', odometer: 84520, distanceTraveled: 84520, fuelIssued: 4520, fuelConsumption: 5.3, status: 'Active', createdAt: '2026-01-15T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1008', vehicleType: 'Truck', assetType: 'Heavy', odometer: 72150, distanceTraveled: 72150, fuelIssued: 3850, fuelConsumption: 5.3, status: 'Active', createdAt: '2026-02-20T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1032', vehicleType: 'Bus', assetType: 'Passenger', odometer: 63500, distanceTraveled: 63500, fuelIssued: 4250, fuelConsumption: 6.7, status: 'Active', createdAt: '2026-03-10T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1045', vehicleType: 'Van', assetType: 'Light', odometer: 54320, distanceTraveled: 54320, fuelIssued: 3350, fuelConsumption: 6.2, status: 'Active', createdAt: '2026-04-05T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1051', vehicleType: 'Truck', assetType: 'Heavy', odometer: 48900, distanceTraveled: 48900, fuelIssued: 3920, fuelConsumption: 8.0, status: 'Active', createdAt: '2026-05-12T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1063', vehicleType: 'Van', assetType: 'Light', odometer: 38750, distanceTraveled: 38750, fuelIssued: 2950, fuelConsumption: 7.6, status: 'Active', createdAt: '2026-06-08T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1078', vehicleType: 'Car', assetType: 'Passenger', odometer: 32500, distanceTraveled: 32500, fuelIssued: 2450, fuelConsumption: 7.5, status: 'Active', createdAt: '2026-07-01T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1082', vehicleType: 'Truck', assetType: 'Heavy', odometer: 28400, distanceTraveled: 28400, fuelIssued: 3620, fuelConsumption: 12.7, status: 'Active', createdAt: '2026-07-15T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1095', vehicleType: 'Bus', assetType: 'Passenger', odometer: 21500, distanceTraveled: 21500, fuelIssued: 3450, fuelConsumption: 16.0, status: 'Inactive', createdAt: '2026-08-01T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1101', vehicleType: 'Van', assetType: 'Light', odometer: 15800, distanceTraveled: 15800, fuelIssued: 2580, fuelConsumption: 16.3, status: 'Active', createdAt: '2026-08-05T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1115', vehicleType: 'Truck', assetType: 'Heavy', odometer: 12400, distanceTraveled: 12400, fuelIssued: 3250, fuelConsumption: 26.2, status: 'Active', createdAt: '2026-08-08T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1122', vehicleType: 'Car', assetType: 'Passenger', odometer: 9500, distanceTraveled: 9500, fuelIssued: 1850, fuelConsumption: 19.5, status: 'Active', createdAt: '2026-08-10T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1138', vehicleType: 'Van', assetType: 'Light', odometer: 7800, distanceTraveled: 7800, fuelIssued: 2150, fuelConsumption: 27.6, status: 'Active', createdAt: '2026-08-11T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1142', vehicleType: 'Truck', assetType: 'Heavy', odometer: 6200, distanceTraveled: 6200, fuelIssued: 2850, fuelConsumption: 46.0, status: 'Active', createdAt: '2026-08-12T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+  { id: generateId(), vehicleId: 'VH-1150', vehicleType: 'Bus', assetType: 'Passenger', odometer: 4500, distanceTraveled: 4500, fuelIssued: 2550, fuelConsumption: 56.7, status: 'Active', createdAt: '2026-08-12T00:00:00Z', updatedAt: '2026-08-12T00:00:00Z' },
+];

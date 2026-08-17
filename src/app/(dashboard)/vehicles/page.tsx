@@ -1,0 +1,218 @@
+// src/app/vehicles/page.tsx
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Search, Download, AlertTriangle, RefreshCw, Eye } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { StatusBadge } from '@/components/common/StatusBadge';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { PageContainer } from '@/components/layout/PageContainer';
+import { vehicleService } from '@/services/vehicleService';
+import { authService } from '@/lib/auth';
+import { formatFuel, formatNumber, getStatusColor } from '@/lib/utils';
+import { Vehicle } from '@/types/vehicle';
+
+export default function VehiclesPage() {
+    const router = useRouter();
+    const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [search, setSearch] = useState('');
+    const [selectedStatus, setSelectedStatus] = useState('');
+    const [total, setTotal] = useState(0);
+    const [page, setPage] = useState(1);
+    const [pageSize] = useState(10);
+    const [totalPages, setTotalPages] = useState(1);
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            const isAuthenticated = await authService.isAuthenticated();
+            if (!isAuthenticated) {
+                router.push('/login');
+                return;
+            }
+            loadData();
+        };
+        checkAuth();
+    }, [router, page]);
+
+    const loadData = async () => {
+        try {
+            setLoading(true);
+            const response = await vehicleService.getVehicles({
+                page,
+                pageSize,
+                search: search || undefined,
+                status: selectedStatus || undefined,
+            });
+            setVehicles(response.data);
+            setTotal(response.total);
+            setTotalPages(response.totalPages);
+            setError(null);
+        } catch (err) {
+            setError('Failed to load vehicles');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSearch = () => {
+        setPage(1);
+        loadData();
+    };
+
+    if (loading && vehicles.length === 0) {
+        return (
+            <PageContainer>
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <LoadingSpinner size="lg" />
+                </div>
+            </PageContainer>
+        );
+    }
+
+    if (error) {
+        return (
+            <PageContainer>
+                <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                    <AlertTriangle className="h-12 w-12 text-destructive" />
+                    <p className="text-lg text-muted-foreground">{error}</p>
+                    <Button onClick={loadData}>Try Again</Button>
+                </div>
+            </PageContainer>
+        );
+    }
+
+    return (
+        <PageContainer>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">Vehicles / Assets</h1>
+                    <p className="text-muted-foreground">Manage fleet vehicles and assets</p>
+                </div>
+                <Button onClick={loadData} variant="outline" size="sm">
+                    <RefreshCw className="mr-2 h-4 w-4" />
+                    Refresh
+                </Button>
+            </div>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>All Vehicles</CardTitle>
+                    <CardDescription>Complete list of fleet vehicles</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                        <div className="relative flex-1">
+                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                            <input
+                                type="text"
+                                placeholder="Search by ID, type, or asset type..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                                className="w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            />
+                        </div>
+                        <select
+                            value={selectedStatus}
+                            onChange={(e) => {
+                                setSelectedStatus(e.target.value);
+                                setPage(1);
+                            }}
+                            className="rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        >
+                            <option value="">All Statuses</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                        <Button onClick={handleSearch} size="sm">Search</Button>
+                        <Button variant="outline" size="sm">
+                            <Download className="mr-2 h-4 w-4" />
+                            Export
+                        </Button>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead>
+                                <tr className="border-b">
+                                    <th className="text-left p-3 font-medium">Vehicle ID</th>
+                                    <th className="text-left p-3 font-medium">Vehicle Type</th>
+                                    <th className="text-left p-3 font-medium">Asset Type</th>
+                                    <th className="text-left p-3 font-medium">Odometer</th>
+                                    <th className="text-left p-3 font-medium">Distance</th>
+                                    <th className="text-left p-3 font-medium">Fuel Issued</th>
+                                    <th className="text-left p-3 font-medium">Consumption</th>
+                                    <th className="text-left p-3 font-medium">Status</th>
+                                    <th className="text-left p-3 font-medium">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {vehicles.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={9} className="p-4 text-center text-muted-foreground">
+                                            No vehicles found
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    vehicles.map((vehicle) => (
+                                        <tr key={vehicle.id} className="border-b hover:bg-muted/50">
+                                            <td className="p-3 font-medium">{vehicle.vehicleId}</td>
+                                            <td className="p-3">{vehicle.vehicleType}</td>
+                                            <td className="p-3">{vehicle.assetType}</td>
+                                            <td className="p-3">{formatNumber(vehicle.odometer)}</td>
+                                            <td className="p-3">{formatNumber(vehicle.distanceTraveled)} km</td>
+                                            <td className="p-3">{formatFuel(vehicle.fuelIssued)}</td>
+                                            <td className="p-3">{vehicle.fuelConsumption.toFixed(1)} L/100km</td>
+                                            <td className="p-3">
+                                                <StatusBadge status={vehicle.status} />
+                                            </td>
+                                            <td className="p-3">
+                                                <Button variant="ghost" size="sm">
+                                                    <Eye className="h-4 w-4" />
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div className="flex items-center justify-between mt-4">
+                            <p className="text-sm text-muted-foreground">
+                                Showing {vehicles.length} of {total} vehicles
+                            </p>
+                            <div className="flex gap-2">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => setPage(p => Math.max(1, p - 1))}
+                                    disabled={page === 1}
+                                >
+                                    Previous
+                                </Button>
+                                <span className="flex items-center px-3 text-sm">
+                                    Page {page} of {totalPages}
+                                </span>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                                    disabled={page === totalPages}
+                                >
+                                    Next
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
+        </PageContainer>
+    );
+}
