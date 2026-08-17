@@ -1,4 +1,4 @@
-// src/components/layout/Breadcrumbs.tsx
+
 'use client';
 
 import { usePathname } from 'next/navigation';
