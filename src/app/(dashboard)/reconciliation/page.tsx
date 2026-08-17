@@ -12,7 +12,7 @@ import { PageContainer } from '@/components/layout/PageContainer';
 import { reconciliationService } from '@/services/reconciliationService';
 import { authService } from '@/lib/auth';
 import { formatFuel, formatNumber, getStatusColor } from '@/lib/utils';
-import { Reconciliation } from '@/types/reconciliation';
+import { Reconciliation, ReconciliationSummary } from '@/types/reconciliation';
 
 export default function ReconciliationPage() {
     const router = useRouter();
@@ -24,14 +24,14 @@ export default function ReconciliationPage() {
     const [page, setPage] = useState(1);
     const [pageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
-    const [summary, setSummary] = useState({
+    const [summary, setSummary] = useState<ReconciliationSummary>({
         openingBalance: 0,
         deliveries: 0,
         fuelIssues: 0,
         expectedClosing: 0,
         actualClosing: 0,
         variance: 0,
-        status: 'Reconciled' as const,
+        status: 'Reconciled',
     });
 
     useEffect(() => {

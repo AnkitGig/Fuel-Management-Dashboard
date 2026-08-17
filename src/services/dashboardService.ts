@@ -12,7 +12,7 @@ import {
   mockExceptions
 } from '@/data/dashboard';
 import { TankStatus, Transaction } from '@/types/fuel';
-import { VehicleFuelUsage } from '@/types/vehicle';
+import { DashboardVehicleUsage } from '@/types/vehicle';
 import { ReconciliationSummary } from '@/types/reconciliation';
 import { delay } from '@/lib/utils';
 
@@ -30,7 +30,7 @@ export interface DashboardData {
   fuelLevelTrend: Array<{ date: string; level: number }>;
   deliveryTrend: Array<{ date: string; amount: number }>;
   consumptionTrend: Array<{ date: string; consumption: number }>;
-  vehicleFuelUsage: VehicleFuelUsage[];
+  vehicleFuelUsage: DashboardVehicleUsage[];
   reconciliationSummary: ReconciliationSummary;
   recentTransactions: Transaction[];
   recentDeliveries: Array<{ id: string; date: string; time: string; quantity: number; supplier: string; status: string }>;

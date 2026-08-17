@@ -358,7 +358,7 @@ export default function DashboardPage() {
                                         cx="50%"
                                         cy="50%"
                                         outerRadius={100}
-                                        label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                                        label={({ name, percent }) => `${name} (${((percent ?? 0) * 100).toFixed(0)}%)`}
                                     >
                                         {vehicleFuelUsage.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

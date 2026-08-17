@@ -33,4 +33,5 @@ export interface User {
   status: 'Active' | 'Inactive';
   lastLogin: string;
   createdAt: string;
+  updatedAt: string;
 }
