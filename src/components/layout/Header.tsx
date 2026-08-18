@@ -12,14 +12,14 @@ export function Header() {
     const { toggle, isOpen } = useSidebar();
 
     return (
-        <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-4">
+        <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b border-border/40 bg-background/60 backdrop-blur-md px-6">
             <Button
                 variant="ghost"
                 size="sm"
                 onClick={toggle}
-                className="md:hidden"
+                className="md:hidden rounded-lg"
             >
-                <Menu className="h-5 w-5" />
+                <Menu className="h-5 w-5 text-muted-foreground" />
             </Button>
             <Breadcrumbs />
         </header>

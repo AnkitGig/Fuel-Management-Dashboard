@@ -41,20 +41,20 @@ export function formatFuel(amount: number): string {
 
 export function getStatusColor(status: string): string {
   const statusMap: Record<string, string> = {
-    'Normal': 'bg-green-100 text-green-800',
-    'Reconciled': 'bg-green-100 text-green-800',
-    'Matched': 'bg-green-100 text-green-800',
-    'Active': 'bg-green-100 text-green-800',
-    'Warning': 'bg-yellow-100 text-yellow-800',
-    'Pending': 'bg-yellow-100 text-yellow-800',
-    'Exception': 'bg-red-100 text-red-800',
-    'Unmatched': 'bg-red-100 text-red-800',
-    'Inactive': 'bg-gray-100 text-gray-800',
-    'Cancelled': 'bg-gray-100 text-gray-800',
-    'Completed': 'bg-blue-100 text-blue-800',
-    'Information': 'bg-blue-100 text-blue-800',
+    'Normal': 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/30',
+    'Reconciled': 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/30',
+    'Matched': 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/30',
+    'Active': 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/30',
+    'Warning': 'bg-amber-500/10 text-amber-600 border-amber-500/20 dark:bg-amber-500/15 dark:text-amber-400 dark:border-amber-500/30',
+    'Pending': 'bg-amber-500/10 text-amber-600 border-amber-500/20 dark:bg-amber-500/15 dark:text-amber-400 dark:border-amber-500/30',
+    'Exception': 'bg-rose-500/10 text-rose-600 border-rose-500/20 dark:bg-rose-500/15 dark:text-rose-400 dark:border-rose-500/30',
+    'Unmatched': 'bg-rose-500/10 text-rose-600 border-rose-500/20 dark:bg-rose-500/15 dark:text-rose-400 dark:border-rose-500/30',
+    'Inactive': 'bg-slate-500/10 text-slate-600 border-slate-500/20 dark:bg-slate-500/15 dark:text-slate-400 dark:border-slate-500/30',
+    'Cancelled': 'bg-slate-500/10 text-slate-600 border-slate-500/20 dark:bg-slate-500/15 dark:text-slate-400 dark:border-slate-500/30',
+    'Completed': 'bg-sky-500/10 text-sky-600 border-sky-500/20 dark:bg-sky-500/15 dark:text-sky-400 dark:border-sky-500/30',
+    'Information': 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20 dark:bg-indigo-500/15 dark:text-indigo-400 dark:border-indigo-500/30',
   };
-  return statusMap[status] || 'bg-gray-100 text-gray-800';
+  return statusMap[status] || 'bg-slate-500/10 text-slate-600 border-slate-500/20';
 }
 
 export function getStatusIcon(status: string): string {
