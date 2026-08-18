@@ -65,7 +65,7 @@ export function Sidebar() {
         <div className="flex h-full flex-col bg-background/60 backdrop-blur-xl border-r border-border/40">
             <div className="flex h-16 items-center justify-between px-6 border-b border-border/40">
                 <Link href="/dashboard" className="flex items-center gap-2.5">
-                    <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/25">
+                    <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-violet-500/25">
                         <span className="text-white font-bold text-sm tracking-wider">FM</span>
                     </div>
                     {!isCollapsed && (
@@ -106,7 +106,7 @@ export function Sidebar() {
                             className={cn(
                                 'flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200',
                                 isActive
-                                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20'
+                                    ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-500/20'
                                     : 'text-muted-foreground hover:bg-secondary hover:text-foreground',
                                 isCollapsed && 'justify-center px-2'
                             )}
@@ -131,7 +131,7 @@ export function Sidebar() {
                                     className={cn(
                                         'flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200',
                                         isActive
-                                            ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20'
+                                            ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-500/20'
                                             : 'text-muted-foreground hover:bg-secondary hover:text-foreground',
                                         isCollapsed && 'justify-center px-2'
                                     )}
@@ -148,7 +148,7 @@ export function Sidebar() {
             <div className="border-t border-border/40 p-4 space-y-3">
                 {!isCollapsed && (
                     <div className="flex items-center gap-3 px-2 py-1">
-                        <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center border border-blue-100/55 dark:border-slate-600 shadow-xs">
+                        <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-violet-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center border border-violet-100/55 dark:border-slate-600 shadow-xs">
                             <span className="text-blue-600 dark:text-blue-400 font-semibold text-sm">
                                 {user?.name?.charAt(0) || 'U'}
                             </span>
