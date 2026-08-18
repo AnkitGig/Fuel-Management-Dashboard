@@ -764,9 +764,9 @@ export default function DashboardPage() {
                                     <Bar 
                                         dataKey="amount" 
                                         fill="url(#deliveryBarGrad)" 
-                                        radius={[6, 6, 0, 0]} 
+                                        radius={[6, 6, 0, 0] as any} 
                                         maxBarSize={38}
-                                        background={{ fill: 'rgba(0, 189, 174, 0.05)', radius: [6, 6, 0, 0] }}
+                                        background={{ fill: 'rgba(0, 189, 174, 0.05)', radius: 6 }}
                                     >
                                         <LabelList 
                                             dataKey="amount" 
