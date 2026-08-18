@@ -62,14 +62,14 @@ export function Sidebar() {
     };
 
     const sidebarContent = (
-        <div className="flex h-full flex-col bg-background/60 backdrop-blur-xl border-r border-border/40">
-            <div className="flex h-16 items-center justify-between px-6 border-b border-border/40">
+        <div className="flex h-full flex-col bg-[#02172e] text-slate-300 border-r border-[#00c0b5]/15">
+            <div className="flex h-16 items-center justify-between px-6 border-b border-[#00c0b5]/10">
                 <Link href="/dashboard" className="flex items-center gap-2.5">
-                    <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-violet-500/25">
+                    <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-[#00bdae] to-[#009b8f] flex items-center justify-center shadow-lg shadow-teal-500/25">
                         <span className="text-white font-bold text-sm tracking-wider">FM</span>
                     </div>
                     {!isCollapsed && (
-                        <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent dark:from-white dark:to-slate-300">
+                        <span className="font-extrabold text-lg tracking-tight text-white">
                             Fuel Manager
                         </span>
                     )}
@@ -106,8 +106,8 @@ export function Sidebar() {
                             className={cn(
                                 'flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200',
                                 isActive
-                                    ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-500/20'
-                                    : 'text-muted-foreground hover:bg-secondary hover:text-foreground',
+                                    ? 'bg-[#00c0b5] text-white shadow-md shadow-teal-500/25'
+                                    : 'text-slate-300 hover:bg-white/5 hover:text-white',
                                 isCollapsed && 'justify-center px-2'
                             )}
                         >
@@ -120,7 +120,7 @@ export function Sidebar() {
                 {user?.role === 'Administrator' && (
                     <>
                         <div className="px-3 py-3">
-                            <div className="h-px bg-border/40" />
+                            <div className="h-px bg-white/10" />
                         </div>
                         {adminItems.map((item) => {
                             const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
@@ -131,8 +131,8 @@ export function Sidebar() {
                                     className={cn(
                                         'flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200',
                                         isActive
-                                            ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-500/20'
-                                            : 'text-muted-foreground hover:bg-secondary hover:text-foreground',
+                                            ? 'bg-[#00c0b5] text-white shadow-md shadow-teal-500/25'
+                                            : 'text-slate-300 hover:bg-white/5 hover:text-white',
                                         isCollapsed && 'justify-center px-2'
                                     )}
                                 >
@@ -145,24 +145,24 @@ export function Sidebar() {
                 )}
             </nav>
  
-            <div className="border-t border-border/40 p-4 space-y-3">
+            <div className="border-t border-white/10 p-4 space-y-3">
                 {!isCollapsed && (
                     <div className="flex items-center gap-3 px-2 py-1">
-                        <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-violet-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center border border-violet-100/55 dark:border-slate-600 shadow-xs">
-                            <span className="text-blue-600 dark:text-blue-400 font-semibold text-sm">
+                        <div className="h-9 w-9 rounded-xl bg-teal-500/10 text-teal-300 flex items-center justify-center border border-teal-500/20 shadow-xs">
+                            <span className="text-teal-400 font-semibold text-sm">
                                 {user?.name?.charAt(0) || 'U'}
                             </span>
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">{user?.name || 'User'}</p>
-                            <p className="text-xs text-muted-foreground font-medium truncate">{user?.role || 'Viewer'}</p>
+                            <p className="text-sm font-semibold text-slate-200 truncate">{user?.name || 'User'}</p>
+                            <p className="text-xs text-slate-400 font-medium truncate">{user?.role || 'Viewer'}</p>
                         </div>
                     </div>
                 )}
                 <Button
                     variant="ghost"
                     className={cn(
-                        'w-full justify-start text-muted-foreground hover:text-destructive hover:bg-destructive/5 rounded-xl transition-all duration-200',
+                        'w-full justify-start text-slate-300 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all duration-200',
                         isCollapsed && 'justify-center px-2'
                     )}
                     onClick={handleLogout}

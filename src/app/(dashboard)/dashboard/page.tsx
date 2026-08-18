@@ -40,7 +40,7 @@ import {
     Cell,
 } from 'recharts';
 
-const COLORS = ['#8b5cf6', '#14b8a6', '#f43f5e', '#f59e0b', '#3b82f6'];
+const COLORS = ['#00bdae', '#0891b2', '#0ea5e9', '#0284c7', '#0369a1'];
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -157,7 +157,7 @@ export default function DashboardPage() {
                 <Card className="col-span-1 md:col-span-2 lg:col-span-1 overflow-hidden group">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
                         <CardTitle className="text-sm font-semibold text-muted-foreground tracking-wide uppercase">Current Fuel Level</CardTitle>
-                        <div className="p-2 rounded-xl bg-violet-500/10 text-violet-600 dark:bg-violet-500/20 dark:text-violet-400">
+                        <div className="p-2 rounded-xl bg-primary/10 text-primary">
                             <Droplet className="h-4.5 w-4.5" />
                         </div>
                     </CardHeader>
@@ -173,7 +173,7 @@ export default function DashboardPage() {
                         </div>
                         <div className="mt-4 h-2.5 w-full rounded-full bg-secondary overflow-hidden">
                             <div
-                                className="h-full rounded-full bg-gradient-to-r from-violet-500 to-indigo-600 transition-all duration-500 ease-out"
+                                className="h-full rounded-full bg-gradient-to-r from-primary to-cyan-500 transition-all duration-500 ease-out"
                                 style={{ width: `${tankStatus.percentage}%` }}
                             />
                         </div>
@@ -196,7 +196,7 @@ export default function DashboardPage() {
                 <Card className="group">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
                         <CardTitle className="text-sm font-semibold text-muted-foreground tracking-wide uppercase">Fuel Issued</CardTitle>
-                        <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400">
+                        <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-600 dark:bg-cyan-500/20 dark:text-cyan-400">
                             <ArrowDown className="h-4.5 w-4.5" />
                         </div>
                     </CardHeader>
@@ -225,7 +225,7 @@ export default function DashboardPage() {
                 <Card className="group">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
                         <CardTitle className="text-sm font-semibold text-muted-foreground tracking-wide uppercase">Transactions</CardTitle>
-                        <div className="p-2 rounded-xl bg-violet-500/10 text-violet-600 dark:bg-violet-500/20 dark:text-violet-400">
+                        <div className="p-2 rounded-xl bg-primary/10 text-primary">
                             <ClipboardList className="h-4.5 w-4.5" />
                         </div>
                     </CardHeader>
