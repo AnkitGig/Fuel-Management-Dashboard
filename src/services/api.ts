@@ -34,7 +34,10 @@ export const useClientStore = create<ClientStore>()(
   )
 );
 
-const BASE_URL = 'https://api.fmafrica.com:4801';
+const BASE_URL = process.env.NEXT_PUBLIC_FMA_API_URL
+const FMA_USER = process.env.NEXT_PUBLIC_FMA_USERNAME 
+const FMA_PASS = process.env.NEXT_PUBLIC_FMA_PASSWORD 
+
 let cachedToken: string | null = null;
 let tokenExpiry: number | null = null;
 
@@ -49,8 +52,8 @@ async function getAuthToken(): Promise<string> {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      email: 'godfrey@mastersystems.com.pg',
-      password: 'cIk_X!VCJ9J.eIyp',
+      email: FMA_USER,
+      password: FMA_PASS,
     }),
   });
 
