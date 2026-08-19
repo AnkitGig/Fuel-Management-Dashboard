@@ -1,0 +1,213 @@
+// src/app/(dashboard)/fuel-efficiency-summary/page.tsx
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Search, Download, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { PageContainer } from '@/components/layout/PageContainer';
+import { fuelIssueService } from '@/services/fuelIssueService';
+import { authService } from '@/lib/auth';
+import { formatFuel, formatNumber } from '@/lib/utils';
+import { useClientStore } from '@/services/api';
+
+interface VehicleEfficiency {
+  description: string;
+  ltrs: number;
+  transactions: number;
+  distance: number;
+  kmPerLtr: number;
+  ltrsPer100Km: number;
+}
+
+export default function FuelEfficiencySummaryPage() {
+    const router = useRouter();
+    const selectedClient = useClientStore((state) => state.selectedClient);
+    const [data, setData] = useState<VehicleEfficiency[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [search, setSearch] = useState('');
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            const isAuthenticated = await authService.isAuthenticated();
+            if (!isAuthenticated) {
+                router.push('/login');
+                return;
+            }
+            loadData();
+        };
+        checkAuth();
+    }, [router, selectedClient]);
+
+    const loadData = async () => {
+        try {
+            setLoading(true);
+            const response = await fuelIssueService.getFuelIssues({
+                page: 1,
+                pageSize: 2000, // Load all transactions to group
+            });
+
+            if (!response.data || response.data.length === 0) {
+                setData([]);
+                setError(null);
+                return;
+            }
+
+            // Group transactions by RegistrationNo / vehicleId
+            const groups: Record<string, { ltrs: number; txCount: number; maxOdo: number; minOdo: number }> = {};
+            
+            response.data.forEach((tx: any) => {
+                const vehicle = tx.vehicleId || 'Unknown';
+                if (!groups[vehicle]) {
+                    groups[vehicle] = {
+                        ltrs: 0,
+                        txCount: 0,
+                        maxOdo: 0,
+                        minOdo: Infinity
+                    };
+                }
+
+                groups[vehicle].ltrs += tx.fuelQuantity || 0;
+                groups[vehicle].txCount += 1;
+                
+                const odo = Number(tx.odometer);
+                if (odo > 0) {
+                    if (odo > groups[vehicle].maxOdo) groups[vehicle].maxOdo = odo;
+                    if (odo < groups[vehicle].minOdo) groups[vehicle].minOdo = odo;
+                }
+            });
+
+            const computed: VehicleEfficiency[] = Object.keys(groups).map(vehicle => {
+                const g = groups[vehicle];
+                const distance = g.minOdo !== Infinity && g.maxOdo > g.minOdo ? g.maxOdo - g.minOdo : 0;
+                const kmPerLtr = distance > 0 && g.ltrs > 0 ? Number((distance / g.ltrs).toFixed(2)) : 0;
+                const ltrsPer100Km = distance > 0 && g.ltrs > 0 ? Number(((g.ltrs / distance) * 100).toFixed(1)) : 0;
+
+                return {
+                  description: vehicle,
+                  ltrs: Number(g.ltrs.toFixed(2)),
+                  transactions: g.txCount,
+                  distance: distance,
+                  kmPerLtr,
+                  ltrsPer100Km
+                };
+            });
+
+            // Sort by Ltrs descending
+            computed.sort((a, b) => b.ltrs - a.ltrs);
+            setData(computed);
+            setError(null);
+        } catch (err) {
+            console.error(err);
+            setError('Failed to compute fuel efficiency metrics from live data.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const filteredData = data.filter(item => 
+        item.description.toLowerCase().includes(search.toLowerCase())
+    );
+
+    if (loading) {
+        return (
+            <PageContainer>
+                <div className="flex items-center justify-center min-h-[400px]">
+                    <LoadingSpinner size="lg" />
+                </div>
+            </PageContainer>
+        );
+    }
+
+    if (error) {
+        return (
+            <PageContainer>
+                <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                    <AlertTriangle className="h-12 w-12 text-destructive" />
+                    <p className="text-lg text-muted-foreground">{error}</p>
+                    <Button onClick={loadData}>Try Again</Button>
+                </div>
+            </PageContainer>
+        );
+    }
+
+    return (
+        <PageContainer>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">Fuel Efficiency Summary</h1>
+                    <p className="text-muted-foreground">Detailed view of vehicle fuel burn rates and usage (Calculated from Live API)</p>
+                </div>
+                <Button onClick={loadData} variant="outline" size="sm">
+                    <RefreshCw className="mr-2 h-4 w-4" />
+                    Refresh
+                </Button>
+            </div>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Fleet Summary</CardTitle>
+                    <CardDescription>Fuel efficiency analysis per vehicle</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                        <div className="relative flex-1">
+                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                            <input
+                                type="text"
+                                placeholder="Search by vehicle..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            />
+                        </div>
+                        <Button variant="outline" size="sm">
+                            <Download className="mr-2 h-4 w-4" />
+                            Export
+                        </Button>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead>
+                                <tr className="border-b bg-muted/30">
+                                    <th className="text-left p-3 font-semibold text-slate-200">Vehicle Description</th>
+                                    <th className="text-left p-3 font-semibold text-slate-200">Ltrs</th>
+                                    <th className="text-left p-3 font-semibold text-slate-200">No. of Transactions</th>
+                                    <th className="text-left p-3 font-semibold text-slate-200">Distance (KM)</th>
+                                    <th className="text-left p-3 font-semibold text-slate-200">Fuel Burn (Km/L)</th>
+                                    <th className="text-left p-3 font-semibold text-slate-200">Fuel Burn (L/100Km)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredData.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={6} className="p-4 text-center text-muted-foreground">
+                                            No vehicle data found
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    filteredData.map((item, idx) => (
+                                        <tr key={idx} className="border-b hover:bg-muted/50">
+                                            <td className="p-3 font-medium text-slate-100">{item.description}</td>
+                                            <td className="p-3 font-semibold text-teal-400">{formatNumber(item.ltrs)} L</td>
+                                            <td className="p-3">{item.transactions}</td>
+                                            <td className="p-3">{item.distance > 0 ? formatNumber(item.distance) : '—'}</td>
+                                            <td className="p-3 font-medium">{item.kmPerLtr > 0 ? item.kmPerLtr.toFixed(2) : '—'}</td>
+                                            <td className={`p-3 font-medium ${item.ltrsPer100Km > 15 ? 'text-rose-400' : 'text-emerald-400'}`}>
+                                                {item.ltrsPer100Km > 0 ? `${item.ltrsPer100Km.toFixed(1)} L/100Km` : '—'}
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </CardContent>
+            </Card>
+        </PageContainer>
+    );
+}

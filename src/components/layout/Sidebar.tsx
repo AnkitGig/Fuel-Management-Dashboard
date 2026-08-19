@@ -21,20 +21,21 @@ import {
     UserCog,
     ChevronLeft,
     ChevronRight,
+    Sliders,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { authService, hasPermission } from '@/lib/auth';
+import { authService } from '@/lib/auth';
 import { useAuth } from '@/hooks/useAuth';
 import { useSidebar } from '@/hooks/useSidebar';
 
 const navigationItems = [
-    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Fuel Levels', href: '/fuel-levels', icon: Droplet },
     { name: 'Deliveries', href: '/deliveries', icon: Truck },
-    { name: 'Fuel Issues', href: '/fuel-issues', icon: Fuel },
-    { name: 'Vehicles', href: '/vehicles', icon: Truck },
+    { name: 'Transactions', href: '/fuel-issues', icon: Fuel },
+    { name: 'Fuel Efficiency', href: '/vehicles', icon: Truck },
+    { name: 'Fuel Efficiency Summary', href: '/fuel-efficiency-summary', icon: FileBarChart },
+    { name: 'Fuel Limits', href: '/fuel-limits', icon: Sliders },
     { name: 'Reconciliation', href: '/reconciliation', icon: ClipboardList },
-    { name: 'Reports', href: '/reports', icon: FileBarChart },
 ];
 
 const adminItems = [
@@ -64,7 +65,7 @@ export function Sidebar() {
     const sidebarContent = (
         <div className="flex h-full flex-col bg-[#02172e] text-slate-300 border-r border-[#00c0b5]/15">
             <div className="flex h-16 items-center justify-between px-6 border-b border-[#00c0b5]/10">
-                <Link href="/dashboard" className="flex items-center gap-2.5">
+                <Link href="/fuel-levels" className="flex items-center gap-2.5">
                     <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-[#00bdae] to-[#009b8f] flex items-center justify-center shadow-lg shadow-teal-500/25">
                         <span className="text-white font-bold text-sm tracking-wider">FM</span>
                     </div>
@@ -79,9 +80,9 @@ export function Sidebar() {
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsCollapsed(!isCollapsed)}
-                        className="h-8 w-8 p-0 rounded-lg hover:bg-muted/80"
+                        className="h-8 w-8 p-0 rounded-lg hover:bg-muted/80 text-white hover:text-[#00c0b5]"
                     >
-                        {isCollapsed ? <ChevronRight className="h-4 w-4 text-muted-foreground" /> : <ChevronLeft className="h-4 w-4 text-muted-foreground" />}
+                        {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
                     </Button>
                 )}
                 {isMobile && (
@@ -89,9 +90,9 @@ export function Sidebar() {
                         variant="ghost"
                         size="sm"
                         onClick={() => setOpen(false)}
-                        className="h-8 w-8 p-0 rounded-lg"
+                        className="h-8 w-8 p-0 rounded-lg text-white"
                     >
-                        <X className="h-4 w-4 text-muted-foreground" />
+                        <X className="h-4 w-4" />
                     </Button>
                 )}
             </div>

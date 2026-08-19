@@ -1,4 +1,4 @@
-// src/app/vehicles/page.tsx
+// src/app/(dashboard)/vehicles/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -11,11 +11,13 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { vehicleService } from '@/services/vehicleService';
 import { authService } from '@/lib/auth';
-import { formatFuel, formatNumber, getStatusColor } from '@/lib/utils';
+import { formatFuel, formatNumber } from '@/lib/utils';
 import { Vehicle } from '@/types/vehicle';
+import { useClientStore } from '@/services/api';
 
 export default function VehiclesPage() {
     const router = useRouter();
+    const selectedClient = useClientStore((state) => state.selectedClient);
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -36,7 +38,7 @@ export default function VehiclesPage() {
             loadData();
         };
         checkAuth();
-    }, [router, page]);
+    }, [router, page, selectedClient]);
 
     const loadData = async () => {
         try {
@@ -89,8 +91,8 @@ export default function VehiclesPage() {
         <PageContainer>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Vehicles / Assets</h1>
-                    <p className="text-muted-foreground">Manage fleet vehicles and assets</p>
+                    <h1 className="text-3xl font-bold tracking-tight">Fuel Efficiency</h1>
+                    <p className="text-muted-foreground">Monitor fleet vehicle fuel efficiency metrics</p>
                 </div>
                 <Button onClick={loadData} variant="outline" size="sm">
                     <RefreshCw className="mr-2 h-4 w-4" />
@@ -101,7 +103,7 @@ export default function VehiclesPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>All Vehicles</CardTitle>
-                    <CardDescription>Complete list of fleet vehicles</CardDescription>
+                    <CardDescription>Complete list of fleet vehicles and efficiency</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col sm:flex-row gap-4 mb-4">

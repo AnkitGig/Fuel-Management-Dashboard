@@ -1,26 +1,26 @@
-// src/app/deliveries/page.tsx
+// src/app/(dashboard)/deliveries/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Calendar, Download, AlertTriangle, RefreshCw, Eye } from 'lucide-react';
+import { Search, Calendar, Download, AlertTriangle, RefreshCw } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { StatusBadge } from '@/components/common/StatusBadge';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { deliveryService } from '@/services/deliveryService';
 import { authService } from '@/lib/auth';
-import { formatDate, formatFuel, getStatusColor } from '@/lib/utils';
+import { formatDate, formatFuel } from '@/lib/utils';
 import { FuelDelivery } from '@/types/fuel';
+import { useClientStore } from '@/services/api';
 
 export default function DeliveriesPage() {
     const router = useRouter();
+    const selectedClient = useClientStore((state) => state.selectedClient);
     const [deliveries, setDeliveries] = useState<FuelDelivery[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [search, setSearch] = useState('');
-    const [selectedStatus, setSelectedStatus] = useState('');
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
     const [pageSize] = useState(10);
@@ -36,7 +36,7 @@ export default function DeliveriesPage() {
             loadData();
         };
         checkAuth();
-    }, [router, page]);
+    }, [router, page, selectedClient]);
 
     const loadData = async () => {
         try {
@@ -45,7 +45,6 @@ export default function DeliveriesPage() {
                 page,
                 pageSize,
                 search: search || undefined,
-                status: selectedStatus || undefined,
             });
             setDeliveries(response.data);
             setTotal(response.total);
@@ -109,26 +108,13 @@ export default function DeliveriesPage() {
                             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <input
                                 type="text"
-                                placeholder="Search by ID, supplier, or status..."
+                                placeholder="Search by ID..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                                 className="w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             />
                         </div>
-                        <select
-                            value={selectedStatus}
-                            onChange={(e) => {
-                                setSelectedStatus(e.target.value);
-                                setPage(1);
-                            }}
-                            className="rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                        >
-                            <option value="">All Statuses</option>
-                            <option value="Completed">Completed</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Cancelled">Cancelled</option>
-                        </select>
                         <Button onClick={handleSearch} size="sm">Search</Button>
                         <Button variant="outline" size="sm">
                             <Download className="mr-2 h-4 w-4" />
@@ -144,15 +130,12 @@ export default function DeliveriesPage() {
                                     <th className="text-left p-3 font-medium">Date</th>
                                     <th className="text-left p-3 font-medium">Time</th>
                                     <th className="text-left p-3 font-medium">Quantity</th>
-                                    <th className="text-left p-3 font-medium">Supplier</th>
-                                    <th className="text-left p-3 font-medium">Status</th>
-                                    <th className="text-left p-3 font-medium">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {deliveries.length === 0 ? (
                                     <tr>
-                                        <td colSpan={7} className="p-4 text-center text-muted-foreground">
+                                        <td colSpan={4} className="p-4 text-center text-muted-foreground">
                                             No deliveries found
                                         </td>
                                     </tr>
@@ -163,15 +146,6 @@ export default function DeliveriesPage() {
                                             <td className="p-3">{delivery.date}</td>
                                             <td className="p-3">{delivery.time}</td>
                                             <td className="p-3 font-medium">{formatFuel(delivery.quantity)}</td>
-                                            <td className="p-3">{delivery.supplier}</td>
-                                            <td className="p-3">
-                                                <StatusBadge status={delivery.status} />
-                                            </td>
-                                            <td className="p-3">
-                                                <Button variant="ghost" size="sm">
-                                                    <Eye className="h-4 w-4" />
-                                                </Button>
-                                            </td>
                                         </tr>
                                     ))
                                 )}

@@ -1,4 +1,4 @@
-// src/app/fuel-levels/page.tsx
+// src/app/(dashboard)/fuel-levels/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -13,6 +13,7 @@ import { fuelLevelService } from '@/services/fuelLevelService';
 import { authService } from '@/lib/auth';
 import { formatDate, formatDateTime, formatFuel, delay } from '@/lib/utils';
 import { FuelLevel } from '@/types/fuel';
+import { useClientStore } from '@/services/api';
 import {
     LineChart,
     Line,
@@ -25,11 +26,11 @@ import {
 
 export default function FuelLevelsPage() {
     const router = useRouter();
+    const selectedClient = useClientStore((state) => state.selectedClient);
     const [levels, setLevels] = useState<FuelLevel[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [search, setSearch] = useState('');
-    const [currentLevel, setCurrentLevel] = useState<FuelLevel | null>(null);
     const [selectedDate, setSelectedDate] = useState('');
 
     useEffect(() => {
@@ -42,15 +43,13 @@ export default function FuelLevelsPage() {
             loadData();
         };
         checkAuth();
-    }, [router]);
+    }, [router, selectedClient]); // Reload when client changes
 
     const loadData = async () => {
         try {
             setLoading(true);
             const response = await fuelLevelService.getFuelLevels({ pageSize: 50 });
             setLevels(response.data);
-            const current = await fuelLevelService.getCurrentLevel();
-            setCurrentLevel(current);
             setError(null);
         } catch (err) {
             setError('Failed to load fuel level data');
@@ -59,18 +58,18 @@ export default function FuelLevelsPage() {
         }
     };
 
-    const filteredLevels = levels.filter(level => {
-        const matchesSearch = search === '' ||
+    const filteredLevels = levels.filter((level) => {
+        const matchesSearch =
             level.date.includes(search) ||
-            level.status.toLowerCase().includes(search.toLowerCase());
-        const matchesDate = selectedDate === '' || level.date === selectedDate;
+            level.status.toLowerCase().includes(search);
+        const matchesDate = selectedDate ? level.date === selectedDate : true;
         return matchesSearch && matchesDate;
     });
 
     if (loading) {
         return (
             <PageContainer>
-                <div className="flex items-center justify-center min-h-[400px]">
+                <div className="flex h-[50vh] items-center justify-center">
                     <LoadingSpinner size="lg" />
                 </div>
             </PageContainer>
@@ -80,7 +79,7 @@ export default function FuelLevelsPage() {
     if (error) {
         return (
             <PageContainer>
-                <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                <div className="flex h-[50vh] flex-col items-center justify-center gap-4 text-center">
                     <AlertTriangle className="h-12 w-12 text-destructive" />
                     <p className="text-lg text-muted-foreground">{error}</p>
                     <Button onClick={loadData}>Try Again</Button>
@@ -101,42 +100,6 @@ export default function FuelLevelsPage() {
                     Refresh
                 </Button>
             </div>
-
-            {/* Current Level Card */}
-            {currentLevel && (
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Current Tank Status</CardTitle>
-                        <CardDescription>Real-time fuel level monitoring</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                            <div>
-                                <p className="text-sm text-muted-foreground">Current Level</p>
-                                <p className="text-2xl font-bold">{formatFuel(currentLevel.fuelLevel)}</p>
-                            </div>
-                            <div>
-                                <p className="text-sm text-muted-foreground">Percentage</p>
-                                <p className="text-2xl font-bold">{currentLevel.percentage}%</p>
-                            </div>
-                            <div>
-                                <p className="text-sm text-muted-foreground">Status</p>
-                                <StatusBadge status={currentLevel.status} />
-                            </div>
-                            <div>
-                                <p className="text-sm text-muted-foreground">Last Updated</p>
-                                <p className="text-lg font-medium">{formatDateTime(currentLevel.updatedAt)}</p>
-                            </div>
-                        </div>
-                        <div className="mt-4 h-4 w-full rounded-full bg-secondary">
-                            <div
-                                className="h-4 rounded-full bg-primary transition-all"
-                                style={{ width: `${currentLevel.percentage}%` }}
-                            />
-                        </div>
-                    </CardContent>
-                </Card>
-            )}
 
             {/* Historical Data */}
             <Card>

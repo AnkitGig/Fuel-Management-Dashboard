@@ -1,6 +1,5 @@
 // src/lib/auth.ts
 import { AuthUser, LoginCredentials, AuthSession } from '@/types/auth';
-import { mockUsers } from '@/data/users';
 
 // Mock user credentials
 const MOCK_CREDENTIALS: Record<string, { password: string; user: AuthUser }> = {
@@ -35,8 +34,6 @@ const MOCK_CREDENTIALS: Record<string, { password: string; user: AuthUser }> = {
 
 // Session storage key
 const SESSION_KEY = 'fuel_session';
-
-// TODO: Replace with real authentication
 
 export interface AuthService {
   login(credentials: LoginCredentials): Promise<AuthSession>;
@@ -183,6 +180,8 @@ export function canAccessRoute(user: AuthUser | null, route: string): boolean {
     '/deliveries': PERMISSIONS.DELIVERIES.VIEW,
     '/fuel-issues': PERMISSIONS.FUEL_ISSUES.VIEW,
     '/vehicles': PERMISSIONS.VEHICLES.VIEW,
+    '/fuel-efficiency-summary': PERMISSIONS.VEHICLES.VIEW,
+    '/fuel-limits': PERMISSIONS.VEHICLES.VIEW,
     '/reconciliation': PERMISSIONS.RECONCILIATION.VIEW,
     '/reports': PERMISSIONS.REPORTS.VIEW,
     '/admin/users': PERMISSIONS.USERS.VIEW,

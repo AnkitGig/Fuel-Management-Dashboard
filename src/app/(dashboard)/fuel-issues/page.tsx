@@ -1,4 +1,4 @@
-// src/app/fuel-issues/page.tsx
+// src/app/(dashboard)/fuel-issues/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -13,11 +13,12 @@ import { fuelIssueService } from '@/services/fuelIssueService';
 import { vehicleService } from '@/services/vehicleService';
 import { authService } from '@/lib/auth';
 import { formatFuel, getStatusColor } from '@/lib/utils';
-import { FuelIssue } from '@/types/fuel';
+import { useClientStore } from '@/services/api';
 
 export default function FuelIssuesPage() {
     const router = useRouter();
-    const [issues, setIssues] = useState<FuelIssue[]>([]);
+    const selectedClient = useClientStore((state) => state.selectedClient);
+    const [issues, setIssues] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [search, setSearch] = useState('');
@@ -40,7 +41,7 @@ export default function FuelIssuesPage() {
             loadVehicles();
         };
         checkAuth();
-    }, [router, page]);
+    }, [router, page, selectedClient]);
 
     const loadData = async () => {
         try {
@@ -57,7 +58,7 @@ export default function FuelIssuesPage() {
             setTotalPages(response.totalPages);
             setError(null);
         } catch (err) {
-            setError('Failed to load fuel issues');
+            setError('Failed to load transactions');
         } finally {
             setLoading(false);
         }
@@ -103,7 +104,7 @@ export default function FuelIssuesPage() {
         <PageContainer>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Fuel Issues</h1>
+                    <h1 className="text-3xl font-bold tracking-tight">Transactions</h1>
                     <p className="text-muted-foreground">Track fuel dispensing and transactions</p>
                 </div>
                 <Button onClick={loadData} variant="outline" size="sm">
@@ -166,35 +167,49 @@ export default function FuelIssuesPage() {
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                             <thead>
-                                <tr className="border-b">
-                                    <th className="text-left p-3 font-medium">Transaction ID</th>
-                                    <th className="text-left p-3 font-medium">Date</th>
-                                    <th className="text-left p-3 font-medium">Time</th>
-                                    <th className="text-left p-3 font-medium">Vehicle ID</th>
-                                    <th className="text-left p-3 font-medium">Fuel Quantity</th>
-                                    <th className="text-left p-3 font-medium">Asset Type</th>
-                                    <th className="text-left p-3 font-medium">Status</th>
-                                    <th className="text-left p-3 font-medium">Actions</th>
+                                <tr className="border-b bg-muted/30">
+                                    <th className="text-left p-3 font-semibold">Date / Time</th>
+                                    <th className="text-left p-3 font-semibold">ID</th>
+                                    <th className="text-left p-3 font-semibold">Vehicle Req</th>
+                                    <th className="text-left p-3 font-semibold">Fleet Id</th>
+                                    <th className="text-left p-3 font-semibold">Vehicle Detail</th>
+                                    <th className="text-left p-3 font-semibold">Site</th>
+                                    <th className="text-left p-3 font-semibold">Litres</th>
+                                    <th className="text-left p-3 font-semibold">Pump</th>
+                                    <th className="text-left p-3 font-semibold">Odo Meter</th>
+                                    <th className="text-left p-3 font-semibold">Hour Meter</th>
+                                    <th className="text-left p-3 font-semibold">DEM</th>
+                                    <th className="text-left p-3 font-semibold">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {issues.length === 0 ? (
                                     <tr>
-                                        <td colSpan={8} className="p-4 text-center text-muted-foreground">
+                                        <td colSpan={12} className="p-4 text-center text-muted-foreground">
                                             No transactions found
                                         </td>
                                     </tr>
                                 ) : (
                                     issues.map((issue) => (
                                         <tr key={issue.id} className="border-b hover:bg-muted/50">
+                                            <td className="p-3 whitespace-nowrap">{issue.date} {issue.time}</td>
                                             <td className="p-3 font-medium">{issue.transactionId}</td>
-                                            <td className="p-3">{issue.date}</td>
-                                            <td className="p-3">{issue.time}</td>
-                                            <td className="p-3">{issue.vehicleId}</td>
-                                            <td className="p-3 font-medium">{formatFuel(issue.fuelQuantity)}</td>
-                                            <td className="p-3">{issue.assetType}</td>
+                                            <td className="p-3 font-medium text-teal-600">{issue.vehicleId}</td>
+                                            <td className="p-3">{issue.fleetId}</td>
+                                            <td className="p-3">{issue.driverAttendant}</td>
+                                            <td className="p-3">{issue.depot}</td>
+                                            <td className="p-3 font-bold">{formatFuel(issue.fuelQuantity)}</td>
+                                            <td className="p-3">{issue.pump}</td>
+                                            <td className="p-3">{issue.odometer}</td>
+                                            <td className="p-3">{issue.engineHours}</td>
                                             <td className="p-3">
-                                                <StatusBadge status={issue.status} />
+                                                <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
+                                                    issue.status === 'Matched' 
+                                                        ? 'bg-emerald-500/10 text-emerald-500 ring-emerald-500/20' 
+                                                        : 'bg-amber-500/10 text-amber-500 ring-amber-500/20'
+                                                }`}>
+                                                    {issue.dem || issue.status}
+                                                </span>
                                             </td>
                                             <td className="p-3">
                                                 <Button variant="ghost" size="sm">

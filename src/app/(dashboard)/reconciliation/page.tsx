@@ -1,4 +1,4 @@
-// src/app/reconciliation/page.tsx
+// src/app/(dashboard)/reconciliation/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -11,11 +11,13 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { reconciliationService } from '@/services/reconciliationService';
 import { authService } from '@/lib/auth';
-import { formatFuel, formatNumber, getStatusColor } from '@/lib/utils';
+import { formatFuel, formatNumber } from '@/lib/utils';
 import { Reconciliation, ReconciliationSummary } from '@/types/reconciliation';
+import { useClientStore } from '@/services/api';
 
 export default function ReconciliationPage() {
     const router = useRouter();
+    const selectedClient = useClientStore((state) => state.selectedClient);
     const [records, setRecords] = useState<Reconciliation[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -45,7 +47,7 @@ export default function ReconciliationPage() {
             loadSummary();
         };
         checkAuth();
-    }, [router, page]);
+    }, [router, page, selectedClient]);
 
     const loadData = async () => {
         try {
