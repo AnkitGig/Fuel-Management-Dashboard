@@ -166,7 +166,7 @@ export default function FuelLevelsPage() {
                                 </defs>
                                 <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#f0f0f0" />
                                 <XAxis 
-                                    dataKey="date" 
+                                    dataKey="createdAt" 
                                     tickFormatter={formatDateTick} 
                                     tick={{ fill: '#666', fontSize: 11 }}
                                     axisLine={{ stroke: '#ccc' }}
