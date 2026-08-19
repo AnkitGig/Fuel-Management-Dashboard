@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Download, AlertTriangle, RefreshCw, Eye } from 'lucide-react';
+import { Search, Download, AlertTriangle, RefreshCw, RotateCcw } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/common/StatusBadge';
@@ -21,8 +21,13 @@ export default function VehiclesPage() {
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    
+    // Filter states
     const [search, setSearch] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
+    const [startDate, setStartDate] = useState('2026-08-01');
+    const [endDate, setEndDate] = useState('2026-08-19');
+
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
     const [pageSize] = useState(10);
@@ -40,14 +45,21 @@ export default function VehiclesPage() {
         checkAuth();
     }, [router, page, selectedClient]);
 
-    const loadData = async () => {
+    const loadData = async (
+        overrideSearch?: string, 
+        overrideStatus?: string, 
+        overrideStart?: string, 
+        overrideEnd?: string
+    ) => {
         try {
             setLoading(true);
             const response = await vehicleService.getVehicles({
                 page,
                 pageSize,
-                search: search || undefined,
-                status: selectedStatus || undefined,
+                search: overrideSearch !== undefined ? overrideSearch || undefined : search || undefined,
+                status: overrideStatus !== undefined ? overrideStatus || undefined : selectedStatus || undefined,
+                startDate: overrideStart !== undefined ? overrideStart : startDate,
+                endDate: overrideEnd !== undefined ? overrideEnd : endDate,
             });
             setVehicles(response.data);
             setTotal(response.total);
@@ -63,6 +75,15 @@ export default function VehiclesPage() {
     const handleSearch = () => {
         setPage(1);
         loadData();
+    };
+
+    const handleReset = () => {
+        setSearch('');
+        setSelectedStatus('');
+        setStartDate('2026-08-01');
+        setEndDate('2026-08-19');
+        setPage(1);
+        loadData('', '', '2026-08-01', '2026-08-19');
     };
 
     if (loading && vehicles.length === 0) {
@@ -81,7 +102,7 @@ export default function VehiclesPage() {
                 <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
                     <AlertTriangle className="h-12 w-12 text-destructive" />
                     <p className="text-lg text-muted-foreground">{error}</p>
-                    <Button onClick={loadData}>Try Again</Button>
+                    <Button onClick={() => loadData()}>Try Again</Button>
                 </div>
             </PageContainer>
         );
@@ -94,7 +115,7 @@ export default function VehiclesPage() {
                     <h1 className="text-3xl font-bold tracking-tight">Fuel Efficiency</h1>
                     <p className="text-muted-foreground">Monitor fleet vehicle fuel efficiency metrics</p>
                 </div>
-                <Button onClick={loadData} variant="outline" size="sm">
+                <Button onClick={() => loadData()} variant="outline" size="sm">
                     <RefreshCw className="mr-2 h-4 w-4" />
                     Refresh
                 </Button>
@@ -106,8 +127,8 @@ export default function VehiclesPage() {
                     <CardDescription>Complete list of fleet vehicles and efficiency</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="flex flex-col sm:flex-row gap-4 mb-4">
-                        <div className="relative flex-1">
+                    <div className="flex flex-col sm:flex-row gap-4 mb-4 flex-wrap items-center">
+                        <div className="relative flex-1 min-w-[200px]">
                             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <input
                                 type="text"
@@ -118,23 +139,48 @@ export default function VehiclesPage() {
                                 className="w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             />
                         </div>
+
+                        {/* Date Filters */}
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">From:</span>
+                            <input
+                                type="date"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                                className="rounded-md border border-input bg-background px-3 py-1.5 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">To:</span>
+                            <input
+                                type="date"
+                                value={endDate}
+                                onChange={(e) => setEndDate(e.target.value)}
+                                className="rounded-md border border-input bg-background px-3 py-1.5 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            />
+                        </div>
+
                         <select
                             value={selectedStatus}
-                            onChange={(e) => {
-                                setSelectedStatus(e.target.value);
-                                setPage(1);
-                            }}
+                            onChange={(e) => setSelectedStatus(e.target.value)}
                             className="rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                         >
                             <option value="">All Statuses</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
                         </select>
-                        <Button onClick={handleSearch} size="sm">Search</Button>
-                        <Button variant="outline" size="sm">
-                            <Download className="mr-2 h-4 w-4" />
-                            Export
-                        </Button>
+                        
+                        <div className="flex gap-2">
+                            <Button onClick={handleSearch} size="sm">Search</Button>
+                            <Button onClick={handleReset} variant="outline" size="sm">
+                                <RotateCcw className="mr-2 h-4 w-4" />
+                                Reset
+                            </Button>
+                            <Button variant="outline" size="sm">
+                                <Download className="mr-2 h-4 w-4" />
+                                Export
+                            </Button>
+                        </div>
                     </div>
 
                     <div className="overflow-x-auto">
@@ -149,13 +195,12 @@ export default function VehiclesPage() {
                                     <th className="text-left p-3 font-medium">Fuel Issued</th>
                                     <th className="text-left p-3 font-medium">Consumption</th>
                                     <th className="text-left p-3 font-medium">Status</th>
-                                    <th className="text-left p-3 font-medium">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {vehicles.length === 0 ? (
                                     <tr>
-                                        <td colSpan={9} className="p-4 text-center text-muted-foreground">
+                                        <td colSpan={8} className="p-4 text-center text-muted-foreground">
                                             No vehicles found
                                         </td>
                                     </tr>
@@ -171,11 +216,6 @@ export default function VehiclesPage() {
                                             <td className="p-3">{vehicle.fuelConsumption.toFixed(1)} L/100km</td>
                                             <td className="p-3">
                                                 <StatusBadge status={vehicle.status} />
-                                            </td>
-                                            <td className="p-3">
-                                                <Button variant="ghost" size="sm">
-                                                    <Eye className="h-4 w-4" />
-                                                </Button>
                                             </td>
                                         </tr>
                                     ))

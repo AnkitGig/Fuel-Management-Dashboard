@@ -10,7 +10,6 @@ import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { authService } from '@/lib/auth';
-import { LoginCredentials } from '@/types/auth';
 
 const loginSchema = z.object({
     email: z.string().email('Please enter a valid email address'),
@@ -29,6 +28,7 @@ export default function LoginPage() {
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
@@ -55,6 +55,11 @@ export default function LoginPage() {
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const handleFillDemo = (email: string, pass: string) => {
+        setValue('email', email, { shouldValidate: true });
+        setValue('password', pass, { shouldValidate: true });
     };
 
     return (
@@ -101,7 +106,7 @@ export default function LoginPage() {
                                 <input
                                     id="password"
                                     type={showPassword ? 'text' : 'password'}
-                                    placeholder="••••••••"
+                                    placeholder="•••••••••"
                                     className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 pr-10"
                                     {...register('password')}
                                 />
@@ -143,10 +148,28 @@ export default function LoginPage() {
                             )}
                         </Button>
                         <div className="text-xs text-muted-foreground text-center space-y-1">
-                            <p>Demo accounts:</p>
-                            <p>admin@example.com / admin123</p>
-                            <p>manager@example.com / manager123</p>
-                            <p>viewer@example.com / viewer123</p>
+                            <p className="font-semibold text-slate-500">Demo accounts (Click to auto-fill):</p>
+                            <button
+                                type="button"
+                                onClick={() => handleFillDemo('admin@example.com', 'admin123')}
+                                className="block mx-auto text-teal-600 hover:text-teal-700 hover:underline py-0.5 cursor-pointer font-medium"
+                            >
+                                admin@example.com / admin123
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleFillDemo('manager@example.com', 'manager123')}
+                                className="block mx-auto text-teal-600 hover:text-teal-700 hover:underline py-0.5 cursor-pointer font-medium"
+                            >
+                                manager@example.com / manager123
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleFillDemo('viewer@example.com', 'viewer123')}
+                                className="block mx-auto text-teal-600 hover:text-teal-700 hover:underline py-0.5 cursor-pointer font-medium"
+                            >
+                                viewer@example.com / viewer123
+                            </button>
                         </div>
                     </CardFooter>
                 </form>

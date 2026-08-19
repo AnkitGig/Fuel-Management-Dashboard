@@ -157,7 +157,7 @@ export default function ReconciliationPage() {
                 </Button>
             </div>
 
-            {/* Dynamic Summary Cards (Styled exactly like sidebar menu item teal color) */}
+            {/* Dynamic Summary Cards */}
             {summaryData && (
                 <div className="grid gap-6 md:grid-cols-12 items-start">
                     {/* Stock Reconciliation Summary (Span 4) */}

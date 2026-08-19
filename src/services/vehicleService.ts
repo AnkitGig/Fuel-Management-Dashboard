@@ -6,10 +6,12 @@ import { fuelIssueService } from './fuelIssueService';
 export const vehicleService = {
   async getVehicles(params: FilterParams = {}): Promise<PaginatedResponse<Vehicle>> {
     try {
-      // Fetch live transactions to aggregate vehicles
+      // Fetch live transactions to aggregate vehicles, forwarding date filters
       const response = await fuelIssueService.getFuelIssues({
         page: 1,
         pageSize: 2000,
+        startDate: params.startDate,
+        endDate: params.endDate,
       });
 
       const transactions = response.data;
