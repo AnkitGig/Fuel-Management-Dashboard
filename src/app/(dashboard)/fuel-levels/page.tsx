@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Calendar, Download, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Search, Download, AlertTriangle, RefreshCw } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/common/StatusBadge';
@@ -11,12 +11,12 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { fuelLevelService } from '@/services/fuelLevelService';
 import { authService } from '@/lib/auth';
-import { formatDate, formatDateTime, formatFuel, delay } from '@/lib/utils';
+import { formatFuel, formatNumber } from '@/lib/utils';
 import { FuelLevel } from '@/types/fuel';
 import { useClientStore } from '@/services/api';
 import {
-    LineChart,
-    Line,
+    AreaChart,
+    Area,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -48,8 +48,16 @@ export default function FuelLevelsPage() {
     const loadData = async () => {
         try {
             setLoading(true);
-            const response = await fuelLevelService.getFuelLevels({ pageSize: 50 });
-            setLevels(response.data);
+            const response = await fuelLevelService.getFuelLevels({ pageSize: 1000 });
+            
+            // Sort chronologically by BOTH Date and Time for correct area chart trend line mapping
+            const sortedData = [...response.data].sort((a, b) => {
+                const timeA = new Date(`${a.date}T${a.time}Z`).getTime();
+                const timeB = new Date(`${b.date}T${b.time}Z`).getTime();
+                return timeA - timeB;
+            });
+            
+            setLevels(sortedData);
             setError(null);
         } catch (err) {
             setError('Failed to load fuel level data');
@@ -65,6 +73,17 @@ export default function FuelLevelsPage() {
         const matchesDate = selectedDate ? level.date === selectedDate : true;
         return matchesSearch && matchesDate;
     });
+
+    const formatDateTick = (tickItem: string) => {
+        try {
+            const date = new Date(tickItem);
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${months[date.getMonth()]} ${day}`;
+        } catch {
+            return tickItem;
+        }
+    };
 
     if (loading) {
         return (
@@ -87,6 +106,9 @@ export default function FuelLevelsPage() {
             </PageContainer>
         );
     }
+
+    // Prepare chart data (slice to latest 60 points for better readability)
+    const chartData = filteredLevels.slice(-60);
 
     return (
         <PageContainer>
@@ -132,22 +154,57 @@ export default function FuelLevelsPage() {
                         </div>
                     </div>
 
-                    <div className="h-[300px] mb-4">
+                    {/* Area Chart matching the screenshot exactly */}
+                    <div className="h-[350px] mb-6">
                         <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={filteredLevels.slice(0, 30)}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="date" />
-                                <YAxis />
+                            <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
+                                <defs>
+                                    <linearGradient id="colorFuel" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#74b9ff" stopOpacity={0.8}/>
+                                        <stop offset="95%" stopColor="#74b9ff" stopOpacity={0.1}/>
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#f0f0f0" />
+                                <XAxis 
+                                    dataKey="date" 
+                                    tickFormatter={formatDateTick} 
+                                    tick={{ fill: '#666', fontSize: 11 }}
+                                    axisLine={{ stroke: '#ccc' }}
+                                />
+                                <YAxis 
+                                    tickFormatter={(val) => formatNumber(val)}
+                                    tick={{ fill: '#666', fontSize: 11 }}
+                                    axisLine={{ stroke: '#ccc' }}
+                                />
                                 <Tooltip
-                                    formatter={(value, name) => {
-                                        if (name === 'fuelLevel') return [formatFuel(Number(value)), 'Fuel Level'];
-                                        if (name === 'percentage') return [`${value}%`, 'Percentage'];
-                                        return [value, name];
+                                    content={({ active, payload }) => {
+                                        if (active && payload && payload.length) {
+                                            const val = Number(payload[0].value);
+                                            const date = payload[0].payload.date;
+                                            const time = payload[0].payload.time;
+                                            
+                                            // Render exact custom tooltip from screenshot style
+                                            return (
+                                                <div className="bg-white border border-[#3498db]/40 p-3 rounded shadow-lg text-xs">
+                                                    <p className="font-bold text-slate-800">{formatDateTick(date)} {time}</p>
+                                                    <div className="flex items-center gap-1.5 mt-1 font-semibold text-[#2980b9]">
+                                                        <span>🛢️ {formatNumber(val)} L</span>
+                                                    </div>
+                                                </div>
+                                            );
+                                        }
+                                        return null;
                                     }}
                                 />
-                                <Line type="monotone" dataKey="fuelLevel" stroke="#3b82f6" strokeWidth={2} />
-                                <Line type="monotone" dataKey="percentage" stroke="#10b981" strokeWidth={2} />
-                            </LineChart>
+                                <Area 
+                                    type="monotone" 
+                                    dataKey="fuelLevel" 
+                                    stroke="#3498db" 
+                                    strokeWidth={2.5}
+                                    fillOpacity={1} 
+                                    fill="url(#colorFuel)" 
+                                />
+                            </AreaChart>
                         </ResponsiveContainer>
                     </div>
 
@@ -171,7 +228,7 @@ export default function FuelLevelsPage() {
                                         </td>
                                     </tr>
                                 ) : (
-                                    filteredLevels.map((level) => (
+                                    [...filteredLevels].reverse().map((level) => (
                                         <tr key={level.id} className="border-b hover:bg-muted/50">
                                             <td className="p-3">{level.date}</td>
                                             <td className="p-3">{level.time}</td>
