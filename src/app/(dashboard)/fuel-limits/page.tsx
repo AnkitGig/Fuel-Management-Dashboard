@@ -2,7 +2,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, Download, Plus, X, AlertTriangle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Search, Download, Edit2, X, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PageContainer } from '@/components/layout/PageContainer';
@@ -12,8 +13,8 @@ import { formatNumber } from '@/lib/utils';
 import { useClientStore } from '@/services/api';
 
 interface FuelLimitRecord {
-  asset: string;
-  vehicleName: string;
+  asset: string; // RegistrationNo
+  vehicleName: string; // DriverAttendant or Depot
   department: string;
   limitType: 'No Limit' | 'Limit';
   fuelLimit: number | 'No Limit';
@@ -26,13 +27,11 @@ export default function FuelLimitsPage() {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     
-    // Modal state
+    // Edit Limit modal state
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [newAsset, setNewAsset] = useState('');
-    const [newName, setNewName] = useState('');
-    const [newDept, setNewDept] = useState('');
-    const [newLimitType, setNewLimitType] = useState<'No Limit' | 'Limit'>('Limit');
-    const [newLimitValue, setNewLimitValue] = useState('');
+    const [selectedRecord, setSelectedRecord] = useState<FuelLimitRecord | null>(null);
+    const [editLimitType, setEditLimitType] = useState<'No Limit' | 'Limit'>('Limit');
+    const [editLimitValue, setEditLimitValue] = useState('');
 
     useEffect(() => {
         loadLimitsAndUsage();
@@ -42,48 +41,58 @@ export default function FuelLimitsPage() {
         try {
             setLoading(true);
             
-            // Get manually added limits from localStorage (defaulting to empty array)
-            let storedLimits: FuelLimitRecord[] = [];
-            if (typeof window !== 'undefined') {
-                const stored = localStorage.getItem(`fuel_limits_${selectedClient.clientid}`);
-                if (stored) {
-                    try {
-                        storedLimits = JSON.parse(stored);
-                    } catch {
-                        storedLimits = [];
-                    }
-                }
-            }
-
-            // Fetch live monthly transactions from API
+            // 1. Fetch live transactions from API
             const response = await fuelIssueService.getFuelIssues({
                 page: 1,
                 pageSize: 2000,
             });
 
-            // Sum quantities by vehicleId
-            const usageMap: Record<string, number> = {};
+            // 2. Group transactions to find unique vehicles and sum monthly consumption
+            const usageMap: Record<string, { ltrs: number; name: string; dept: string }> = {};
             response.data.forEach((tx: any) => {
-                const vehicle = (tx.vehicleId || '').toUpperCase();
-                if (vehicle) {
-                    usageMap[vehicle] = (usageMap[vehicle] || 0) + (tx.fuelQuantity || 0);
+                const vehicle = (tx.vehicleId || 'Unknown').toUpperCase();
+                if (!usageMap[vehicle]) {
+                    usageMap[vehicle] = {
+                        ltrs: 0,
+                        name: tx.driverAttendant || tx.depot || 'Fleet Vehicle',
+                        dept: tx.depot || 'General'
+                    };
                 }
+                usageMap[vehicle].ltrs += tx.fuelQuantity || 0;
             });
 
-            // Map monthly fuel used from live API
-            const updatedLimits = storedLimits.map(item => {
-                const assetKey = item.asset.toUpperCase();
-                const nameKey = item.vehicleName.toUpperCase();
-                
-                // Try matching asset code or name to live transaction vehicle ID
-                const used = usageMap[assetKey] || usageMap[nameKey] || 0;
+            // 3. Load saved limit configurations from localStorage
+            let savedConfig: Record<string, { limitType: 'No Limit' | 'Limit'; fuelLimit: number | 'No Limit' }> = {};
+            if (typeof window !== 'undefined') {
+                const stored = localStorage.getItem(`fuel_limits_config_${selectedClient.clientid}`);
+                if (stored) {
+                    try {
+                        savedConfig = JSON.parse(stored);
+                    } catch {
+                        savedConfig = {};
+                    }
+                }
+            }
+
+            // 4. Map everything to FuelLimitRecord
+            const records: FuelLimitRecord[] = Object.keys(usageMap).map(vehicleId => {
+                const live = usageMap[vehicleId];
+                // Check if user set a custom limit, otherwise default to "No Limit"
+                const custom = savedConfig[vehicleId] || { limitType: 'No Limit', fuelLimit: 'No Limit' };
+
                 return {
-                    ...item,
-                    monthlyFuelUsed: Number(used.toFixed(2))
+                    asset: vehicleId,
+                    vehicleName: live.name,
+                    department: live.dept,
+                    limitType: custom.limitType,
+                    fuelLimit: custom.fuelLimit,
+                    monthlyFuelUsed: Number(live.ltrs.toFixed(2))
                 };
             });
 
-            setLimits(updatedLimits);
+            // Sort by monthly fuel used descending
+            records.sort((a, b) => b.monthlyFuelUsed - a.monthlyFuelUsed);
+            setLimits(records);
         } catch (err) {
             console.error('Failed to load live limits usage:', err);
         } finally {
@@ -91,33 +100,43 @@ export default function FuelLimitsPage() {
         }
     };
 
-    const handleAddLimit = (e: React.FormEvent) => {
+    const handleEditClick = (record: FuelLimitRecord) => {
+        setSelectedRecord(record);
+        setEditLimitType(record.limitType);
+        setEditLimitValue(record.fuelLimit === 'No Limit' ? '150' : record.fuelLimit.toString());
+        setIsModalOpen(true);
+    };
+
+    const handleSaveLimit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!newAsset || !newName) return;
+        if (!selectedRecord) return;
 
-        const record: FuelLimitRecord = {
-            asset: newAsset,
-            vehicleName: newName,
-            department: newDept || 'General',
-            limitType: newLimitType,
-            fuelLimit: newLimitType === 'No Limit' ? 'No Limit' : Number(newLimitValue) || 0,
-            monthlyFuelUsed: 0
-        };
-
-        const updated = [...limits, record];
-        setLimits(updated);
-
+        // 1. Load current configs
+        let savedConfig: Record<string, { limitType: 'No Limit' | 'Limit'; fuelLimit: number | 'No Limit' }> = {};
         if (typeof window !== 'undefined') {
-            localStorage.setItem(`fuel_limits_${selectedClient.clientid}`, JSON.stringify(updated));
+            const stored = localStorage.getItem(`fuel_limits_config_${selectedClient.clientid}`);
+            if (stored) {
+                try {
+                    savedConfig = JSON.parse(stored);
+                } catch {
+                    savedConfig = {};
+                }
+            }
         }
 
-        // Reset
-        setNewAsset('');
-        setNewName('');
-        setNewDept('');
-        setNewLimitType('Limit');
-        setNewLimitValue('');
+        // 2. Add or update active vehicle config
+        savedConfig[selectedRecord.asset] = {
+            limitType: editLimitType,
+            fuelLimit: editLimitType === 'No Limit' ? 'No Limit' : Number(editLimitValue) || 0
+        };
+
+        // 3. Save to localStorage
+        if (typeof window !== 'undefined') {
+            localStorage.setItem(`fuel_limits_config_${selectedClient.clientid}`, JSON.stringify(savedConfig));
+        }
+
         setIsModalOpen(false);
+        setSelectedRecord(null);
         loadLimitsAndUsage();
     };
 
@@ -145,18 +164,14 @@ export default function FuelLimitsPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">Fuel Limits</h1>
-                    <p className="text-muted-foreground">Manage manually added vehicle limits & track monthly usage</p>
+                    <p className="text-muted-foreground">Monitor vehicle limits & track monthly usage (Live API Data)</p>
                 </div>
-                <Button onClick={() => setIsModalOpen(true)} size="sm">
-                    <Plus className="mr-2 h-4 w-4" />
-                    Add Vehicle Limit
-                </Button>
             </div>
 
             <Card>
                 <CardHeader>
                     <CardTitle>Fuel Allowances</CardTitle>
-                    <CardDescription>Monthly fuel limit allocations and live balance remaining</CardDescription>
+                    <CardDescription>Monthly fuel limit allocations and live balance remaining. Click the Edit button on any row to customize limits.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col sm:flex-row gap-4 mb-4">
@@ -180,20 +195,21 @@ export default function FuelLimitsPage() {
                         <table className="w-full text-sm">
                             <thead>
                                 <tr className="border-b bg-muted/30">
-                                    <th className="text-left p-3 font-semibold text-slate-200">Asset (Rego)</th>
-                                    <th className="text-left p-3 font-semibold text-slate-200">Vehicle Name</th>
-                                    <th className="text-left p-3 font-semibold text-slate-200">Department</th>
-                                    <th className="text-left p-3 font-semibold text-slate-200">Limit Type</th>
-                                    <th className="text-left p-3 font-semibold text-slate-200">FUEL LIMIT (L)</th>
-                                    <th className="text-left p-3 font-semibold text-slate-200">MONTHLY FUEL USED (L)</th>
-                                    <th className="text-left p-3 font-semibold text-slate-200">FUEL BALANCE REMAINING</th>
+                                    <th className="text-left p-3 font-semibold">Asset (Rego)</th>
+                                    <th className="text-left p-3 font-semibold">Vehicle Name</th>
+                                    <th className="text-left p-3 font-semibold">Department</th>
+                                    <th className="text-left p-3 font-semibold">Limit Type</th>
+                                    <th className="text-left p-3 font-semibold">FUEL LIMIT (L)</th>
+                                    <th className="text-left p-3 font-semibold">MONTHLY FUEL USED (L)</th>
+                                    <th className="text-left p-3 font-semibold">FUEL BALANCE REMAINING</th>
+                                    <th className="text-left p-3 font-semibold">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredData.length === 0 ? (
                                     <tr>
-                                        <td colSpan={7} className="p-4 text-center text-muted-foreground">
-                                            No limits configuration found. Please add a vehicle manually using the "Add Vehicle Limit" button.
+                                        <td colSpan={8} className="p-4 text-center text-muted-foreground">
+                                            No limits configuration found.
                                         </td>
                                     </tr>
                                 ) : (
@@ -202,16 +218,26 @@ export default function FuelLimitsPage() {
                                         const remaining = limitVal === 'No Limit' ? 'No Limit' : limitVal - item.monthlyFuelUsed;
                                         return (
                                             <tr key={idx} className="border-b hover:bg-muted/50">
-                                                <td className="p-3 font-medium text-slate-100">{item.asset}</td>
+                                                <td className="p-3 font-medium">{item.asset}</td>
                                                 <td className="p-3">{item.vehicleName}</td>
-                                                <td className="p-3 text-slate-400">{item.department}</td>
+                                                <td className="p-3 text-muted-foreground">{item.department}</td>
                                                 <td className="p-3">{item.limitType}</td>
                                                 <td className="p-3 font-semibold">
                                                     {typeof limitVal === 'number' ? `${formatNumber(limitVal)} L` : limitVal}
                                                 </td>
-                                                <td className="p-3 font-semibold text-teal-400">{formatNumber(item.monthlyFuelUsed)} L</td>
-                                                <td className={`p-3 font-bold ${typeof remaining === 'number' && remaining < 20 ? 'text-rose-400' : 'text-emerald-400'}`}>
+                                                <td className="p-3 font-semibold text-teal-600">{formatNumber(item.monthlyFuelUsed)} L</td>
+                                                <td className={`p-3 font-bold ${typeof remaining === 'number' && remaining < 20 ? 'text-rose-600' : 'text-emerald-600'}`}>
                                                     {typeof remaining === 'number' ? `${formatNumber(Number(remaining.toFixed(2)))} L` : remaining}
+                                                </td>
+                                                <td className="p-3">
+                                                    <Button 
+                                                        variant="ghost" 
+                                                        size="sm" 
+                                                        onClick={() => handleEditClick(item)}
+                                                        className="text-teal-600 hover:text-teal-700"
+                                                    >
+                                                        <Edit2 className="h-4 w-4" />
+                                                    </Button>
                                                 </td>
                                             </tr>
                                         );
@@ -223,60 +249,29 @@ export default function FuelLimitsPage() {
                 </CardContent>
             </Card>
 
-            {/* Manual Add Modal */}
-            {isModalOpen && (
+            {/* Edit Limit Modal */}
+            {isModalOpen && selectedRecord && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
                     <div className="relative w-full max-w-md bg-[#02172e] border border-[#00c0b5]/20 text-white rounded-xl shadow-xl p-6">
                         <button 
-                            onClick={() => setIsModalOpen(false)}
+                            onClick={() => {
+                                setIsModalOpen(false);
+                                setSelectedRecord(null);
+                            }}
                             className="absolute right-4 top-4 text-slate-400 hover:text-white"
                         >
                             <X className="h-5 w-5" />
                         </button>
                         
-                        <h2 className="text-xl font-bold text-slate-100 mb-4">Add Vehicle Limit</h2>
+                        <h2 className="text-xl font-bold text-slate-100 mb-2">Configure Fuel Limit</h2>
+                        <p className="text-sm text-slate-400 mb-4">Set allowance limit for {selectedRecord.asset} ({selectedRecord.vehicleName})</p>
                         
-                        <form onSubmit={handleAddLimit} className="space-y-4">
-                            <div>
-                                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Asset (Rego / Code)</label>
-                                <input
-                                    type="text"
-                                    required
-                                    placeholder="e.g. BFE131"
-                                    value={newAsset}
-                                    onChange={(e) => setNewAsset(e.target.value)}
-                                    className="w-full bg-[#052244] border border-[#00c0b5]/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#00c0b5]"
-                                />
-                            </div>
-                            
-                            <div>
-                                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Vehicle Name / Model</label>
-                                <input
-                                    type="text"
-                                    required
-                                    placeholder="e.g. Toyota Hi-Ace"
-                                    value={newName}
-                                    onChange={(e) => setNewName(e.target.value)}
-                                    className="w-full bg-[#052244] border border-[#00c0b5]/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#00c0b5]"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Department</label>
-                                <input
-                                    type="text"
-                                    placeholder="e.g. Security Ops"
-                                    value={newDept}
-                                    onChange={(e) => setNewDept(e.target.value)}
-                                    className="w-full bg-[#052244] border border-[#00c0b5]/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#00c0b5]"
-                                />
-                            </div>
-
+                        <form onSubmit={handleSaveLimit} className="space-y-4">
                             <div>
                                 <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Limit Type</label>
                                 <select
-                                    value={newLimitType}
-                                    onChange={(e) => setNewLimitType(e.target.value as any)}
+                                    value={editLimitType}
+                                    onChange={(e) => setEditLimitType(e.target.value as any)}
                                     className="w-full bg-[#052244] border border-[#00c0b5]/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#00c0b5]"
                                 >
                                     <option value="Limit" className="bg-[#02172e]">Limit</option>
@@ -284,7 +279,7 @@ export default function FuelLimitsPage() {
                                 </select>
                             </div>
 
-                            {newLimitType === 'Limit' && (
+                            {editLimitType === 'Limit' && (
                                 <div>
                                     <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Fuel Limit (Litres)</label>
                                     <input
@@ -292,8 +287,8 @@ export default function FuelLimitsPage() {
                                         required
                                         min="1"
                                         placeholder="e.g. 150"
-                                        value={newLimitValue}
-                                        onChange={(e) => setNewLimitValue(e.target.value)}
+                                        value={editLimitValue}
+                                        onChange={(e) => setEditLimitValue(e.target.value)}
                                         className="w-full bg-[#052244] border border-[#00c0b5]/20 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#00c0b5]"
                                     />
                                 </div>
@@ -303,13 +298,16 @@ export default function FuelLimitsPage() {
                                 <Button 
                                     type="button" 
                                     variant="outline" 
-                                    onClick={() => setIsModalOpen(false)}
+                                    onClick={() => {
+                                        setIsModalOpen(false);
+                                        setSelectedRecord(null);
+                                    }}
                                     className="text-white hover:text-[#00c0b5] border-slate-700 hover:bg-slate-800"
                                 >
                                     Cancel
                                 </Button>
                                 <Button type="submit" className="bg-[#00c0b5] text-white hover:bg-[#00a89d]">
-                                    Save
+                                    Save Limit
                                 </Button>
                             </div>
                         </form>

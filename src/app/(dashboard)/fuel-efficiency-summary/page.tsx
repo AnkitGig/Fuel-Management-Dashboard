@@ -174,12 +174,12 @@ export default function FuelEfficiencySummaryPage() {
                         <table className="w-full text-sm">
                             <thead>
                                 <tr className="border-b bg-muted/30">
-                                    <th className="text-left p-3 font-semibold text-slate-200">Vehicle Description</th>
-                                    <th className="text-left p-3 font-semibold text-slate-200">Ltrs</th>
-                                    <th className="text-left p-3 font-semibold text-slate-200">No. of Transactions</th>
-                                    <th className="text-left p-3 font-semibold text-slate-200">Distance (KM)</th>
-                                    <th className="text-left p-3 font-semibold text-slate-200">Fuel Burn (Km/L)</th>
-                                    <th className="text-left p-3 font-semibold text-slate-200">Fuel Burn (L/100Km)</th>
+                                    <th className="text-left p-3 font-semibold">Vehicle Description</th>
+                                    <th className="text-left p-3 font-semibold">Ltrs</th>
+                                    <th className="text-left p-3 font-semibold">No. of Transactions</th>
+                                    <th className="text-left p-3 font-semibold">Distance (KM)</th>
+                                    <th className="text-left p-3 font-semibold">Fuel Burn (Km/L)</th>
+                                    <th className="text-left p-3 font-semibold">Fuel Burn (L/100Km)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -192,12 +192,12 @@ export default function FuelEfficiencySummaryPage() {
                                 ) : (
                                     filteredData.map((item, idx) => (
                                         <tr key={idx} className="border-b hover:bg-muted/50">
-                                            <td className="p-3 font-medium text-slate-100">{item.description}</td>
-                                            <td className="p-3 font-semibold text-teal-400">{formatNumber(item.ltrs)} L</td>
+                                            <td className="p-3 font-medium">{item.description}</td>
+                                            <td className="p-3 font-semibold text-teal-600">{formatNumber(item.ltrs)} L</td>
                                             <td className="p-3">{item.transactions}</td>
                                             <td className="p-3">{item.distance > 0 ? formatNumber(item.distance) : '—'}</td>
                                             <td className="p-3 font-medium">{item.kmPerLtr > 0 ? item.kmPerLtr.toFixed(2) : '—'}</td>
-                                            <td className={`p-3 font-medium ${item.ltrsPer100Km > 15 ? 'text-rose-400' : 'text-emerald-400'}`}>
+                                            <td className={`p-3 font-medium ${item.ltrsPer100Km > 15 ? 'text-rose-600' : 'text-emerald-600'}`}>
                                                 {item.ltrsPer100Km > 0 ? `${item.ltrsPer100Km.toFixed(1)} L/100Km` : '—'}
                                             </td>
                                         </tr>
