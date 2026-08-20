@@ -134,7 +134,7 @@ export default function RolesPage() {
                         if (role.role === 'Administrator') {
                             headerBg = 'bg-[#ff6600]';
                         } else if (role.role === 'Manager') {
-                            headerBg = 'bg-[#0f5132]';
+                            headerBg = 'bg-[#138024]';
                         }
 
                         return (
@@ -180,8 +180,8 @@ export default function RolesPage() {
                                         {roleData.map((role, idx) => {
                                             const headerBg = idx === roleData.length - 1 ? 'bg-[#4b5563]' : 'bg-[#0f5132]';
                                             return (
-                                                <th 
-                                                    key={role.role} 
+                                                <th
+                                                    key={role.role}
                                                     className={`${headerBg} text-white py-3 px-6 text-center font-semibold border-r border-white/20 last:border-r-0`}
                                                 >
                                                     {role.role}

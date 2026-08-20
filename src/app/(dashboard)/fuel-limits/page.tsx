@@ -139,6 +139,7 @@ export default function FuelLimitsPage() {
                                 className="w-full rounded-none border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             />
                         </div>
+                        <Button className="bg-[#00c0b5] hover:bg-[#00a896] text-white rounded-none" size="sm">Search</Button>
                         <Button variant="outline" size="sm">
                             <Download className="mr-2 h-4 w-4" />
                             Export
