@@ -64,25 +64,22 @@ export function Sidebar() {
 
     const sidebarContent = (
         <div className="flex h-full flex-col bg-[#02172e] text-slate-300 border-r border-[#00c0b5]/15">
-            <div className="flex h-16 items-center justify-between px-6 border-b border-[#00c0b5]/10">
-                <Link href="/fuel-levels" className="flex items-center gap-2.5">
-                    <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-[#00bdae] to-[#009b8f] flex items-center justify-center shadow-lg shadow-teal-500/25">
-                        <span className="text-white font-bold text-sm tracking-wider">FM</span>
-                    </div>
-                    {!isCollapsed && (
-                        <span className="font-extrabold text-lg tracking-tight text-white">
-                            Fuel Manager
-                        </span>
-                    )}
+            <div className={cn("flex h-16 items-center border-b border-[#00c0b5]/10 transition-all duration-300", isCollapsed ? "flex-col justify-center gap-1 py-1 px-1" : "justify-between px-6")}>
+                <Link href="/fuel-levels" className="flex items-center justify-center shrink-0">
+                    <img 
+                        src="/assests/logo.png" 
+                        alt="Fuel Master Logo" 
+                        className="h-10 w-auto object-contain transition-all duration-300" 
+                    />
                 </Link>
                 {!isMobile && (
                     <Button
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsCollapsed(!isCollapsed)}
-                        className="h-8 w-8 p-0 rounded-lg hover:bg-muted/80 text-white hover:text-[#00c0b5]"
+                        className={cn("rounded-lg hover:bg-muted/80 text-white hover:text-[#00c0b5] transition-all duration-300", isCollapsed ? "h-5 w-5 p-0" : "h-8 w-8 p-0")}
                     >
-                        {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+                        {isCollapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-4 w-4" />}
                     </Button>
                 )}
                 {isMobile && (
@@ -145,16 +142,6 @@ export function Sidebar() {
                     </>
                 )}
             </nav>
-
-            {!isCollapsed && (
-                <div className="flex flex-col items-center justify-center py-4 border-t border-white/5 bg-[#011b35]/20">
-                    <img 
-                        src="/assests/logo.png" 
-                        alt="Fuel Master Logo" 
-                        className="h-20 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity" 
-                    />
-                </div>
-            )}
 
             <div className="border-t border-white/10 p-4 space-y-3">
                 {!isCollapsed && (
