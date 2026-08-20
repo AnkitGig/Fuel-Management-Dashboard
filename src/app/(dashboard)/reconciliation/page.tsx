@@ -201,7 +201,7 @@ export default function ReconciliationPage() {
 
                     {/* Stock Demand Plan (Span 8) */}
                     <div className="md:col-span-8 border border-slate-200 rounded-none overflow-hidden shadow-xs">
-                        <div className="bg-primary py-2 px-3 text-center border-b border-white/20">
+                        <div className="bg-[#137e19] py-2 px-3 text-center border-b border-white/20">
                             <span className="text-xs font-bold text-white uppercase tracking-wider">Stock Demand Plan</span>
                         </div>
                         <table className="w-full text-xs border-collapse">
@@ -306,15 +306,15 @@ export default function ReconciliationPage() {
                         <table className="w-full text-sm border-collapse">
                             <thead>
                                 <tr>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Date</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Opening Balance</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Deliveries</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Fuel Issues</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Expected Closing</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Actual Closing</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Variance</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Variance %</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold last:border-r-0">Status</th>
+                                    <th className="bg-[#001b33] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Date</th>
+                                    <th className="bg-[#001b33] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Opening Balance</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Deliveries</th>
+                                    <th className="bg-[#f26522] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Fuel Issues</th>
+                                    <th className="bg-[#001b33] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Expected Closing</th>
+                                    <th className="bg-[#001b33] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Actual Closing</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Variance</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Variance %</th>
+                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold last:border-r-0">Status</th>
                                 </tr>
                             </thead>
                             <tbody>

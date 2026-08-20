@@ -130,7 +130,11 @@ export default function RolesPage() {
 
                 <div className="grid gap-4 md:grid-cols-3">
                     {roleData.map((role) => {
-                        const headerBg = 'bg-primary';
+                        const headerBg = role.role === 'Administrator' 
+                            ? 'bg-primary' 
+                            : role.role === 'Manager' 
+                                ? 'bg-[#137e19]' 
+                                : 'bg-[#555555]';
 
                         return (
                             <Card key={role.role} className="overflow-hidden border border-slate-200 shadow-sm rounded-none">
@@ -175,7 +179,9 @@ export default function RolesPage() {
                                     <tr>
                                         <th className="bg-primary text-white py-3 px-6 text-left font-semibold border-r border-white/20">Resource</th>
                                         {roleData.map((role, idx) => {
-                                            const headerBg = 'bg-primary';
+                                            const headerBg = role.role === 'Administrator' || role.role === 'Manager'
+                                                ? 'bg-[#137e19]'
+                                                : 'bg-[#555555]';
                                             return (
                                                 <th
                                                     key={role.role}

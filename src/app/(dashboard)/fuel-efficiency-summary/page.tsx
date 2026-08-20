@@ -178,11 +178,11 @@ export default function FuelEfficiencySummaryPage() {
                             <thead>
                                 <tr>
                                     <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Vehicle Description</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Ltrs</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">No. of Transactions</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Distance (KM)</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Fuel Burn (Km/L)</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold last:border-r-0">Fuel Burn (L/100Km)</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Ltrs</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">No. of Transactions</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Distance (KM)</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Fuel Burn (Km/L)</th>
+                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold last:border-r-0">Fuel Burn (L/100Km)</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -129,9 +129,9 @@ export default function DeliveriesPage() {
                             <thead>
                                 <tr>
                                     <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Delivery ID</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Date</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Time</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold last:border-r-0">Quantity</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Date</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Time</th>
+                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold last:border-r-0">Quantity</th>
                                 </tr>
                             </thead>
                             <tbody>
