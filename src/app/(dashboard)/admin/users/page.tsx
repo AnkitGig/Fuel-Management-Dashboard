@@ -126,7 +126,7 @@ export default function UsersPage() {
                     </button>
                     {hasPermission(currentUser, PERMISSIONS.USERS.MANAGE) && (
                         <button
-                            className="inline-flex items-center justify-center rounded-none bg-[#138024] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-[#0f631c] transition-colors gap-2"
+                            className="inline-flex items-center justify-center rounded-none bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90 transition-colors gap-2"
                         >
                             <UserPlus className="h-4 w-4" />
                             Add User
@@ -171,13 +171,13 @@ export default function UsersPage() {
                         <table className="w-full text-sm border-collapse">
                             <thead>
                                 <tr>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Name</th>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Email</th>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Role</th>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Status</th>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Last Login</th>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Created Date</th>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold last:border-r-0">Actions</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Name</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Email</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Role</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Status</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Last Login</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Created Date</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold last:border-r-0">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>

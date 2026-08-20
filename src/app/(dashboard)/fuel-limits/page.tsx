@@ -150,13 +150,13 @@ export default function FuelLimitsPage() {
                         <table className="w-full text-sm border-collapse">
                             <thead>
                                 <tr>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Asset (Rego)</th>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Vehicle Name</th>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Department</th>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Limit Type</th>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">FUEL LIMIT (L)</th>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">MONTHLY FUEL USED (L)</th>
-                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold last:border-r-0">FUEL BALANCE REMAINING</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Asset (Rego)</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Vehicle Name</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Department</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Limit Type</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">FUEL LIMIT (L)</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">MONTHLY FUEL USED (L)</th>
+                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold last:border-r-0">FUEL BALANCE REMAINING</th>
                                 </tr>
                             </thead>
                             <tbody>
