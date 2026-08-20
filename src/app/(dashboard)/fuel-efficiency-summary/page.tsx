@@ -14,12 +14,12 @@ import { formatFuel, formatNumber } from '@/lib/utils';
 import { useClientStore } from '@/services/api';
 
 interface VehicleEfficiency {
-  description: string;
-  ltrs: number;
-  transactions: number;
-  distance: number;
-  kmPerLtr: number;
-  ltrsPer100Km: number;
+    description: string;
+    ltrs: number;
+    transactions: number;
+    distance: number;
+    kmPerLtr: number;
+    ltrsPer100Km: number;
 }
 
 export default function FuelEfficiencySummaryPage() {
@@ -58,7 +58,7 @@ export default function FuelEfficiencySummaryPage() {
 
             // Group transactions by RegistrationNo / vehicleId
             const groups: Record<string, { ltrs: number; txCount: number; maxOdo: number; minOdo: number }> = {};
-            
+
             response.data.forEach((tx: any) => {
                 const vehicle = tx.vehicleId || 'Unknown';
                 if (!groups[vehicle]) {
@@ -72,7 +72,7 @@ export default function FuelEfficiencySummaryPage() {
 
                 groups[vehicle].ltrs += tx.fuelQuantity || 0;
                 groups[vehicle].txCount += 1;
-                
+
                 const odo = Number(tx.odometer);
                 if (odo > 0) {
                     if (odo > groups[vehicle].maxOdo) groups[vehicle].maxOdo = odo;
@@ -87,12 +87,12 @@ export default function FuelEfficiencySummaryPage() {
                 const ltrsPer100Km = distance > 0 && g.ltrs > 0 ? Number(((g.ltrs / distance) * 100).toFixed(1)) : 0;
 
                 return {
-                  description: vehicle,
-                  ltrs: Number(g.ltrs.toFixed(2)),
-                  transactions: g.txCount,
-                  distance: distance,
-                  kmPerLtr,
-                  ltrsPer100Km
+                    description: vehicle,
+                    ltrs: Number(g.ltrs.toFixed(2)),
+                    transactions: g.txCount,
+                    distance: distance,
+                    kmPerLtr,
+                    ltrsPer100Km
                 };
             });
 
@@ -108,7 +108,7 @@ export default function FuelEfficiencySummaryPage() {
         }
     };
 
-    const filteredData = data.filter(item => 
+    const filteredData = data.filter(item =>
         item.description.toLowerCase().includes(search.toLowerCase())
     );
 
@@ -136,7 +136,7 @@ export default function FuelEfficiencySummaryPage() {
 
     return (
         <PageContainer>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">Fuel Efficiency Summary</h1>
                     <p className="text-muted-foreground">Detailed view of vehicle fuel burn rates and usage (Calculated from Live API)</p>
@@ -147,13 +147,13 @@ export default function FuelEfficiencySummaryPage() {
                 </Button>
             </div>
 
-            <Card>
-                <CardHeader>
+            <Card className="rounded-none border border-slate-200 shadow-xs">
+                <CardHeader className="pb-3 px-6">
                     <CardTitle>Fleet Summary</CardTitle>
                     <CardDescription>Fuel efficiency analysis per vehicle</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                <CardContent className="px-0 pb-6">
+                    <div className="flex flex-col sm:flex-row gap-4 mb-4 px-6">
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <input
@@ -170,34 +170,34 @@ export default function FuelEfficiencySummaryPage() {
                         </Button>
                     </div>
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
+                    <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
+                        <table className="w-full text-sm border-collapse">
                             <thead>
-                                <tr className="border-b bg-muted/30">
-                                    <th className="text-left p-3 font-semibold">Vehicle Description</th>
-                                    <th className="text-left p-3 font-semibold">Ltrs</th>
-                                    <th className="text-left p-3 font-semibold">No. of Transactions</th>
-                                    <th className="text-left p-3 font-semibold">Distance (KM)</th>
-                                    <th className="text-left p-3 font-semibold">Fuel Burn (Km/L)</th>
-                                    <th className="text-left p-3 font-semibold">Fuel Burn (L/100Km)</th>
+                                <tr>
+                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25">Vehicle Description</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Ltrs</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">No. of Transactions</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Distance (KM)</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Fuel Burn (Km/L)</th>
+                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold">Fuel Burn (L/100Km)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredData.length === 0 ? (
                                     <tr>
-                                        <td colSpan={6} className="p-4 text-center text-muted-foreground">
+                                        <td colSpan={6} className="p-8 text-center text-slate-400 bg-slate-50">
                                             No vehicle data found
                                         </td>
                                     </tr>
                                 ) : (
                                     filteredData.map((item, idx) => (
-                                        <tr key={idx} className="border-b hover:bg-muted/50">
-                                            <td className="p-3 font-medium">{item.description}</td>
-                                            <td className="p-3 font-semibold text-teal-600">{formatNumber(item.ltrs)} L</td>
-                                            <td className="p-3">{item.transactions}</td>
-                                            <td className="p-3">{item.distance > 0 ? formatNumber(item.distance) : '—'}</td>
-                                            <td className="p-3 font-medium">{item.kmPerLtr > 0 ? item.kmPerLtr.toFixed(2) : '—'}</td>
-                                            <td className={`p-3 font-medium ${item.ltrsPer100Km > 15 ? 'text-rose-600' : 'text-emerald-600'}`}>
+                                        <tr key={idx} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
+                                            <td className="p-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{item.description}</td>
+                                            <td className="p-3 font-semibold text-[#138024] align-middle border-r border-slate-200">{formatNumber(item.ltrs)} L</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{item.transactions}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{item.distance > 0 ? formatNumber(item.distance) : '—'}</td>
+                                            <td className="p-3 font-medium text-slate-600 align-middle border-r border-slate-200">{item.kmPerLtr > 0 ? item.kmPerLtr.toFixed(2) : '—'}</td>
+                                            <td className={`p-3 font-bold align-middle ${item.ltrsPer100Km > 15 ? 'text-rose-600' : 'text-emerald-600'}`}>
                                                 {item.ltrsPer100Km > 0 ? `${item.ltrsPer100Km.toFixed(1)} L/100Km` : '—'}
                                             </td>
                                         </tr>

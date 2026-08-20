@@ -71,7 +71,7 @@ export default function ReconciliationPage() {
         // Cumulative sum for the selected range
         const totalDeliveries = records.reduce((sum, r) => sum + r.deliveries, 0);
         const totalIssues = records.reduce((sum, r) => sum + r.fuelIssues, 0);
-        
+
         // Sorting chronologically to get opening/closing
         const sorted = [...records].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
         const openingDip = sorted[0]?.openingBalance || 0;
@@ -83,15 +83,15 @@ export default function ReconciliationPage() {
         // Stock Demand Plan Calculations
         const avDailyCons = records.length > 0 ? totalIssues / records.length : 0;
         const daysStock = avDailyCons > 0 ? Math.round(closingDip / avDailyCons) : 0;
-        
+
         // Order Date calculations
         const today = new Date();
         const reorderDays = 7;
         const minStock = 3000;
-        
+
         const reorderDate = new Date(today);
         reorderDate.setDate(today.getDate() + Math.max(0, daysStock - reorderDays));
-        
+
         const arrivalDate = new Date(today);
         arrivalDate.setDate(today.getDate() + daysStock);
 
@@ -118,7 +118,7 @@ export default function ReconciliationPage() {
         };
     })();
 
-    const filteredRecords = records.filter(record => 
+    const filteredRecords = records.filter(record =>
         selectedStatus ? record.status === selectedStatus : true
     );
 
@@ -248,13 +248,13 @@ export default function ReconciliationPage() {
             )}
 
             {/* Historical Records */}
-            <Card>
-                <CardHeader>
+            <Card className="rounded-none border border-slate-200 shadow-xs">
+                <CardHeader className="pb-3 px-6">
                     <CardTitle>Historical Reconciliation</CardTitle>
                     <CardDescription>Daily reconciliation records and variance percentages</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col sm:flex-row gap-4 mb-4 items-center flex-wrap">
+                <CardContent className="px-0 pb-6">
+                    <div className="flex flex-col sm:flex-row gap-4 mb-4 items-center flex-wrap px-6">
                         {/* Date Range Selection */}
                         <div className="flex items-center gap-2">
                             <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Date From:</span>
@@ -280,7 +280,7 @@ export default function ReconciliationPage() {
                                 className="rounded-md border border-input bg-background px-3 py-1.5 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             />
                         </div>
-                        
+
                         <select
                             value={selectedStatus}
                             onChange={(e) => {
@@ -300,25 +300,25 @@ export default function ReconciliationPage() {
                         </Button>
                     </div>
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
+                    <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
+                        <table className="w-full text-sm border-collapse">
                             <thead>
-                                <tr className="border-b bg-muted/30">
-                                    <th className="text-left p-3 font-semibold">Date</th>
-                                    <th className="text-left p-3 font-semibold">Opening Balance</th>
-                                    <th className="text-left p-3 font-semibold">Deliveries</th>
-                                    <th className="text-left p-3 font-semibold">Fuel Issues</th>
-                                    <th className="text-left p-3 font-semibold">Expected Closing</th>
-                                    <th className="text-left p-3 font-semibold">Actual Closing</th>
-                                    <th className="text-left p-3 font-semibold">Variance</th>
-                                    <th className="text-left p-3 font-semibold">Variance %</th>
-                                    <th className="text-left p-3 font-semibold">Status</th>
+                                <tr>
+                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25">Date</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Opening Balance</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Deliveries</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Fuel Issues</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Expected Closing</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Actual Closing</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Variance</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Variance %</th>
+                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredRecords.length === 0 ? (
                                     <tr>
-                                        <td colSpan={9} className="p-4 text-center text-muted-foreground">
+                                        <td colSpan={9} className="p-8 text-center text-slate-400 bg-slate-50">
                                             No reconciliation records found
                                         </td>
                                     </tr>
@@ -326,20 +326,20 @@ export default function ReconciliationPage() {
                                     filteredRecords.map((record) => {
                                         const vPercent = record.expectedClosing > 0 ? (record.variance / record.expectedClosing) * 100 : 0;
                                         return (
-                                            <tr key={record.id} className="border-b hover:bg-muted/50">
-                                                <td className="p-3 font-medium">{record.date}</td>
-                                                <td className="p-3">{formatFuel(record.openingBalance)}</td>
-                                                <td className="p-3 text-green-600">+{formatFuel(record.deliveries)}</td>
-                                                <td className="p-3 text-red-600">-{formatFuel(record.fuelIssues)}</td>
-                                                <td className="p-3">{formatFuel(record.expectedClosing)}</td>
-                                                <td className="p-3">{formatFuel(record.actualClosing)}</td>
-                                                <td className={`p-3 font-semibold ${record.variance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                            <tr key={record.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
+                                                <td className="p-3 font-semibold text-slate-850 align-middle border-r border-slate-200">{record.date}</td>
+                                                <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(record.openingBalance)}</td>
+                                                <td className="p-3 text-green-600 align-middle border-r border-slate-200">+{formatFuel(record.deliveries)}</td>
+                                                <td className="p-3 text-red-600 align-middle border-r border-slate-200">-{formatFuel(record.fuelIssues)}</td>
+                                                <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(record.expectedClosing)}</td>
+                                                <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(record.actualClosing)}</td>
+                                                <td className={`p-3 font-bold align-middle border-r border-slate-200 ${record.variance >= 0 ? 'text-green-600' : 'text-red-650'}`}>
                                                     {record.variance >= 0 ? '+' : ''}{formatFuel(record.variance)}
                                                 </td>
-                                                <td className={`p-3 font-semibold ${vPercent >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                                <td className={`p-3 font-bold align-middle border-r border-slate-200 ${vPercent >= 0 ? 'text-green-600' : 'text-red-650'}`}>
                                                     {vPercent >= 0 ? '+' : ''}{vPercent.toFixed(1)}%
                                                 </td>
-                                                <td className="p-3">
+                                                <td className="p-3 align-middle">
                                                     <StatusBadge status={record.status} />
                                                 </td>
                                             </tr>
@@ -352,7 +352,7 @@ export default function ReconciliationPage() {
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="flex items-center justify-between mt-4">
+                        <div className="flex items-center justify-between mt-4 px-6">
                             <p className="text-sm text-muted-foreground">
                                 Showing {filteredRecords.length} of {total} records
                             </p>

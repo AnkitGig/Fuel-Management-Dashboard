@@ -97,13 +97,13 @@ export default function DeliveriesPage() {
                 </Button>
             </div>
 
-            <Card>
-                <CardHeader>
+            <Card className="rounded-none border border-slate-200 shadow-xs">
+                <CardHeader className="pb-3 px-6">
                     <CardTitle>All Deliveries</CardTitle>
                     <CardDescription>Complete list of fuel deliveries</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                <CardContent className="px-0 pb-6">
+                    <div className="flex flex-col sm:flex-row gap-4 mb-4 px-6">
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <input
@@ -122,30 +122,30 @@ export default function DeliveriesPage() {
                         </Button>
                     </div>
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
+                    <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
+                        <table className="w-full text-sm border-collapse">
                             <thead>
-                                <tr className="border-b">
-                                    <th className="text-left p-3 font-medium">Delivery ID</th>
-                                    <th className="text-left p-3 font-medium">Date</th>
-                                    <th className="text-left p-3 font-medium">Time</th>
-                                    <th className="text-left p-3 font-medium">Quantity</th>
+                                <tr>
+                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25">Delivery ID</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Date</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Time</th>
+                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold">Quantity</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {deliveries.length === 0 ? (
                                     <tr>
-                                        <td colSpan={4} className="p-4 text-center text-muted-foreground">
+                                        <td colSpan={4} className="p-8 text-center text-slate-400 bg-slate-50">
                                             No deliveries found
                                         </td>
                                     </tr>
                                 ) : (
                                     deliveries.map((delivery) => (
-                                        <tr key={delivery.id} className="border-b hover:bg-muted/50">
-                                            <td className="p-3 font-medium">{delivery.deliveryId}</td>
-                                            <td className="p-3">{delivery.date}</td>
-                                            <td className="p-3">{delivery.time}</td>
-                                            <td className="p-3 font-medium">{formatFuel(delivery.quantity)}</td>
+                                        <tr key={delivery.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
+                                            <td className="p-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{delivery.deliveryId}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{delivery.date}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{delivery.time}</td>
+                                            <td className="p-3 font-bold text-slate-800 align-middle">{formatFuel(delivery.quantity)}</td>
                                         </tr>
                                     ))
                                 )}
@@ -155,7 +155,7 @@ export default function DeliveriesPage() {
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="flex items-center justify-between mt-4">
+                        <div className="flex items-center justify-between mt-4 px-6">
                             <p className="text-sm text-muted-foreground">
                                 Showing {deliveries.length} of {total} deliveries
                             </p>

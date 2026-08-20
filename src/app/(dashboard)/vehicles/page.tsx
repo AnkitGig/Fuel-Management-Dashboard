@@ -21,7 +21,7 @@ export default function VehiclesPage() {
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    
+
     // Filter states
     const [search, setSearch] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
@@ -46,9 +46,9 @@ export default function VehiclesPage() {
     }, [router, page, selectedClient]);
 
     const loadData = async (
-        overrideSearch?: string, 
-        overrideStatus?: string, 
-        overrideStart?: string, 
+        overrideSearch?: string,
+        overrideStatus?: string,
+        overrideStart?: string,
         overrideEnd?: string
     ) => {
         try {
@@ -121,13 +121,13 @@ export default function VehiclesPage() {
                 </Button>
             </div>
 
-            <Card>
-                <CardHeader>
+            <Card className="rounded-none border border-slate-200 shadow-xs">
+                <CardHeader className="pb-3 px-6">
                     <CardTitle>All Vehicles</CardTitle>
                     <CardDescription>Complete list of fleet vehicles and efficiency</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col sm:flex-row gap-4 mb-4 flex-wrap items-center">
+                <CardContent className="px-0 pb-6">
+                    <div className="flex flex-col sm:flex-row gap-4 mb-4 flex-wrap items-center px-6">
                         <div className="relative flex-1 min-w-[200px]">
                             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <input
@@ -169,7 +169,7 @@ export default function VehiclesPage() {
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
                         </select>
-                        
+
                         <div className="flex gap-2">
                             <Button onClick={handleSearch} size="sm">Search</Button>
                             <Button onClick={handleReset} variant="outline" size="sm">
@@ -183,38 +183,38 @@ export default function VehiclesPage() {
                         </div>
                     </div>
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
+                    <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
+                        <table className="w-full text-sm border-collapse">
                             <thead>
-                                <tr className="border-b">
-                                    <th className="text-left p-3 font-medium">Vehicle ID</th>
-                                    <th className="text-left p-3 font-medium">Vehicle Type</th>
-                                    <th className="text-left p-3 font-medium">Asset Type</th>
-                                    <th className="text-left p-3 font-medium">Odometer</th>
-                                    <th className="text-left p-3 font-medium">Distance</th>
-                                    <th className="text-left p-3 font-medium">Fuel Issued</th>
-                                    <th className="text-left p-3 font-medium">Consumption</th>
-                                    <th className="text-left p-3 font-medium">Status</th>
+                                <tr>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Vehicle ID</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Vehicle Type</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Asset Type</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Odometer</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Distance</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Fuel Issued</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Consumption</th>
+                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {vehicles.length === 0 ? (
                                     <tr>
-                                        <td colSpan={8} className="p-4 text-center text-muted-foreground">
+                                        <td colSpan={8} className="p-8 text-center text-slate-400 bg-slate-50">
                                             No vehicles found
                                         </td>
                                     </tr>
                                 ) : (
                                     vehicles.map((vehicle) => (
-                                        <tr key={vehicle.id} className="border-b hover:bg-muted/50">
-                                            <td className="p-3 font-medium">{vehicle.vehicleId}</td>
-                                            <td className="p-3">{vehicle.vehicleType}</td>
-                                            <td className="p-3">{vehicle.assetType}</td>
-                                            <td className="p-3">{formatNumber(vehicle.odometer)}</td>
-                                            <td className="p-3">{formatNumber(vehicle.distanceTraveled)} km</td>
-                                            <td className="p-3">{formatFuel(vehicle.fuelIssued)}</td>
-                                            <td className="p-3">{vehicle.fuelConsumption.toFixed(1)} L/100km</td>
-                                            <td className="p-3">
+                                        <tr key={vehicle.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
+                                            <td className="p-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{vehicle.vehicleId}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{vehicle.vehicleType}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{vehicle.assetType}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatNumber(vehicle.odometer)}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatNumber(vehicle.distanceTraveled)} km</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(vehicle.fuelIssued)}</td>
+                                            <td className="p-3 font-medium text-slate-800 align-middle border-r border-slate-200">{vehicle.fuelConsumption.toFixed(1)} L/100km</td>
+                                            <td className="p-3 align-middle">
                                                 <StatusBadge status={vehicle.status} />
                                             </td>
                                         </tr>
@@ -226,8 +226,8 @@ export default function VehiclesPage() {
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="flex items-center justify-between mt-4">
-                            <p className="text-sm text-muted-foreground">
+                        <div className="flex items-center justify-between mt-4 px-6">
+                            <p className="text-sm text-slate-500">
                                 Showing {vehicles.length} of {total} vehicles
                             </p>
                             <div className="flex gap-2">
@@ -239,7 +239,7 @@ export default function VehiclesPage() {
                                 >
                                     Previous
                                 </Button>
-                                <span className="flex items-center px-3 text-sm">
+                                <span className="flex items-center px-3 text-sm text-slate-600 font-medium">
                                     Page {page} of {totalPages}
                                 </span>
                                 <Button

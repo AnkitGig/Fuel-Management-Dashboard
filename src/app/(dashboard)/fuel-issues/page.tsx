@@ -20,7 +20,7 @@ export default function FuelIssuesPage() {
     const [issues, setIssues] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    
+
     // Filter states
     const [search, setSearch] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
@@ -49,10 +49,10 @@ export default function FuelIssuesPage() {
     }, [router, page, selectedClient]);
 
     const loadData = async (
-        overrideSearch?: string, 
-        overrideStatus?: string, 
-        overrideVehicle?: string, 
-        overrideStart?: string, 
+        overrideSearch?: string,
+        overrideStatus?: string,
+        overrideVehicle?: string,
+        overrideStart?: string,
         overrideEnd?: string
     ) => {
         try {
@@ -136,13 +136,13 @@ export default function FuelIssuesPage() {
                 </Button>
             </div>
 
-            <Card>
-                <CardHeader>
+            <Card className="rounded-none border border-slate-200 shadow-xs">
+                <CardHeader className="pb-3 px-6">
                     <CardTitle>All Transactions</CardTitle>
                     <CardDescription>Complete list of fuel transactions</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col sm:flex-row gap-4 mb-4 flex-wrap items-center">
+                <CardContent className="px-0 pb-6">
+                    <div className="flex flex-col sm:flex-row gap-4 mb-4 flex-wrap items-center px-6">
                         <div className="relative flex-1 min-w-[200px]">
                             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <input
@@ -195,7 +195,7 @@ export default function FuelIssuesPage() {
                                 <option key={v} value={v}>{v}</option>
                             ))}
                         </select>
-                        
+
                         <div className="flex gap-2">
                             <Button onClick={handleSearch} size="sm">Search</Button>
                             <Button onClick={handleReset} variant="outline" size="sm">
@@ -209,49 +209,50 @@ export default function FuelIssuesPage() {
                         </div>
                     </div>
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
+                    <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
+                        <table className="w-full text-sm border-collapse">
                             <thead>
-                                <tr className="border-b bg-muted/30">
-                                    <th className="text-left p-3 font-semibold">Date / Time</th>
-                                    <th className="text-left p-3 font-semibold">ID</th>
-                                    <th className="text-left p-3 font-semibold">Vehicle Req</th>
-                                    <th className="text-left p-3 font-semibold">Fleet Id</th>
-                                    <th className="text-left p-3 font-semibold">Vehicle Detail</th>
-                                    <th className="text-left p-3 font-semibold">Site</th>
-                                    <th className="text-left p-3 font-semibold">Litres</th>
-                                    <th className="text-left p-3 font-semibold">Pump</th>
-                                    <th className="text-left p-3 font-semibold">Odo Meter</th>
-                                    <th className="text-left p-3 font-semibold">Hour Meter</th>
-                                    <th className="text-left p-3 font-semibold">DEM</th>
+                                <tr>
+                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25 whitespace-nowrap">Date / Time</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">ID</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25 whitespace-nowrap">Vehicle Req</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25 whitespace-nowrap">Fleet Id</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25 whitespace-nowrap">Vehicle Detail</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Site</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Litres</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Pump</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25 whitespace-nowrap">Odo Meter</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25 whitespace-nowrap">Hour Meter</th>
+                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold">DEM</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {issues.length === 0 ? (
                                     <tr>
-                                        <td colSpan={11} className="p-4 text-center text-muted-foreground">
+                                        <td colSpan={11} className="p-8 text-center text-slate-400 bg-slate-50">
                                             No transactions found
                                         </td>
                                     </tr>
                                 ) : (
                                     issues.map((issue) => (
-                                        <tr key={issue.id} className="border-b hover:bg-muted/50">
-                                            <td className="p-3 whitespace-nowrap">{issue.date} {issue.time}</td>
-                                            <td className="p-3 font-medium">{issue.transactionId}</td>
-                                            <td className="p-3 font-medium text-teal-600">{issue.vehicleId}</td>
-                                            <td className="p-3">{issue.fleetId}</td>
-                                            <td className="p-3">{issue.driverAttendant}</td>
-                                            <td className="p-3">{issue.depot}</td>
-                                            <td className="p-3 font-bold">{formatFuel(issue.fuelQuantity)}</td>
-                                            <td className="p-3">{issue.pump}</td>
-                                            <td className="p-3">{issue.odometer}</td>
-                                            <td className="p-3">{issue.engineHours}</td>
-                                            <td className="p-3">
-                                                <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
+                                        <tr key={issue.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
+                                            <td className="p-3 whitespace-nowrap text-slate-600 align-middle border-r border-slate-200">{issue.date} {issue.time}</td>
+                                            <td className="p-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{issue.transactionId}</td>
+                                            <td className="p-3 font-semibold text-[#138024] align-middle border-r border-slate-200">{issue.vehicleId}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{issue.fleetId}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{issue.driverAttendant}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{issue.depot}</td>
+                                            <td className="p-3 font-bold text-slate-800 align-middle border-r border-slate-200">{formatFuel(issue.fuelQuantity)}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{issue.pump}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{issue.odometer}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{issue.engineHours}</td>
+                                            <td className="p-3 align-middle">
+                                                <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold shadow-xs border ${
                                                     issue.status === 'Matched' 
-                                                        ? 'bg-emerald-500/10 text-emerald-500 ring-emerald-500/20' 
-                                                        : 'bg-amber-500/10 text-amber-500 ring-amber-500/20'
+                                                        ? 'bg-green-50 border-green-200 text-green-700' 
+                                                        : 'bg-amber-50 border-amber-200 text-amber-700'
                                                 }`}>
+                                                    <span className={`h-1.5 w-1.5 rounded-full bg-current`} />
                                                     {issue.dem || issue.status}
                                                 </span>
                                             </td>
@@ -264,7 +265,7 @@ export default function FuelIssuesPage() {
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="flex items-center justify-between mt-4">
+                        <div className="flex items-center justify-between mt-4 px-6">
                             <p className="text-sm text-muted-foreground">
                                 Showing {issues.length} of {total} transactions
                             </p>

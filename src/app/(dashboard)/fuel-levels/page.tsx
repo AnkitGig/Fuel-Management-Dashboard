@@ -6,12 +6,11 @@ import { useRouter } from 'next/navigation';
 import { Search, Download, AlertTriangle, RefreshCw } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { StatusBadge } from '@/components/common/StatusBadge';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { fuelLevelService } from '@/services/fuelLevelService';
 import { authService } from '@/lib/auth';
-import { formatFuel, formatNumber } from '@/lib/utils';
+import { formatNumber } from '@/lib/utils';
 import { FuelLevel } from '@/types/fuel';
 import { useClientStore } from '@/services/api';
 import {
@@ -49,14 +48,14 @@ export default function FuelLevelsPage() {
         try {
             setLoading(true);
             const response = await fuelLevelService.getFuelLevels({ pageSize: 1000 });
-            
+
             // Sort chronologically by BOTH Date and Time for correct area chart trend line mapping
             const sortedData = [...response.data].sort((a, b) => {
                 const timeA = new Date(`${a.date}T${a.time}Z`).getTime();
                 const timeB = new Date(`${b.date}T${b.time}Z`).getTime();
                 return timeA - timeB;
             });
-            
+
             setLevels(sortedData);
             setError(null);
         } catch (err) {
@@ -124,13 +123,13 @@ export default function FuelLevelsPage() {
             </div>
 
             {/* Historical Data */}
-            <Card>
-                <CardHeader>
+            <Card className="rounded-none border border-slate-200 shadow-xs">
+                <CardHeader className="pb-3 px-6">
                     <CardTitle>Historical Fuel Levels</CardTitle>
                     <CardDescription>Track fuel level trends over time</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                <CardContent className="px-0 pb-6">
+                    <div className="flex flex-col sm:flex-row gap-4 mb-4 px-6">
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <input
@@ -155,23 +154,23 @@ export default function FuelLevelsPage() {
                     </div>
 
                     {/* Area Chart matching the screenshot exactly */}
-                    <div className="h-[350px] mb-6">
+                    <div className="h-[350px] mb-6 px-6">
                         <ResponsiveContainer width="100%" height="100%">
                             <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
                                 <defs>
                                     <linearGradient id="colorFuel" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#74b9ff" stopOpacity={0.8}/>
-                                        <stop offset="95%" stopColor="#74b9ff" stopOpacity={0.1}/>
+                                        <stop offset="5%" stopColor="#74b9ff" stopOpacity={0.8} />
+                                        <stop offset="95%" stopColor="#74b9ff" stopOpacity={0.1} />
                                     </linearGradient>
                                 </defs>
                                 <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#f0f0f0" />
-                                <XAxis 
-                                    dataKey="createdAt" 
-                                    tickFormatter={formatDateTick} 
+                                <XAxis
+                                    dataKey="createdAt"
+                                    tickFormatter={formatDateTick}
                                     tick={{ fill: '#666', fontSize: 11 }}
                                     axisLine={{ stroke: '#ccc' }}
                                 />
-                                <YAxis 
+                                <YAxis
                                     tickFormatter={(val) => formatNumber(val)}
                                     tick={{ fill: '#666', fontSize: 11 }}
                                     axisLine={{ stroke: '#ccc' }}
@@ -182,7 +181,7 @@ export default function FuelLevelsPage() {
                                             const val = Number(payload[0].value);
                                             const date = payload[0].payload.date;
                                             const time = payload[0].payload.time;
-                                            
+
                                             // Render exact custom tooltip from screenshot style
                                             return (
                                                 <div className="bg-white border border-[#3498db]/40 p-3 rounded shadow-lg text-xs">
@@ -196,52 +195,16 @@ export default function FuelLevelsPage() {
                                         return null;
                                     }}
                                 />
-                                <Area 
-                                    type="monotone" 
-                                    dataKey="fuelLevel" 
-                                    stroke="#3498db" 
+                                <Area
+                                    type="monotone"
+                                    dataKey="fuelLevel"
+                                    stroke="#3498db"
                                     strokeWidth={2.5}
-                                    fillOpacity={1} 
-                                    fill="url(#colorFuel)" 
+                                    fillOpacity={1}
+                                    fill="url(#colorFuel)"
                                 />
                             </AreaChart>
                         </ResponsiveContainer>
-                    </div>
-
-                    {/* Table */}
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                            <thead>
-                                <tr className="border-b">
-                                    <th className="text-left p-3 font-medium">Date</th>
-                                    <th className="text-left p-3 font-medium">Time</th>
-                                    <th className="text-left p-3 font-medium">Fuel Level</th>
-                                    <th className="text-left p-3 font-medium">Percentage</th>
-                                    <th className="text-left p-3 font-medium">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredLevels.length === 0 ? (
-                                    <tr>
-                                        <td colSpan={5} className="p-4 text-center text-muted-foreground">
-                                            No fuel level records found
-                                        </td>
-                                    </tr>
-                                ) : (
-                                    [...filteredLevels].reverse().map((level) => (
-                                        <tr key={level.id} className="border-b hover:bg-muted/50">
-                                            <td className="p-3">{level.date}</td>
-                                            <td className="p-3">{level.time}</td>
-                                            <td className="p-3 font-medium">{formatFuel(level.fuelLevel)}</td>
-                                            <td className="p-3">{level.percentage}%</td>
-                                            <td className="p-3">
-                                                <StatusBadge status={level.status} />
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
                     </div>
                 </CardContent>
             </Card>

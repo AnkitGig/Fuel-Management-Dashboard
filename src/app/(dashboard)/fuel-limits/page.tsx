@@ -13,12 +13,12 @@ import { formatNumber } from '@/lib/utils';
 import { useClientStore } from '@/services/api';
 
 interface FuelLimitRecord {
-  asset: string; // RegistrationNo
-  vehicleName: string; // DriverAttendant or Depot
-  department: string;
-  limitType: 'No Limit' | 'Limit';
-  fuelLimit: number | 'No Limit';
-  monthlyFuelUsed: number;
+    asset: string; // RegistrationNo
+    vehicleName: string; // DriverAttendant or Depot
+    department: string;
+    limitType: 'No Limit' | 'Limit';
+    fuelLimit: number | 'No Limit';
+    monthlyFuelUsed: number;
 }
 
 export default function FuelLimitsPage() {
@@ -34,7 +34,7 @@ export default function FuelLimitsPage() {
     const loadLimitsAndUsage = async () => {
         try {
             setLoading(true);
-            
+
             // Fetch live transactions from API
             const response = await fuelIssueService.getFuelIssues({
                 page: 1,
@@ -118,17 +118,17 @@ export default function FuelLimitsPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">Fuel Limits</h1>
-                    <p className="text-muted-foreground">Monitor vehicle limits & track monthly usage (Live API Data)</p>
+                    <p className="text-muted-foreground">Monitor vehicle limits & track monthly usage</p>
                 </div>
             </div>
 
-            <Card>
-                <CardHeader>
+            <Card className="rounded-none border border-slate-200 shadow-xs">
+                <CardHeader className="pb-3 px-6">
                     <CardTitle>Fuel Allowances</CardTitle>
                     <CardDescription>Monthly fuel limit allocations and live balance remaining.</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                <CardContent className="px-0 pb-6">
+                    <div className="flex flex-col sm:flex-row gap-4 mb-4 px-6">
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <input
@@ -145,23 +145,23 @@ export default function FuelLimitsPage() {
                         </Button>
                     </div>
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
+                    <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
+                        <table className="w-full text-sm border-collapse">
                             <thead>
-                                <tr className="border-b bg-muted/30">
-                                    <th className="text-left p-3 font-semibold">Asset (Rego)</th>
-                                    <th className="text-left p-3 font-semibold">Vehicle Name</th>
-                                    <th className="text-left p-3 font-semibold">Department</th>
-                                    <th className="text-left p-3 font-semibold">Limit Type</th>
-                                    <th className="text-left p-3 font-semibold">FUEL LIMIT (L)</th>
-                                    <th className="text-left p-3 font-semibold">MONTHLY FUEL USED (L)</th>
-                                    <th className="text-left p-3 font-semibold">FUEL BALANCE REMAINING</th>
+                                <tr>
+                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25">Asset (Rego)</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Vehicle Name</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Department</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Limit Type</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">FUEL LIMIT (L)</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">MONTHLY FUEL USED (L)</th>
+                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold">FUEL BALANCE REMAINING</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredData.length === 0 ? (
                                     <tr>
-                                        <td colSpan={7} className="p-4 text-center text-muted-foreground">
+                                        <td colSpan={7} className="p-8 text-center text-slate-400 bg-slate-50">
                                             No limits configuration found.
                                         </td>
                                     </tr>
@@ -170,16 +170,16 @@ export default function FuelLimitsPage() {
                                         const limitVal = item.fuelLimit;
                                         const remaining = limitVal === 'No Limit' ? 'No Limit' : limitVal - item.monthlyFuelUsed;
                                         return (
-                                            <tr key={idx} className="border-b hover:bg-muted/50">
-                                                <td className="p-3 font-medium">{item.asset}</td>
-                                                <td className="p-3">{item.vehicleName}</td>
-                                                <td className="p-3 text-muted-foreground">{item.department}</td>
-                                                <td className="p-3">{item.limitType}</td>
-                                                <td className="p-3 font-semibold">
+                                            <tr key={idx} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
+                                                <td className="p-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{item.asset}</td>
+                                                <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{item.vehicleName}</td>
+                                                <td className="p-3 text-slate-500 align-middle border-r border-slate-200">{item.department}</td>
+                                                <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{item.limitType}</td>
+                                                <td className="p-3 font-semibold text-slate-800 align-middle border-r border-slate-200">
                                                     {typeof limitVal === 'number' ? `${formatNumber(limitVal)} L` : limitVal}
                                                 </td>
-                                                <td className="p-3 font-semibold text-teal-600">{formatNumber(item.monthlyFuelUsed)} L</td>
-                                                <td className={`p-3 font-bold ${typeof remaining === 'number' && remaining < 20 ? 'text-rose-600' : 'text-emerald-600'}`}>
+                                                <td className="p-3 font-semibold text-[#138024] align-middle border-r border-slate-200">{formatNumber(item.monthlyFuelUsed)} L</td>
+                                                <td className={`p-3 font-bold align-middle ${typeof remaining === 'number' && remaining < 20 ? 'text-rose-600' : 'text-emerald-600'}`}>
                                                     {typeof remaining === 'number' ? `${formatNumber(Number(remaining.toFixed(2)))} L` : remaining}
                                                 </td>
                                             </tr>

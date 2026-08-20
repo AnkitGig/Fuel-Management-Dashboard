@@ -11,17 +11,16 @@ import {
     Eye,
     Edit,
     UserPlus,
-    CheckCircle,
-    XCircle,
+    Trash2,
+    RotateCw,
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { StatusBadge } from '@/components/common/StatusBadge';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { userService } from '@/services/userService';
 import { authService, hasPermission, PERMISSIONS } from '@/lib/auth';
-import { formatDate, getStatusColor } from '@/lib/utils';
+import { formatDate } from '@/lib/utils';
 import { User } from '@/types/common';
 
 export default function UsersPage() {
@@ -112,104 +111,132 @@ export default function UsersPage() {
 
     return (
         <PageContainer>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">User Management</h1>
-                    <p className="text-muted-foreground">Manage system users and access</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">User Management</h1>
+                    <p className="text-slate-500 text-sm">Manage system users and access</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button onClick={loadData} variant="outline" size="sm">
-                        <RefreshCw className="mr-2 h-4 w-4" />
+                    <button
+                        onClick={loadData}
+                        className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 transition-colors gap-2"
+                    >
+                        <RefreshCw className="h-4 w-4" />
                         Refresh
-                    </Button>
+                    </button>
                     {hasPermission(currentUser, PERMISSIONS.USERS.MANAGE) && (
-                        <Button size="sm">
-                            <UserPlus className="mr-2 h-4 w-4" />
+                        <button
+                            className="inline-flex items-center justify-center rounded-md bg-[#138024] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-[#0f631c] transition-colors gap-2"
+                        >
+                            <UserPlus className="h-4 w-4" />
                             Add User
-                        </Button>
+                        </button>
                     )}
                 </div>
             </div>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>All Users</CardTitle>
-                    <CardDescription>Complete list of system users</CardDescription>
+            <Card className="border border-slate-200 shadow-xs rounded-none">
+                <CardHeader className="pb-3 px-6">
+                    <CardTitle className="text-xl font-bold text-slate-800">All Users</CardTitle>
+                    <CardDescription className="text-slate-500">Complete list of system users</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                <CardContent className="px-0 pb-6">
+                    <div className="flex flex-col sm:flex-row gap-2 mb-6 px-6">
                         <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                             <input
                                 type="text"
                                 placeholder="Search by name or email..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                className="w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                className="w-full rounded-md border border-slate-300 bg-white pl-10 pr-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#138024] focus:border-[#138024] shadow-xs"
                             />
                         </div>
-                        <Button onClick={handleSearch} size="sm">Search</Button>
-                        <Button variant="outline" size="sm">
-                            <Download className="mr-2 h-4 w-4" />
+                        <button
+                            onClick={handleSearch}
+                            className="inline-flex items-center justify-center rounded-md bg-[#138024] px-4 py-2 text-sm font-medium text-white hover:bg-[#0f631c] transition-colors"
+                        >
+                            Search
+                        </button>
+                        <button
+                            className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors gap-2 shadow-xs"
+                        >
+                            <Download className="h-4 w-4" />
                             Export
-                        </Button>
+                        </button>
                     </div>
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
+                    <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
+                        <table className="w-full text-sm border-collapse">
                             <thead>
-                                <tr className="border-b">
-                                    <th className="text-left p-3 font-medium">Name</th>
-                                    <th className="text-left p-3 font-medium">Email</th>
-                                    <th className="text-left p-3 font-medium">Role</th>
-                                    <th className="text-left p-3 font-medium">Status</th>
-                                    <th className="text-left p-3 font-medium">Last Login</th>
-                                    <th className="text-left p-3 font-medium">Created Date</th>
-                                    <th className="text-left p-3 font-medium">Actions</th>
+                                <tr>
+                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25">Name</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Email</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Role</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Status</th>
+                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Last Login</th>
+                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold border-r border-white/25">Created Date</th>
+                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {users.length === 0 ? (
                                     <tr>
-                                        <td colSpan={7} className="p-4 text-center text-muted-foreground">
+                                        <td colSpan={7} className="p-8 text-center text-slate-400 bg-slate-50">
                                             No users found
                                         </td>
                                     </tr>
                                 ) : (
                                     users.map((user) => (
-                                        <tr key={user.id} className="border-b hover:bg-muted/50">
-                                            <td className="p-3 font-medium">{user.name}</td>
-                                            <td className="p-3">{user.email}</td>
-                                            <td className="p-3">
-                                                <StatusBadge status={user.role} />
+                                        <tr key={user.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
+                                            <td className="p-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{user.name}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{user.email}</td>
+                                            <td className="p-3 align-middle border-r border-slate-200">
+                                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-blue-700">
+                                                    <span className="text-blue-500 font-bold">•</span> {user.role}
+                                                </span>
                                             </td>
-                                            <td className="p-3">
-                                                <StatusBadge status={user.status} />
+                                            <td className="p-3 align-middle border-r border-slate-200">
+                                                {user.status === 'Active' ? (
+                                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-green-50 border border-green-200 text-green-700">
+                                                        <span className="text-green-500 font-bold">•</span> Active
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 border border-slate-300 text-slate-700">
+                                                        <span className="text-slate-400 font-bold">•</span> Inactive
+                                                    </span>
+                                                )}
                                             </td>
-                                            <td className="p-3">{user.lastLogin || 'Never'}</td>
-                                            <td className="p-3">{formatDate(user.createdAt)}</td>
-                                            <td className="p-3">
-                                                <div className="flex gap-1">
-                                                    <Button variant="ghost" size="sm">
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{user.lastLogin || 'Never'}</td>
+                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatDate(user.createdAt)}</td>
+                                            <td className="p-3 align-middle">
+                                                <div className="flex gap-2 justify-start">
+                                                    <button
+                                                        title="View Details"
+                                                        className="p-1 rounded hover:bg-slate-100 text-slate-700 transition-colors"
+                                                    >
                                                         <Eye className="h-4 w-4" />
-                                                    </Button>
+                                                    </button>
                                                     {hasPermission(currentUser, PERMISSIONS.USERS.MANAGE) && (
                                                         <>
-                                                            <Button variant="ghost" size="sm">
+                                                            <button
+                                                                title="Edit User"
+                                                                className="p-1 rounded hover:bg-slate-100 text-slate-700 transition-colors"
+                                                            >
                                                                 <Edit className="h-4 w-4" />
-                                                            </Button>
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="sm"
+                                                            </button>
+                                                            <button
+                                                                title={user.status === 'Active' ? 'Deactivate User' : 'Reactivate User'}
                                                                 onClick={() => handleToggleStatus(user.id, user.status)}
+                                                                className="p-1 rounded hover:bg-slate-100 transition-colors"
                                                             >
                                                                 {user.status === 'Active' ? (
-                                                                    <XCircle className="h-4 w-4 text-red-500" />
+                                                                    <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
                                                                 ) : (
-                                                                    <CheckCircle className="h-4 w-4 text-green-500" />
+                                                                    <RotateCw className="h-4 w-4 text-green-600 hover:text-green-800" />
                                                                 )}
-                                                            </Button>
+                                                            </button>
                                                         </>
                                                     )}
                                                 </div>
@@ -223,8 +250,8 @@ export default function UsersPage() {
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="flex items-center justify-between mt-4">
-                            <p className="text-sm text-muted-foreground">
+                        <div className="flex items-center justify-between mt-4 px-6">
+                            <p className="text-sm text-slate-500">
                                 Showing {users.length} of {total} users
                             </p>
                             <div className="flex gap-2">
@@ -236,7 +263,7 @@ export default function UsersPage() {
                                 >
                                     Previous
                                 </Button>
-                                <span className="flex items-center px-3 text-sm">
+                                <span className="flex items-center px-3 text-sm text-slate-600 font-medium">
                                     Page {page} of {totalPages}
                                 </span>
                                 <Button

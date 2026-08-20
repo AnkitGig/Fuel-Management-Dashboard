@@ -154,29 +154,42 @@ export default function RolesPage() {
                 ))}
             </div>
 
-            <Card>
-                <CardHeader>
+            <Card className="rounded-none border border-slate-200 shadow-xs">
+                <CardHeader className="pb-3 px-6">
                     <CardTitle>Permission Matrix</CardTitle>
                     <CardDescription>Detailed view of all role permissions</CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
+                <CardContent className="px-0 pb-6">
+                    <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
+                        <table className="w-full text-sm border-collapse">
                             <thead>
-                                <tr className="border-b">
-                                    <th className="text-left p-3 font-medium">Resource</th>
-                                    {roleData.map(role => (
-                                        <th key={role.role} className="text-center p-3 font-medium">{role.role}</th>
+                                <tr>
+                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25">Resource</th>
+                                    {roleData.map((role, idx) => (
+                                        <th 
+                                            key={role.role} 
+                                            className={`${
+                                                idx === roleData.length - 1 ? 'bg-[#5a5a5a]' : 'bg-[#138024]'
+                                            } text-white p-3 text-center font-semibold border-r border-white/25 last:border-r-0`}
+                                        >
+                                            {role.role}
+                                        </th>
                                     ))}
                                 </tr>
                             </thead>
                             <tbody>
                                 {Object.keys(permissionLabels).map((key) => (
-                                    <tr key={key} className="border-b hover:bg-muted/50">
-                                        <td className="p-3 font-medium">{permissionLabels[key]}</td>
-                                        {roleData.map(role => (
-                                            <td key={role.role} className="text-center p-3">
-                                                <span className={`inline-block h-4 w-4 rounded-full ${role.permissions[key as keyof typeof role.permissions] ? 'bg-green-500' : 'bg-gray-300'}`} />
+                                    <tr key={key} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
+                                        <td className="p-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{permissionLabels[key]}</td>
+                                        {roleData.map((role, idx) => (
+                                            <td key={role.role} className="text-center p-3 align-middle border-r border-slate-200 last:border-r-0">
+                                                <span className={`inline-flex items-center justify-center h-6 w-6 rounded-full ${
+                                                    role.permissions[key as keyof typeof role.permissions] 
+                                                        ? 'bg-green-100 text-green-700 font-bold' 
+                                                        : 'bg-slate-100 text-slate-400 font-normal'
+                                                }`}>
+                                                    {role.permissions[key as keyof typeof role.permissions] ? '✓' : '—'}
+                                                </span>
                                             </td>
                                         ))}
                                     </tr>
