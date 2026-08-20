@@ -96,7 +96,7 @@ export function Sidebar() {
                     </Button>
                 )}
             </div>
- 
+
             <nav className="flex-1 overflow-y-auto p-3 space-y-1">
                 {navigationItems.map((item) => {
                     const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
@@ -117,7 +117,7 @@ export function Sidebar() {
                         </Link>
                     );
                 })}
- 
+
                 {user?.role === 'Administrator' && (
                     <>
                         <div className="px-3 py-2">
@@ -145,7 +145,17 @@ export function Sidebar() {
                     </>
                 )}
             </nav>
- 
+
+            {!isCollapsed && (
+                <div className="flex flex-col items-center justify-center py-4 border-t border-white/5 bg-[#011b35]/20">
+                    <img 
+                        src="/assests/logo.png" 
+                        alt="Fuel Master Logo" 
+                        className="h-20 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity" 
+                    />
+                </div>
+            )}
+
             <div className="border-t border-white/10 p-4 space-y-3">
                 {!isCollapsed && (
                     <div className="flex items-center gap-3 px-2 py-1">
@@ -187,7 +197,7 @@ export function Sidebar() {
                 )}
                 <div
                     className={cn(
-                        'fixed inset-y-0 left-0 z-50 w-72 transform transition-transform duration-300 ease-in-out',
+                        'fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 ease-in-out',
                         isOpen ? 'translate-x-0' : '-translate-x-full'
                     )}
                 >
@@ -202,7 +212,7 @@ export function Sidebar() {
         <div
             className={cn(
                 'hidden md:block border-r bg-background transition-all duration-300 h-[111.2vh] sticky top-0',
-                isCollapsed ? 'w-16' : 'w-72'
+                isCollapsed ? 'w-16' : 'w-64'
             )}
         >
             {sidebarContent}
