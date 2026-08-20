@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import Image from 'next/image';
 import { authService } from '@/lib/auth';
 
 const loginSchema = z.object({
@@ -64,15 +65,20 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-secondary/20 p-4">
-            <Card className="w-full max-w-md shadow-lg">
-                <CardHeader className="space-y-1 text-center">
+            <Card className="w-full max-w-md shadow-lg overflow-hidden">
+                <CardHeader className="space-y-1 text-center bg-gradient-to-br from-zinc-900 to-orange-950/50 text-white py-6 border-b border-orange-500/20">
                     <div className="flex justify-center mb-4">
-                        <div className="h-12 w-12 rounded-lg bg-primary flex items-center justify-center">
-                            <span className="text-white font-bold text-xl">FM</span>
-                        </div>
+                        <Image
+                            src="/assests/logo.png"
+                            alt="Fuel Manager Logo"
+                            width={180}
+                            height={60}
+                            priority
+                            className="object-contain h-14 w-auto"
+                        />
                     </div>
-                    <CardTitle className="text-2xl">Fuel Manager</CardTitle>
-                    <CardDescription>
+                    <CardTitle className="text-2xl text-white">Fuel Manager</CardTitle>
+                    <CardDescription className="text-zinc-400">
                         Enter your credentials to access the dashboard
                     </CardDescription>
                 </CardHeader>
