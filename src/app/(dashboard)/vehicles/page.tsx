@@ -187,7 +187,7 @@ export default function VehiclesPage() {
                         <table className="w-full text-sm border-collapse">
                             <thead>
                                 <tr>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Vehicle ID</th>
+                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25">Vehicle ID</th>
                                     <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Vehicle Type</th>
                                     <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Asset Type</th>
                                     <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Odometer</th>
