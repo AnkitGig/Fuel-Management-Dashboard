@@ -265,7 +265,7 @@ export default function ReconciliationPage() {
                                     setStartDate(e.target.value);
                                     setPage(1);
                                 }}
-                                className="rounded-md border border-input bg-background px-3 py-1.5 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                className="rounded-none border border-input bg-background px-3 py-1.5 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             />
                         </div>
                         <div className="flex items-center gap-2">
@@ -277,7 +277,7 @@ export default function ReconciliationPage() {
                                     setEndDate(e.target.value);
                                     setPage(1);
                                 }}
-                                className="rounded-md border border-input bg-background px-3 py-1.5 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                className="rounded-none border border-input bg-background px-3 py-1.5 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             />
                         </div>
 
@@ -287,7 +287,7 @@ export default function ReconciliationPage() {
                                 setSelectedStatus(e.target.value);
                                 setPage(1);
                             }}
-                            className="rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ml-auto"
+                            className="rounded-none border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ml-auto"
                         >
                             <option value="">All Statuses</option>
                             <option value="Reconciled">Reconciled</option>

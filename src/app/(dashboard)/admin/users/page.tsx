@@ -119,14 +119,14 @@ export default function UsersPage() {
                 <div className="flex gap-2">
                     <button
                         onClick={loadData}
-                        className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 transition-colors gap-2"
+                        className="inline-flex items-center justify-center rounded-none border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 transition-colors gap-2"
                     >
                         <RefreshCw className="h-4 w-4" />
                         Refresh
                     </button>
                     {hasPermission(currentUser, PERMISSIONS.USERS.MANAGE) && (
                         <button
-                            className="inline-flex items-center justify-center rounded-md bg-[#138024] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-[#0f631c] transition-colors gap-2"
+                            className="inline-flex items-center justify-center rounded-none bg-[#138024] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-[#0f631c] transition-colors gap-2"
                         >
                             <UserPlus className="h-4 w-4" />
                             Add User
@@ -150,17 +150,17 @@ export default function UsersPage() {
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                className="w-full rounded-md border border-slate-300 bg-white pl-10 pr-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#138024] focus:border-[#138024] shadow-xs"
+                                className="w-full rounded-none border border-slate-300 bg-white pl-10 pr-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#138024] focus:border-[#138024] shadow-xs"
                             />
                         </div>
                         <button
                             onClick={handleSearch}
-                            className="inline-flex items-center justify-center rounded-md bg-[#138024] px-4 py-2 text-sm font-medium text-white hover:bg-[#0f631c] transition-colors"
+                            className="inline-flex items-center justify-center rounded-none bg-[#138024] px-4 py-2 text-sm font-medium text-white hover:bg-[#0f631c] transition-colors"
                         >
                             Search
                         </button>
                         <button
-                            className="inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors gap-2 shadow-xs"
+                            className="inline-flex items-center justify-center rounded-none border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors gap-2 shadow-xs"
                         >
                             <Download className="h-4 w-4" />
                             Export
