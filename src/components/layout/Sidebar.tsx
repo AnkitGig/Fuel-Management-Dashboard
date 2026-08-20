@@ -63,8 +63,8 @@ export function Sidebar() {
     };
 
     const sidebarContent = (
-        <div className="flex h-full flex-col bg-[#02172e] text-slate-300 border-r border-[#00c0b5]/15">
-            <div className={cn("flex h-16 items-center border-b border-[#00c0b5]/10 transition-all duration-300", isCollapsed ? "flex-col justify-center gap-1 py-1 px-1" : "justify-between px-6")}>
+        <div className="flex h-full flex-col bg-[#001b33] text-slate-300 border-r border-[#f26522]/15">
+            <div className={cn("flex h-16 items-center border-b border-[#f26522]/10 transition-all duration-300", isCollapsed ? "flex-col justify-center gap-1 py-1 px-1" : "justify-between px-6")}>
                 <Link href="/fuel-levels" className="flex items-center justify-center shrink-0">
                     <img 
                         src="/assests/logo.png" 
@@ -77,7 +77,7 @@ export function Sidebar() {
                         variant="ghost"
                         size="sm"
                         onClick={() => setIsCollapsed(!isCollapsed)}
-                        className={cn("rounded-lg hover:bg-muted/80 text-white hover:text-[#00c0b5] transition-all duration-300", isCollapsed ? "h-5 w-5 p-0" : "h-8 w-8 p-0")}
+                        className={cn("rounded-lg hover:bg-muted/80 text-white hover:text-primary transition-all duration-300", isCollapsed ? "h-5 w-5 p-0" : "h-8 w-8 p-0")}
                     >
                         {isCollapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-4 w-4" />}
                     </Button>
@@ -93,7 +93,7 @@ export function Sidebar() {
                     </Button>
                 )}
             </div>
-
+ 
             <nav className="flex-1 overflow-y-auto p-3 space-y-1">
                 {navigationItems.map((item) => {
                     const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
@@ -104,7 +104,7 @@ export function Sidebar() {
                             className={cn(
                                 'flex items-center gap-3 rounded-xl px-3.5 py-1.5 text-sm font-medium transition-all duration-200',
                                 isActive
-                                    ? 'bg-[#00c0b5] text-white shadow-md shadow-teal-500/25'
+                                    ? 'bg-primary text-white shadow-md shadow-primary/25'
                                     : 'text-slate-300 hover:bg-white/5 hover:text-white',
                                 isCollapsed && 'justify-center px-2'
                             )}
@@ -114,7 +114,7 @@ export function Sidebar() {
                         </Link>
                     );
                 })}
-
+ 
                 {user?.role === 'Administrator' && (
                     <>
                         <div className="px-3 py-2">
@@ -129,7 +129,7 @@ export function Sidebar() {
                                     className={cn(
                                         'flex items-center gap-3 rounded-xl px-3.5 py-1.5 text-sm font-medium transition-all duration-200',
                                         isActive
-                                            ? 'bg-[#00c0b5] text-white shadow-md shadow-teal-500/25'
+                                            ? 'bg-primary text-white shadow-md shadow-primary/25'
                                             : 'text-slate-300 hover:bg-white/5 hover:text-white',
                                         isCollapsed && 'justify-center px-2'
                                     )}
@@ -142,12 +142,12 @@ export function Sidebar() {
                     </>
                 )}
             </nav>
-
+ 
             <div className="border-t border-white/10 p-4 space-y-3">
                 {!isCollapsed && (
                     <div className="flex items-center gap-3 px-2 py-1">
-                        <div className="h-9 w-9 rounded-xl bg-teal-500/10 text-teal-300 flex items-center justify-center border border-teal-500/20 shadow-xs">
-                            <span className="text-teal-400 font-semibold text-sm">
+                        <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shadow-xs">
+                            <span className="text-primary font-semibold text-sm">
                                 {user?.name?.charAt(0) || 'U'}
                             </span>
                         </div>

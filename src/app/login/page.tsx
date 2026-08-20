@@ -152,21 +152,21 @@ export default function LoginPage() {
                             <button
                                 type="button"
                                 onClick={() => handleFillDemo('admin@example.com', 'admin123')}
-                                className="block mx-auto text-teal-600 hover:text-teal-700 hover:underline py-0.5 cursor-pointer font-medium"
+                                className="block mx-auto text-primary hover:text-primary/85 hover:underline py-0.5 cursor-pointer font-medium"
                             >
                                 admin@example.com / admin123
                             </button>
                             <button
                                 type="button"
                                 onClick={() => handleFillDemo('manager@example.com', 'manager123')}
-                                className="block mx-auto text-teal-600 hover:text-teal-700 hover:underline py-0.5 cursor-pointer font-medium"
+                                className="block mx-auto text-primary hover:text-primary/85 hover:underline py-0.5 cursor-pointer font-medium"
                             >
                                 manager@example.com / manager123
                             </button>
                             <button
                                 type="button"
                                 onClick={() => handleFillDemo('viewer@example.com', 'viewer123')}
-                                className="block mx-auto text-teal-600 hover:text-teal-700 hover:underline py-0.5 cursor-pointer font-medium"
+                                className="block mx-auto text-primary hover:text-primary/85 hover:underline py-0.5 cursor-pointer font-medium"
                             >
                                 viewer@example.com / viewer123
                             </button>

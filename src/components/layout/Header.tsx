@@ -14,7 +14,7 @@ export function Header() {
     const { selectedClient, selectClient } = useClientStore();
 
     return (
-        <header className="sticky top-0 z-40 flex h-16 items-center justify-between gap-4 border-b border-[#00c0b5]/15 bg-[#02172e] text-white px-6">
+        <header className="sticky top-0 z-40 flex h-16 items-center justify-between gap-4 border-b border-[#f26522]/15 bg-[#001b33] text-white px-6">
             <div className="flex items-center gap-4">
                 <Button
                     variant="ghost"
@@ -28,7 +28,7 @@ export function Header() {
             </div>
 
             <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 bg-[#052244] border border-[#00c0b5]/30 rounded-lg px-3 py-1.5 shadow-sm">
+                <div className="flex items-center gap-2 bg-[#001529] border border-[#f26522]/30 rounded-lg px-3 py-1.5 shadow-sm">
                     <span className="text-xs text-slate-400 font-medium uppercase tracking-wider">Client:</span>
                     <select
                         value={selectedClient.name}
@@ -39,7 +39,7 @@ export function Header() {
                         className="bg-transparent text-sm font-semibold text-white focus:outline-none cursor-pointer pr-2 select-none"
                     >
                         {CLIENTS.map((client) => (
-                            <option key={client.name} value={client.name} className="bg-[#02172e] text-white">
+                            <option key={client.name} value={client.name} className="bg-[#001b33] text-white">
                                 {client.name}
                             </option>
                         ))}

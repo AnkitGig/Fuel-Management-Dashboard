@@ -174,12 +174,12 @@ export default function UsersPage() {
                             <thead>
                                 <tr>
                                     <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Name</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Email</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Role</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Status</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Last Login</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Created Date</th>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold last:border-r-0">Actions</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Email</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Role</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Status</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Last Login</th>
+                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Created Date</th>
+                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold last:border-r-0">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>

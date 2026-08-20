@@ -27,48 +27,48 @@
 
 @layer base {
   :root {
-    --background: 180 25% 97.5%;
-    --foreground: 210 40% 11%;
-    --card: 180 30% 99%;
-    --card-foreground: 210 40% 11%;
+    --background: 208 40% 98%;
+    --foreground: 208 80% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 208 80% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 210 40% 11%;
-    --primary: 174 100% 37%;
-    --primary-foreground: 174 100% 98%;
-    --secondary: 180 20% 94%;
-    --secondary-foreground: 180 40% 11%;
-    --muted: 180 10% 92%;
-    --muted-foreground: 180 15% 40%;
-    --accent: 174 70% 94%;
-    --accent-foreground: 174 100% 25%;
+    --popover-foreground: 208 80% 10%;
+    --primary: 20 100% 50%; /* Brand Orange */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 208 20% 94%;
+    --secondary-foreground: 208 80% 10%;
+    --muted: 208 15% 92%;
+    --muted-foreground: 208 20% 45%;
+    --accent: 128 52% 47%; /* Brand Green */
+    --accent-foreground: 0 0% 100%;
     --destructive: 348 89% 63%;
     --destructive-foreground: 210 40% 98%;
-    --border: 180 15% 88%;
-    --input: 180 15% 88%;
-    --ring: 174 100% 37%;
+    --border: 208 20% 88%;
+    --input: 208 20% 88%;
+    --ring: 20 100% 50%;
     --radius: 1.25rem;
   }
 
   .dark {
-    --background: 200 45% 6%;
-    --foreground: 180 20% 98%;
-    --card: 200 45% 8%;
-    --card-foreground: 180 20% 98%;
-    --popover: 200 45% 8%;
-    --popover-foreground: 180 20% 98%;
-    --primary: 174 100% 40%;
-    --primary-foreground: 174 100% 98%;
-    --secondary: 200 35% 12%;
-    --secondary-foreground: 180 20% 98%;
-    --muted: 200 30% 12%;
-    --muted-foreground: 180 10% 65%;
-    --accent: 174 80% 15%;
-    --accent-foreground: 174 100% 85%;
+    --background: 208 100% 7%; /* Deep Logo Navy */
+    --foreground: 208 20% 98%;
+    --card: 208 80% 10%;
+    --card-foreground: 208 20% 98%;
+    --popover: 208 80% 10%;
+    --popover-foreground: 208 20% 98%;
+    --primary: 20 100% 50%; /* Brand Orange */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 208 60% 15%;
+    --secondary-foreground: 208 20% 98%;
+    --muted: 208 40% 14%;
+    --muted-foreground: 208 20% 65%;
+    --accent: 20 100% 50%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 348 89% 55%;
     --destructive-foreground: 210 40% 98%;
-    --border: 200 30% 14%;
-    --input: 200 30% 14%;
-    --ring: 174 100% 40%;
+    --border: 208 60% 16%;
+    --input: 208 60% 16%;
+    --ring: 20 100% 50%;
   }
 }
 
@@ -80,9 +80,9 @@
   body {
     @apply bg-background text-foreground antialiased;
     background-image:
-      radial-gradient(at 0% 0%, rgba(0, 189, 174, 0.06) 0px, transparent 50%),
-      radial-gradient(at 50% 0%, rgba(6, 182, 212, 0.04) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(0, 189, 174, 0.03) 0px, transparent 50%);
+      radial-gradient(at 0% 0%, rgba(242, 101, 34, 0.04) 0px, transparent 50%),
+      radial-gradient(at 50% 0%, rgba(57, 181, 74, 0.03) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(251, 192, 45, 0.03) 0px, transparent 50%);
     background-attachment: fixed;
     zoom: 0.90; /* Zoom out the entire layout */
     min-height: 100vh; /* Stretch to fill browser height */
@@ -117,7 +117,7 @@
 }
 
 .dark .glass-panel {
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(0, 27, 51, 0.8);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -125,11 +125,11 @@
 
 /* Custom theme card styles matching the uploaded image */
 .theme-card {
-  background: linear-gradient(180deg, #ffffff 0%, #d8f6f2 100%) !important;
-  border: 1px solid rgba(0, 189, 174, 0.25) !important;
+  background: linear-gradient(180deg, #ffffff 0%, #fff7ed 100%) !important;
+  border: 1px solid rgba(242, 101, 34, 0.25) !important;
 }
 
 .dark .theme-card {
-  background: linear-gradient(180deg, rgba(3, 27, 51, 0.95) 0%, rgba(2, 45, 54, 0.95) 100%) !important;
-  border: 1px solid rgba(0, 189, 174, 0.2) !important;
+  background: linear-gradient(180deg, rgba(0, 27, 51, 0.95) 0%, rgba(3, 40, 74, 0.95) 100%) !important;
+  border: 1px solid rgba(242, 101, 34, 0.2) !important;
 }

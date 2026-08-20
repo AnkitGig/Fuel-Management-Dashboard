@@ -149,7 +149,7 @@ export default function FuelLevelsPage() {
                                 className="w-full rounded-none border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             />
                         </div>
-                        <Button className="bg-[#00c0b5] hover:bg-[#00a896] text-white rounded-none" size="sm">Search</Button>
+                        <Button className="bg-primary hover:bg-primary/90 text-white rounded-none" size="sm">Search</Button>
                         <div className="flex items-center gap-4 flex-wrap">
                             <div className="flex items-center gap-2">
                                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">FROM:</span>
