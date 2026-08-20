@@ -171,13 +171,13 @@ export default function UsersPage() {
                         <table className="w-full text-sm border-collapse">
                             <thead>
                                 <tr>
-                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25">Name</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Email</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Role</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Status</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Last Login</th>
-                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold border-r border-white/25">Created Date</th>
-                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold">Actions</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Name</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Email</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Role</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Status</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Last Login</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Created Date</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold last:border-r-0">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -190,14 +190,14 @@ export default function UsersPage() {
                                 ) : (
                                     users.map((user) => (
                                         <tr key={user.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
-                                            <td className="p-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{user.name}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{user.email}</td>
-                                            <td className="p-3 align-middle border-r border-slate-200">
+                                            <td className="py-2 px-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{user.name}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{user.email}</td>
+                                            <td className="py-2 px-3 align-middle border-r border-slate-200">
                                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-blue-700">
                                                     <span className="text-blue-500 font-bold">•</span> {user.role}
                                                 </span>
                                             </td>
-                                            <td className="p-3 align-middle border-r border-slate-200">
+                                            <td className="py-2 px-3 align-middle border-r border-slate-200">
                                                 {user.status === 'Active' ? (
                                                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-green-50 border border-green-200 text-green-700">
                                                         <span className="text-green-500 font-bold">•</span> Active
@@ -208,9 +208,9 @@ export default function UsersPage() {
                                                     </span>
                                                 )}
                                             </td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{user.lastLogin || 'Never'}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatDate(user.createdAt)}</td>
-                                            <td className="p-3 align-middle">
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{user.lastLogin || 'Never'}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatDate(user.createdAt)}</td>
+                                            <td className="py-2 px-3 align-middle">
                                                 <div className="flex gap-2 justify-start">
                                                     <button
                                                         title="View Details"

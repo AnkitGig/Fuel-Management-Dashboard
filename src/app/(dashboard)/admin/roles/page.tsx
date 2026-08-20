@@ -130,11 +130,11 @@ export default function RolesPage() {
 
                 <div className="grid gap-6 md:grid-cols-3">
                     {roleData.map((role) => {
-                        let headerBg = 'bg-[#4b5563]'; // default Viewer
+                        let headerBg = 'bg-slate-500'; // default Viewer
                         if (role.role === 'Administrator') {
-                            headerBg = 'bg-[#ff6600]';
+                            headerBg = 'bg-[#02172e]';
                         } else if (role.role === 'Manager') {
-                            headerBg = 'bg-[#138024]';
+                            headerBg = 'bg-[#00c0b5]';
                         }
 
                         return (
@@ -176,13 +176,13 @@ export default function RolesPage() {
                             <table className="w-full text-sm border-collapse">
                                 <thead>
                                     <tr>
-                                        <th className="bg-[#ff6600] text-white py-3 px-6 text-left font-semibold border-r border-white/20">Resource</th>
+                                        <th className="bg-[#02172e] text-white py-3 px-6 text-left font-semibold border-r border-[#00c0b5]/20">Resource</th>
                                         {roleData.map((role, idx) => {
-                                            const headerBg = idx === roleData.length - 1 ? 'bg-[#4b5563]' : 'bg-[#0f5132]';
+                                            const headerBg = idx === roleData.length - 1 ? 'bg-slate-500' : (role.role === 'Administrator' ? 'bg-[#02172e]' : 'bg-[#00c0b5]');
                                             return (
                                                 <th
                                                     key={role.role}
-                                                    className={`${headerBg} text-white py-3 px-6 text-center font-semibold border-r border-white/20 last:border-r-0`}
+                                                    className={`${headerBg} text-white py-3 px-6 text-center font-semibold border-r border-[#00c0b5]/20 last:border-r-0`}
                                                 >
                                                     {role.role}
                                                 </th>

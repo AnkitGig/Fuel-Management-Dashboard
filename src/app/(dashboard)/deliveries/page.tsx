@@ -126,10 +126,10 @@ export default function DeliveriesPage() {
                         <table className="w-full text-sm border-collapse">
                             <thead>
                                 <tr>
-                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25">Delivery ID</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Date</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Time</th>
-                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold">Quantity</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Delivery ID</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Date</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Time</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold last:border-r-0">Quantity</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -142,10 +142,10 @@ export default function DeliveriesPage() {
                                 ) : (
                                     deliveries.map((delivery) => (
                                         <tr key={delivery.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
-                                            <td className="p-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{delivery.deliveryId}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{delivery.date}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{delivery.time}</td>
-                                            <td className="p-3 font-bold text-slate-800 align-middle">{formatFuel(delivery.quantity)}</td>
+                                            <td className="py-2 px-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{delivery.deliveryId}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{delivery.date}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{delivery.time}</td>
+                                            <td className="py-2 px-3 font-bold text-slate-800 align-middle">{formatFuel(delivery.quantity)}</td>
                                         </tr>
                                     ))
                                 )}

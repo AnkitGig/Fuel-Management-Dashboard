@@ -187,14 +187,14 @@ export default function VehiclesPage() {
                         <table className="w-full text-sm border-collapse">
                             <thead>
                                 <tr>
-                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25">Vehicle ID</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Vehicle Type</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Asset Type</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Odometer</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Distance</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Fuel Issued</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Consumption</th>
-                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold">Status</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Vehicle ID</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Vehicle Type</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Asset Type</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Odometer</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Distance</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Fuel Issued</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Consumption</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold last:border-r-0">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -207,14 +207,14 @@ export default function VehiclesPage() {
                                 ) : (
                                     vehicles.map((vehicle) => (
                                         <tr key={vehicle.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
-                                            <td className="p-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{vehicle.vehicleId}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{vehicle.vehicleType}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{vehicle.assetType}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatNumber(vehicle.odometer)}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatNumber(vehicle.distanceTraveled)} km</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(vehicle.fuelIssued)}</td>
-                                            <td className="p-3 font-medium text-slate-800 align-middle border-r border-slate-200">{vehicle.fuelConsumption.toFixed(1)} L/100km</td>
-                                            <td className="p-3 align-middle">
+                                            <td className="py-2 px-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{vehicle.vehicleId}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{vehicle.vehicleType}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{vehicle.assetType}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatNumber(vehicle.odometer)}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatNumber(vehicle.distanceTraveled)} km</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(vehicle.fuelIssued)}</td>
+                                            <td className="py-2 px-3 font-medium text-slate-800 align-middle border-r border-slate-200">{vehicle.fuelConsumption.toFixed(1)} L/100km</td>
+                                            <td className="py-2 px-3 align-middle">
                                                 <StatusBadge status={vehicle.status} />
                                             </td>
                                         </tr>

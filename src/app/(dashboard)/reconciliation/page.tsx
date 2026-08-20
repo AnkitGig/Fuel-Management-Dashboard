@@ -161,38 +161,38 @@ export default function ReconciliationPage() {
             {summaryData && (
                 <div className="grid gap-6 md:grid-cols-12 items-start">
                     {/* Stock Reconciliation Summary (Span 4) */}
-                    <div className="md:col-span-4 border border-black/25 rounded-none overflow-hidden shadow-sm">
-                        <div className="bg-[#ff6600] py-2 px-3 text-center border-b border-black/25">
+                    <div className="md:col-span-4 border border-slate-200 rounded-none overflow-hidden shadow-xs">
+                        <div className="bg-[#02172e] py-2 px-3 text-center border-b border-[#00c0b5]/15">
                             <span className="text-xs font-bold text-white uppercase tracking-wider">Stock Reconciliation Summary</span>
                         </div>
                         <table className="w-full text-xs border-collapse">
                             <tbody>
-                                <tr className="border-b border-black/20 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">Opening Dip</td>
+                                <tr className="border-b border-slate-200 bg-white">
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Opening Dip</td>
                                     <td className="p-2 text-right text-slate-900">{formatNumber(summaryData.openingDip)}</td>
                                 </tr>
-                                <tr className="border-b border-black/20 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">Fuel Issues</td>
+                                <tr className="border-b border-slate-200 bg-white">
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Fuel Issues</td>
                                     <td className="p-2 text-right text-slate-900">{formatNumber(summaryData.totalIssues)}</td>
                                 </tr>
-                                <tr className="border-b border-black/20 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">Fuel Receipts</td>
+                                <tr className="border-b border-slate-200 bg-white">
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Fuel Receipts</td>
                                     <td className="p-2 text-right text-slate-900">{formatNumber(summaryData.totalDeliveries)}</td>
                                 </tr>
-                                <tr className="border-b border-black/20 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">Closing Dip</td>
+                                <tr className="border-b border-slate-200 bg-white">
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Closing Dip</td>
                                     <td className="p-2 text-right text-slate-900">{formatNumber(summaryData.closingDip)}</td>
                                 </tr>
-                                <tr className="border-b border-black/20 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">Closing Stock</td>
+                                <tr className="border-b border-slate-200 bg-white">
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Closing Stock</td>
                                     <td className="p-2 text-right text-slate-900">{formatNumber(summaryData.closingStock)}</td>
                                 </tr>
-                                <tr className="border-b border-black/20 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">Variance</td>
+                                <tr className="border-b border-slate-200 bg-white">
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Variance</td>
                                     <td className="p-2 text-right text-slate-900 font-bold">{formatNumber(Number(summaryData.variance.toFixed(2)))}</td>
                                 </tr>
                                 <tr className="bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">%</td>
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">%</td>
                                     <td className="p-2 text-right text-slate-900 font-bold">{summaryData.variancePercent.toFixed(1)}%</td>
                                 </tr>
                             </tbody>
@@ -200,45 +200,45 @@ export default function ReconciliationPage() {
                     </div>
 
                     {/* Stock Demand Plan (Span 8) */}
-                    <div className="md:col-span-8 border border-black/25 rounded-none overflow-hidden shadow-sm">
-                        <div className="bg-[#138024] py-2 px-3 text-center border-b border-black/25">
+                    <div className="md:col-span-8 border border-slate-200 rounded-none overflow-hidden shadow-xs">
+                        <div className="bg-[#02172e] py-2 px-3 text-center border-b border-[#00c0b5]/15">
                             <span className="text-xs font-bold text-white uppercase tracking-wider">Stock Demand Plan</span>
                         </div>
                         <table className="w-full text-xs border-collapse">
                             <tbody>
-                                <tr className="border-b border-black/20 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20 w-1/4">Stock</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-black/20 w-1/5">{formatNumber(summaryData.closingDip)}</td>
+                                <tr className="border-b border-slate-200 bg-white">
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200 w-1/4">Stock</td>
+                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200 w-1/5">{formatNumber(summaryData.closingDip)}</td>
                                     <td className="p-2 text-slate-700">Balance remaining in the Tank.</td>
                                 </tr>
-                                <tr className="border-b border-black/20 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">Av Daily Cons.</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-black/20">{formatNumber(Math.round(summaryData.avDailyCons))}</td>
+                                <tr className="border-b border-slate-200 bg-white">
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Av Daily Cons.</td>
+                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200">{formatNumber(Math.round(summaryData.avDailyCons))}</td>
                                     <td className="p-2 text-slate-700">Average Fuel Consumption/Day MTD.</td>
                                 </tr>
-                                <tr className="border-b border-black/20 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">Days Stock</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-black/20">{summaryData.daysStock}</td>
+                                <tr className="border-b border-slate-200 bg-white">
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Days Stock</td>
+                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200">{summaryData.daysStock}</td>
                                     <td className="p-2 text-slate-700">Days left before Stock run Out based on Rated Use.</td>
                                 </tr>
-                                <tr className="border-b border-black/20 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">Min Stock</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-black/20">{formatNumber(summaryData.minStock)}</td>
+                                <tr className="border-b border-slate-200 bg-white">
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Min Stock</td>
+                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200">{formatNumber(summaryData.minStock)}</td>
                                     <td className="p-2 text-slate-700">Critical Tank Level for Main Tank.</td>
                                 </tr>
-                                <tr className="border-b border-black/20 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">Re-Order</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-black/20">{summaryData.reorderDays}</td>
+                                <tr className="border-b border-slate-200 bg-white">
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Re-Order</td>
+                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200">{summaryData.reorderDays}</td>
                                     <td className="p-2 text-slate-700">Days to prepare for New Purchase.</td>
                                 </tr>
-                                <tr className="border-b border-black/20 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">Re-Order</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-black/20 font-semibold text-amber-600">{summaryData.reorderDate}</td>
+                                <tr className="border-b border-slate-200 bg-white">
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Re-Order</td>
+                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200 font-semibold text-amber-600">{summaryData.reorderDate}</td>
                                     <td className="p-2 text-slate-700">Placing Of order Date</td>
                                 </tr>
                                 <tr className="bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-black/20">Stock Arrival</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-black/20 font-semibold text-emerald-600">{summaryData.arrivalDate}</td>
+                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Stock Arrival</td>
+                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200 font-semibold text-emerald-600">{summaryData.arrivalDate}</td>
                                     <td className="p-2 text-slate-700">Delivery of stock Date</td>
                                 </tr>
                             </tbody>
@@ -304,15 +304,15 @@ export default function ReconciliationPage() {
                         <table className="w-full text-sm border-collapse">
                             <thead>
                                 <tr>
-                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25">Date</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Opening Balance</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Deliveries</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Fuel Issues</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Expected Closing</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Actual Closing</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Variance</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Variance %</th>
-                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold">Status</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Date</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Opening Balance</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Deliveries</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Fuel Issues</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Expected Closing</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Actual Closing</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Variance</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Variance %</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold last:border-r-0">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -327,19 +327,19 @@ export default function ReconciliationPage() {
                                         const vPercent = record.expectedClosing > 0 ? (record.variance / record.expectedClosing) * 100 : 0;
                                         return (
                                             <tr key={record.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
-                                                <td className="p-3 font-semibold text-slate-850 align-middle border-r border-slate-200">{record.date}</td>
-                                                <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(record.openingBalance)}</td>
-                                                <td className="p-3 text-green-600 align-middle border-r border-slate-200">+{formatFuel(record.deliveries)}</td>
-                                                <td className="p-3 text-red-600 align-middle border-r border-slate-200">-{formatFuel(record.fuelIssues)}</td>
-                                                <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(record.expectedClosing)}</td>
-                                                <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(record.actualClosing)}</td>
-                                                <td className={`p-3 font-bold align-middle border-r border-slate-200 ${record.variance >= 0 ? 'text-green-600' : 'text-red-650'}`}>
+                                                <td className="py-2 px-3 font-semibold text-slate-855 align-middle border-r border-slate-200">{record.date}</td>
+                                                <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(record.openingBalance)}</td>
+                                                <td className="py-2 px-3 text-green-600 align-middle border-r border-slate-200">+{formatFuel(record.deliveries)}</td>
+                                                <td className="py-2 px-3 text-red-600 align-middle border-r border-slate-200">-{formatFuel(record.fuelIssues)}</td>
+                                                <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(record.expectedClosing)}</td>
+                                                <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(record.actualClosing)}</td>
+                                                <td className={`py-2 px-3 font-bold align-middle border-r border-slate-200 ${record.variance >= 0 ? 'text-green-600' : 'text-red-650'}`}>
                                                     {record.variance >= 0 ? '+' : ''}{formatFuel(record.variance)}
                                                 </td>
-                                                <td className={`p-3 font-bold align-middle border-r border-slate-200 ${vPercent >= 0 ? 'text-green-600' : 'text-red-650'}`}>
+                                                <td className={`py-2 px-3 font-bold align-middle border-r border-slate-200 ${vPercent >= 0 ? 'text-green-600' : 'text-red-650'}`}>
                                                     {vPercent >= 0 ? '+' : ''}{vPercent.toFixed(1)}%
                                                 </td>
-                                                <td className="p-3 align-middle">
+                                                <td className="py-2 px-3 align-middle">
                                                     <StatusBadge status={record.status} />
                                                 </td>
                                             </tr>

@@ -213,17 +213,17 @@ export default function FuelIssuesPage() {
                         <table className="w-full text-sm border-collapse">
                             <thead>
                                 <tr>
-                                    <th className="bg-[#ff6600] text-white p-3 text-left font-semibold border-r border-white/25 whitespace-nowrap">Date / Time</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">ID</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25 whitespace-nowrap">Vehicle Req</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25 whitespace-nowrap">Fleet Id</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25 whitespace-nowrap">Vehicle Detail</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Site</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Litres</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25">Pump</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25 whitespace-nowrap">Odo Meter</th>
-                                    <th className="bg-[#138024] text-white p-3 text-left font-semibold border-r border-white/25 whitespace-nowrap">Hour Meter</th>
-                                    <th className="bg-[#5a5a5a] text-white p-3 text-left font-semibold">DEM</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0 whitespace-nowrap">Date / Time</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">ID</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0 whitespace-nowrap">Vehicle Req</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0 whitespace-nowrap">Fleet Id</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0 whitespace-nowrap">Vehicle Detail</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Site</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Litres</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0">Pump</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0 whitespace-nowrap">Odo Meter</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold border-r border-[#00c0b5]/15 last:border-r-0 whitespace-nowrap">Hour Meter</th>
+                                    <th className="bg-[#02172e] text-white py-2 px-3 text-left font-semibold last:border-r-0">DEM</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -236,17 +236,17 @@ export default function FuelIssuesPage() {
                                 ) : (
                                     issues.map((issue) => (
                                         <tr key={issue.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
-                                            <td className="p-3 whitespace-nowrap text-slate-600 align-middle border-r border-slate-200">{issue.date} {issue.time}</td>
-                                            <td className="p-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{issue.transactionId}</td>
-                                            <td className="p-3 font-semibold text-[#138024] align-middle border-r border-slate-200">{issue.vehicleId}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{issue.fleetId}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{issue.driverAttendant}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{issue.depot}</td>
-                                            <td className="p-3 font-bold text-slate-800 align-middle border-r border-slate-200">{formatFuel(issue.fuelQuantity)}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{issue.pump}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{issue.odometer}</td>
-                                            <td className="p-3 text-slate-600 align-middle border-r border-slate-200">{issue.engineHours}</td>
-                                            <td className="p-3 align-middle">
+                                            <td className="py-2 px-3 whitespace-nowrap text-slate-600 align-middle border-r border-slate-200">{issue.date} {issue.time}</td>
+                                            <td className="py-2 px-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{issue.transactionId}</td>
+                                            <td className="py-2 px-3 font-semibold text-[#138024] align-middle border-r border-slate-200">{issue.vehicleId}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{issue.fleetId}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{issue.driverAttendant}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{issue.depot}</td>
+                                            <td className="py-2 px-3 font-bold text-slate-800 align-middle border-r border-slate-200">{formatFuel(issue.fuelQuantity)}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{issue.pump}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{issue.odometer}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{issue.engineHours}</td>
+                                            <td className="py-2 px-3 align-middle">
                                                 <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold shadow-xs border ${
                                                     issue.status === 'Matched' 
                                                         ? 'bg-green-50 border-green-200 text-green-700' 
