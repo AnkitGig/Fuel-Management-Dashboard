@@ -116,40 +116,40 @@ export default function RolesPage() {
 
     return (
         <PageContainer>
-            <div className="space-y-6">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight">Roles & Permissions</h1>
-                        <p className="text-muted-foreground">Manage role-based access control</p>
+                        <h1 className="text-xl font-bold tracking-tight text-slate-900">Roles & Permissions</h1>
+                        <p className="text-slate-500 text-xs">Manage role-based access control</p>
                     </div>
-                    <Button variant="outline" size="sm">
-                        <RefreshCw className="mr-2 h-4 w-4" />
+                    <Button variant="outline" size="sm" className="h-7 text-xs px-2.5">
+                        <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
                         Refresh
                     </Button>
                 </div>
 
-                <div className="grid gap-6 md:grid-cols-3">
+                <div className="grid gap-4 md:grid-cols-3">
                     {roleData.map((role) => {
                         const headerBg = 'bg-primary';
 
                         return (
                             <Card key={role.role} className="overflow-hidden border border-slate-200 shadow-sm rounded-none">
-                                <div className={`${headerBg} px-5 py-4 text-white`}>
+                                <div className={`${headerBg} px-4 py-2 text-white`}>
                                     <div className="flex items-center justify-between">
-                                        <h2 className="text-xl font-bold tracking-tight">{role.role}</h2>
-                                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-[#e6f4ea] text-[#137333] border border-[#ceead6]">
+                                        <h2 className="text-sm font-bold tracking-tight">{role.role}</h2>
+                                        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-[#e6f4ea] text-[#137333] border border-[#ceead6]">
                                             <span className="h-1.5 w-1.5 rounded-full bg-[#137333]" />
                                             Active
                                         </span>
                                     </div>
                                 </div>
-                                <CardContent className="p-5 bg-gradient-to-b from-white to-[#f0fdfa]">
-                                    <p className="text-xs text-slate-500 mb-4">{role.description}</p>
-                                    <div className="space-y-2">
+                                <CardContent className="p-3 bg-gradient-to-b from-white to-[#f0fdfa]">
+                                    <p className="text-[11px] text-slate-500 mb-2">{role.description}</p>
+                                    <div className="space-y-1.5">
                                         {Object.entries(role.permissions).map(([key, value]) => (
-                                            <div key={key} className="flex items-center justify-between py-1.5 border-b border-slate-100 last:border-0">
-                                                <span className="text-sm text-slate-700 font-medium">{permissionLabels[key] || key}</span>
-                                                <span className={`text-sm font-semibold ${value ? 'text-emerald-600' : 'text-slate-400'}`}>
+                                            <div key={key} className="flex items-center justify-between py-1 border-b border-slate-100 last:border-0">
+                                                <span className="text-xs text-slate-700 font-medium">{permissionLabels[key] || key}</span>
+                                                <span className={`text-xs font-semibold ${value ? 'text-emerald-600' : 'text-slate-400'}`}>
                                                     {value ? '✓' : '—'}
                                                 </span>
                                             </div>
@@ -162,13 +162,15 @@ export default function RolesPage() {
                 </div>
 
                 <Card className="border border-slate-200 shadow-sm overflow-hidden rounded-none">
-                    <CardHeader className="pb-3 px-6 pt-6">
-                        <CardTitle>Permission Matrix</CardTitle>
-                        <CardDescription>Detailed view of all role permissions</CardDescription>
+                    <CardHeader className="py-1.5 px-4 flex flex-row items-center justify-between space-y-0">
+                        <div>
+                            <CardTitle className="text-sm font-semibold text-slate-800">Permission Matrix</CardTitle>
+                            <CardDescription className="text-slate-500 text-[11px]">Detailed view of all role permissions</CardDescription>
+                        </div>
                     </CardHeader>
-                    <CardContent className="p-0 pb-6">
+                    <CardContent className="p-0 pb-2">
                         <div className="overflow-x-auto border-t border-slate-200">
-                            <table className="w-full text-sm border-collapse">
+                            <table className="w-full text-xs border-collapse">
                                 <thead>
                                     <tr>
                                         <th className="bg-primary text-white py-3 px-6 text-left font-semibold border-r border-white/20">Resource</th>

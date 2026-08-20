@@ -86,38 +86,40 @@ export default function DeliveriesPage() {
 
     return (
         <PageContainer>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Fuel Deliveries</h1>
-                    <p className="text-muted-foreground">Manage and track all fuel deliveries</p>
+                    <h1 className="text-xl font-bold tracking-tight text-slate-900">Fuel Deliveries</h1>
+                    <p className="text-slate-500 text-xs">Manage and track all fuel deliveries</p>
                 </div>
-                <Button onClick={loadData} variant="outline" size="sm">
-                    <RefreshCw className="mr-2 h-4 w-4" />
+                <Button onClick={loadData} variant="outline" size="sm" className="h-7 text-xs px-2.5">
+                    <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
                     Refresh
                 </Button>
             </div>
 
             <Card className="rounded-none border border-slate-200 shadow-xs">
-                <CardHeader className="pb-3 px-6">
-                    <CardTitle>All Deliveries</CardTitle>
-                    <CardDescription>Complete list of fuel deliveries</CardDescription>
+                <CardHeader className="py-1.5 px-4 flex flex-row items-center justify-between space-y-0">
+                    <div>
+                        <CardTitle className="text-sm font-semibold text-slate-800">All Deliveries</CardTitle>
+                        <CardDescription className="text-slate-500 text-[11px]">Complete list of fuel deliveries</CardDescription>
+                    </div>
                 </CardHeader>
-                <CardContent className="px-0 pb-6">
-                    <div className="flex flex-col sm:flex-row gap-4 mb-4 px-6">
+                <CardContent className="px-0 pb-2">
+                    <div className="flex flex-col sm:flex-row gap-2 mb-2 px-4">
                         <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                            <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
                             <input
                                 type="text"
                                 placeholder="Search by ID..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                className="w-full rounded-none border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                className="w-full rounded-none border border-slate-300 bg-white pl-8 pr-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-xs"
                             />
                         </div>
-                        <Button onClick={handleSearch} size="sm">Search</Button>
-                        <Button variant="outline" size="sm">
-                            <Download className="mr-2 h-4 w-4" />
+                        <Button onClick={handleSearch} size="sm" className="h-7 text-xs px-3">Search</Button>
+                        <Button variant="outline" size="sm" className="h-7 text-xs px-2.5">
+                            <Download className="mr-1.5 h-3.5 w-3.5" />
                             Export
                         </Button>
                     </div>

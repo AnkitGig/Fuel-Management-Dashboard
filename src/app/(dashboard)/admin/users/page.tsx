@@ -111,24 +111,24 @@ export default function UsersPage() {
 
     return (
         <PageContainer>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900">User Management</h1>
-                    <p className="text-slate-500 text-sm">Manage system users and access</p>
+                    <h1 className="text-xl font-bold tracking-tight text-slate-900">User Management</h1>
+                    <p className="text-slate-500 text-xs">Manage system users and access</p>
                 </div>
                 <div className="flex gap-2">
                     <button
                         onClick={loadData}
-                        className="inline-flex items-center justify-center rounded-none border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 transition-colors gap-2"
+                        className="inline-flex items-center justify-center rounded-none border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 transition-colors gap-1.5"
                     >
-                        <RefreshCw className="h-4 w-4" />
+                        <RefreshCw className="h-3.5 w-3.5" />
                         Refresh
                     </button>
                     {hasPermission(currentUser, PERMISSIONS.USERS.MANAGE) && (
                         <button
-                            className="inline-flex items-center justify-center rounded-none bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90 transition-colors gap-2"
+                            className="inline-flex items-center justify-center rounded-none bg-primary px-3 py-1 text-xs font-medium text-white shadow-sm hover:bg-primary/90 transition-colors gap-1.5"
                         >
-                            <UserPlus className="h-4 w-4" />
+                            <UserPlus className="h-3.5 w-3.5" />
                             Add User
                         </button>
                     )}
@@ -136,39 +136,41 @@ export default function UsersPage() {
             </div>
 
             <Card className="border border-slate-200 shadow-xs rounded-none">
-                <CardHeader className="pb-3 px-6">
-                    <CardTitle className="text-xl font-bold text-slate-800">All Users</CardTitle>
-                    <CardDescription className="text-slate-500">Complete list of system users</CardDescription>
+                <CardHeader className="py-1.5 px-4 flex flex-row items-center justify-between space-y-0">
+                    <div>
+                        <CardTitle className="text-sm font-semibold text-slate-800">All Users</CardTitle>
+                        <CardDescription className="text-slate-500 text-[11px]">Complete list of system users</CardDescription>
+                    </div>
                 </CardHeader>
-                <CardContent className="px-0 pb-6">
-                    <div className="flex flex-col sm:flex-row gap-2 mb-6 px-6">
+                <CardContent className="px-0 pb-2">
+                    <div className="flex flex-col sm:flex-row gap-2 mb-2 px-4">
                         <div className="relative flex-1">
-                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                            <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
                             <input
                                 type="text"
                                 placeholder="Search by name or email..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                className="w-full rounded-none border border-slate-300 bg-white pl-10 pr-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#138024] focus:border-[#138024] shadow-xs"
+                                className="w-full rounded-none border border-slate-300 bg-white pl-8 pr-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-xs"
                             />
                         </div>
                         <button
                             onClick={handleSearch}
-                            className="inline-flex items-center justify-center rounded-none bg-[#00c0b5] px-4 py-2 text-sm font-medium text-white hover:bg-[#0f631c] transition-colors"
+                            className="inline-flex items-center justify-center rounded-none bg-primary px-3 py-1 text-xs font-medium text-white hover:bg-primary/90 transition-colors"
                         >
                             Search
                         </button>
                         <button
-                            className="inline-flex items-center justify-center rounded-none border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors gap-2 shadow-xs"
+                            className="inline-flex items-center justify-center rounded-none border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors gap-1.5 shadow-xs"
                         >
-                            <Download className="h-4 w-4" />
+                            <Download className="h-3.5 w-3.5" />
                             Export
                         </button>
                     </div>
 
                     <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
-                        <table className="w-full text-sm border-collapse">
+                        <table className="w-full text-xs border-collapse">
                             <thead>
                                 <tr>
                                     <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Name</th>
@@ -190,27 +192,27 @@ export default function UsersPage() {
                                 ) : (
                                     users.map((user) => (
                                         <tr key={user.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
-                                            <td className="py-2 px-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{user.name}</td>
-                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{user.email}</td>
-                                            <td className="py-2 px-3 align-middle border-r border-slate-200">
-                                                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-50 border border-blue-200 text-blue-700">
+                                            <td className="py-1.5 px-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{user.name}</td>
+                                            <td className="py-1.5 px-3 text-slate-600 align-middle border-r border-slate-200">{user.email}</td>
+                                            <td className="py-1.5 px-3 align-middle border-r border-slate-200">
+                                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-50 border border-blue-200 text-blue-700">
                                                     <span className="text-blue-500 font-bold">•</span> {user.role}
                                                 </span>
                                             </td>
-                                            <td className="py-2 px-3 align-middle border-r border-slate-200">
+                                            <td className="py-1.5 px-3 align-middle border-r border-slate-200">
                                                 {user.status === 'Active' ? (
-                                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-green-50 border border-green-200 text-green-700">
+                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-green-50 border border-green-200 text-green-700">
                                                         <span className="text-green-500 font-bold">•</span> Active
                                                     </span>
                                                 ) : (
-                                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 border border-slate-300 text-slate-700">
+                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 border border-slate-300 text-slate-700">
                                                         <span className="text-slate-400 font-bold">•</span> Inactive
                                                     </span>
                                                 )}
                                             </td>
-                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{user.lastLogin || 'Never'}</td>
-                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatDate(user.createdAt)}</td>
-                                            <td className="py-2 px-3 align-middle">
+                                            <td className="py-1.5 px-3 text-slate-600 align-middle border-r border-slate-200">{user.lastLogin || 'Never'}</td>
+                                            <td className="py-1.5 px-3 text-slate-600 align-middle border-r border-slate-200">{formatDate(user.createdAt)}</td>
+                                            <td className="py-1.5 px-3 align-middle">
                                                 <div className="flex gap-2 justify-start">
                                                     <button
                                                         title="View Details"

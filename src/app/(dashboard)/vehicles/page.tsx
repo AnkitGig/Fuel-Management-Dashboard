@@ -110,74 +110,76 @@ export default function VehiclesPage() {
 
     return (
         <PageContainer>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Fuel Efficiency</h1>
-                    <p className="text-muted-foreground">Monitor fleet vehicle fuel efficiency metrics</p>
+                    <h1 className="text-xl font-bold tracking-tight text-slate-900">Fuel Efficiency</h1>
+                    <p className="text-slate-500 text-xs">Monitor fleet vehicle fuel efficiency metrics</p>
                 </div>
-                <Button onClick={() => loadData()} variant="outline" size="sm">
-                    <RefreshCw className="mr-2 h-4 w-4" />
+                <Button onClick={() => loadData()} variant="outline" size="sm" className="h-7 text-xs px-2.5">
+                    <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
                     Refresh
                 </Button>
             </div>
 
             <Card className="rounded-none border border-slate-200 shadow-xs">
-                <CardHeader className="pb-3 px-6">
-                    <CardTitle>All Vehicles</CardTitle>
-                    <CardDescription>Complete list of fleet vehicles and efficiency</CardDescription>
+                <CardHeader className="py-1.5 px-4 flex flex-row items-center justify-between space-y-0">
+                    <div>
+                        <CardTitle className="text-sm font-semibold text-slate-800">All Vehicles</CardTitle>
+                        <CardDescription className="text-slate-500 text-[11px]">Complete list of fleet vehicles and efficiency</CardDescription>
+                    </div>
                 </CardHeader>
-                <CardContent className="px-0 pb-6">
-                    <div className="flex flex-col sm:flex-row gap-4 mb-4 flex-wrap items-center px-6">
-                        <div className="relative flex-1 min-w-[200px]">
-                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <CardContent className="px-0 pb-2">
+                    <div className="flex flex-wrap gap-2 mb-2 px-4 items-center">
+                        <div className="relative flex-1 min-w-[150px]">
+                            <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
                             <input
                                 type="text"
                                 placeholder="Search by ID, type, or asset type..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                className="w-full rounded-none border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                className="w-full rounded-none border border-slate-300 bg-white pl-8 pr-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-xs"
                             />
                         </div>
 
                         {/* Date Filters */}
-                        <div className="flex items-center gap-2">
-                            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">From:</span>
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">From:</span>
                             <input
                                 type="date"
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
-                                className="rounded-none border border-input bg-background px-3 py-1.5 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                className="rounded-none border border-slate-300 bg-white px-2 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-primary shadow-xs"
                             />
                         </div>
-                        <div className="flex items-center gap-2">
-                            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">To:</span>
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">To:</span>
                             <input
                                 type="date"
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
-                                className="rounded-none border border-input bg-background px-3 py-1.5 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                className="rounded-none border border-slate-300 bg-white px-2 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-primary shadow-xs"
                             />
                         </div>
 
                         <select
                             value={selectedStatus}
                             onChange={(e) => setSelectedStatus(e.target.value)}
-                            className="rounded-none border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            className="rounded-none border border-slate-300 bg-white px-2 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-primary shadow-xs"
                         >
                             <option value="">All Statuses</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
                         </select>
 
-                        <div className="flex gap-2">
-                            <Button onClick={handleSearch} size="sm">Search</Button>
-                            <Button onClick={handleReset} variant="outline" size="sm">
-                                <RotateCcw className="mr-2 h-4 w-4" />
+                        <div className="flex gap-1.5">
+                            <Button onClick={handleSearch} size="sm" className="h-7 text-xs px-3">Search</Button>
+                            <Button onClick={handleReset} variant="outline" size="sm" className="h-7 text-xs px-2.5">
+                                <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
                                 Reset
                             </Button>
-                            <Button variant="outline" size="sm">
-                                <Download className="mr-2 h-4 w-4" />
+                            <Button variant="outline" size="sm" className="h-7 text-xs px-2.5">
+                                <Download className="mr-1.5 h-3.5 w-3.5" />
                                 Export
                             </Button>
                         </div>
