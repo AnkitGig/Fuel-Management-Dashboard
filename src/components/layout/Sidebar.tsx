@@ -97,7 +97,7 @@ export function Sidebar() {
                 )}
             </div>
  
-            <nav className="flex-1 overflow-y-auto p-3 space-y-1.5">
+            <nav className="flex-1 overflow-y-auto p-3 space-y-1">
                 {navigationItems.map((item) => {
                     const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
                     return (
@@ -105,7 +105,7 @@ export function Sidebar() {
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                'flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200',
+                                'flex items-center gap-3 rounded-xl px-3.5 py-1.5 text-sm font-medium transition-all duration-200',
                                 isActive
                                     ? 'bg-[#00c0b5] text-white shadow-md shadow-teal-500/25'
                                     : 'text-slate-300 hover:bg-white/5 hover:text-white',
@@ -120,7 +120,7 @@ export function Sidebar() {
  
                 {user?.role === 'Administrator' && (
                     <>
-                        <div className="px-3 py-3">
+                        <div className="px-3 py-2">
                             <div className="h-px bg-white/10" />
                         </div>
                         {adminItems.map((item) => {
@@ -130,7 +130,7 @@ export function Sidebar() {
                                     key={item.href}
                                     href={item.href}
                                     className={cn(
-                                        'flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200',
+                                        'flex items-center gap-3 rounded-xl px-3.5 py-1.5 text-sm font-medium transition-all duration-200',
                                         isActive
                                             ? 'bg-[#00c0b5] text-white shadow-md shadow-teal-500/25'
                                             : 'text-slate-300 hover:bg-white/5 hover:text-white',
@@ -201,7 +201,7 @@ export function Sidebar() {
     return (
         <div
             className={cn(
-                'hidden md:block border-r bg-background transition-all duration-300',
+                'hidden md:block border-r bg-background transition-all duration-300 h-[111.2vh] sticky top-0',
                 isCollapsed ? 'w-16' : 'w-72'
             )}
         >

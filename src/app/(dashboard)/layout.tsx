@@ -14,7 +14,7 @@ export default function DashboardLayout({
     const pathname = usePathname();
 
     return (
-        <div className="flex min-h-screen">
+        <div className="flex min-h-screen md:min-h-[111.2vh]">
             <Sidebar />
             <div className="flex-1 flex flex-col">
                 <Header />
