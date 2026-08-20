@@ -161,8 +161,8 @@ export default function ReconciliationPage() {
             {summaryData && (
                 <div className="grid gap-6 md:grid-cols-12 items-start">
                     {/* Stock Reconciliation Summary (Span 4) */}
-                    <div className="md:col-span-4 border border-black/25 rounded-lg overflow-hidden shadow-sm">
-                        <div className="bg-[#00c0b5] py-2 px-3 text-center border-b border-black/25">
+                    <div className="md:col-span-4 border border-black/25 rounded-none overflow-hidden shadow-sm">
+                        <div className="bg-[#ff6600] py-2 px-3 text-center border-b border-black/25">
                             <span className="text-xs font-bold text-white uppercase tracking-wider">Stock Reconciliation Summary</span>
                         </div>
                         <table className="w-full text-xs border-collapse">
@@ -200,8 +200,8 @@ export default function ReconciliationPage() {
                     </div>
 
                     {/* Stock Demand Plan (Span 8) */}
-                    <div className="md:col-span-8 border border-black/25 rounded-lg overflow-hidden shadow-sm">
-                        <div className="bg-[#00c0b5] py-2 px-3 text-center border-b border-black/25">
+                    <div className="md:col-span-8 border border-black/25 rounded-none overflow-hidden shadow-sm">
+                        <div className="bg-[#138024] py-2 px-3 text-center border-b border-black/25">
                             <span className="text-xs font-bold text-white uppercase tracking-wider">Stock Demand Plan</span>
                         </div>
                         <table className="w-full text-xs border-collapse">
