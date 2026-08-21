@@ -122,8 +122,8 @@ export default function FuelLevelsPage() {
         <PageContainer>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Fuel Levels</h1>
-                    <p className="text-muted-foreground">Monitor tank levels and historical data</p>
+                    <h1 className="text-xl font-bold tracking-tight text-slate-900">Fuel Levels</h1>
+                    <p className="text-slate-500 text-xs">Monitor tank levels and historical data</p>
                 </div>
                 <Button variant="outline" size="sm" onClick={loadData}>
                     <RefreshCw className="mr-2 h-4 w-4" />
