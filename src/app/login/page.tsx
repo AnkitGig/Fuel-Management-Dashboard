@@ -69,7 +69,7 @@ export default function LoginPage() {
                 <CardHeader className="space-y-1 text-center bg-gradient-to-br from-zinc-900 to-orange-950/50 text-white py-6 border-b border-orange-500/20">
                     <div className="flex justify-center mb-4">
                         <Image
-                            src="/assests/logo.png"
+                            src="/assests/image.png"
                             alt="Fuel Manager Logo"
                             width={180}
                             height={60}

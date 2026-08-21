@@ -66,10 +66,10 @@ export function Sidebar() {
         <div className="flex h-full flex-col bg-[#001b33] text-slate-300 border-r border-[#f26522]/15">
             <div className={cn("flex h-16 items-center border-b border-[#f26522]/10 transition-all duration-300", isCollapsed ? "flex-col justify-center gap-1 py-1 px-1" : "justify-between px-6")}>
                 <Link href="/fuel-levels" className="flex items-center justify-center shrink-0">
-                    <img 
-                        src="/assests/logo.png" 
-                        alt="Fuel Master Logo" 
-                        className="h-10 w-auto object-contain transition-all duration-300" 
+                    <img
+                        src="/assests/image.png"
+                        alt="Fuel Master Logo"
+                        className="h-10 w-auto object-contain transition-all duration-300"
                     />
                 </Link>
                 {!isMobile && (
@@ -93,7 +93,7 @@ export function Sidebar() {
                     </Button>
                 )}
             </div>
- 
+
             <nav className="flex-1 overflow-y-auto p-3 space-y-1">
                 {navigationItems.map((item) => {
                     const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
@@ -114,7 +114,7 @@ export function Sidebar() {
                         </Link>
                     );
                 })}
- 
+
                 {user?.role === 'Administrator' && (
                     <>
                         <div className="px-3 py-2">
@@ -142,7 +142,7 @@ export function Sidebar() {
                     </>
                 )}
             </nav>
- 
+
             <div className="border-t border-white/10 p-4 space-y-3">
                 {!isCollapsed && (
                     <div className="flex items-center gap-3 px-2 py-1">
