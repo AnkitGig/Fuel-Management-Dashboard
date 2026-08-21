@@ -70,7 +70,7 @@ export default function FuelLevelsPage() {
         const matchesSearch =
             level.date.includes(search) ||
             level.status.toLowerCase().includes(search);
-        
+
         let matchesDateRange = true;
         if (startDate) {
             matchesDateRange = matchesDateRange && level.date >= startDate;
@@ -78,7 +78,7 @@ export default function FuelLevelsPage() {
         if (endDate) {
             matchesDateRange = matchesDateRange && level.date <= endDate;
         }
-        
+
         return matchesSearch && matchesDateRange;
     });
 
@@ -133,11 +133,7 @@ export default function FuelLevelsPage() {
 
             {/* Historical Data */}
             <Card className="rounded-none border border-slate-200 shadow-xs">
-                <CardHeader className="pb-3 px-6">
-                    <CardTitle>Historical Fuel Levels</CardTitle>
-                    <CardDescription>Track fuel level trends over time</CardDescription>
-                </CardHeader>
-                <CardContent className="px-0 pb-6">
+                <CardContent className="px-0 pb-6 mt-4">
                     <div className="flex flex-col sm:flex-row gap-4 mb-4 px-6">
                         <div className="relative flex-1">
                             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />

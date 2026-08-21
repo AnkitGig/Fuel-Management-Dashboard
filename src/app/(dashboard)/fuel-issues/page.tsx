@@ -137,13 +137,7 @@ export default function FuelIssuesPage() {
             </div>
 
             <Card className="rounded-none border border-slate-200 shadow-xs">
-                <CardHeader className="py-1.5 px-4 flex flex-row items-center justify-between space-y-0">
-                    <div>
-                        <CardTitle className="text-sm font-semibold text-slate-800">All Transactions</CardTitle>
-                        <CardDescription className="text-slate-500 text-[11px]">Complete list of fuel transactions</CardDescription>
-                    </div>
-                </CardHeader>
-                <CardContent className="px-0 pb-2">
+                <CardContent className="px-0 pb-2 mt-4">
                     <div className="flex flex-wrap gap-2 mb-2 px-4 items-center">
                         <div className="relative flex-1 min-w-[150px]">
                             <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
@@ -249,11 +243,10 @@ export default function FuelIssuesPage() {
                                             <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{issue.odometer}</td>
                                             <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{issue.engineHours}</td>
                                             <td className="py-2 px-3 align-middle">
-                                                <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold shadow-xs border ${
-                                                    issue.status === 'Matched' 
-                                                        ? 'bg-green-50 border-green-200 text-green-700' 
-                                                        : 'bg-amber-50 border-amber-200 text-amber-700'
-                                                }`}>
+                                                <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold shadow-xs border ${issue.status === 'Matched'
+                                                    ? 'bg-green-50 border-green-200 text-green-700'
+                                                    : 'bg-amber-50 border-amber-200 text-amber-700'
+                                                    }`}>
                                                     <span className={`h-1.5 w-1.5 rounded-full bg-current`} />
                                                     {issue.dem || issue.status}
                                                 </span>

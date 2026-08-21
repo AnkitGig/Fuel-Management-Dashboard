@@ -122,13 +122,7 @@ export default function VehiclesPage() {
             </div>
 
             <Card className="rounded-none border border-slate-200 shadow-xs">
-                <CardHeader className="py-1.5 px-4 flex flex-row items-center justify-between space-y-0">
-                    <div>
-                        <CardTitle className="text-sm font-semibold text-slate-800">All Vehicles</CardTitle>
-                        <CardDescription className="text-slate-500 text-[11px]">Complete list of fleet vehicles and efficiency</CardDescription>
-                    </div>
-                </CardHeader>
-                <CardContent className="px-0 pb-2">
+                <CardContent className="px-0 pb-2 mt-4">
                     <div className="flex flex-wrap gap-2 mb-2 px-4 items-center">
                         <div className="relative flex-1 min-w-[150px]">
                             <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
