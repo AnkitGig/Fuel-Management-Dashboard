@@ -143,7 +143,7 @@ export default function FuelLimitsPage() {
                     </div>
 
                     <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
-                        <table className="w-full text-sm border-collapse">
+                        <table className="w-full text-sm border-collapse whitespace-nowrap">
                             <thead>
                                 <tr>
                                     <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Asset (Rego)</th>

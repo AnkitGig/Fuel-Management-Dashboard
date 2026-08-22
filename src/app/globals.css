@@ -33,13 +33,15 @@
     --card-foreground: 208 80% 10%;
     --popover: 0 0% 100%;
     --popover-foreground: 208 80% 10%;
-    --primary: 20 100% 50%; /* Brand Orange */
+    --primary: 20 100% 50%;
+    /* Brand Orange */
     --primary-foreground: 0 0% 100%;
     --secondary: 208 20% 94%;
     --secondary-foreground: 208 80% 10%;
     --muted: 208 15% 92%;
     --muted-foreground: 208 20% 45%;
-    --accent: 128 52% 47%; /* Brand Green */
+    --accent: 128 52% 47%;
+    /* Brand Green */
     --accent-foreground: 0 0% 100%;
     --destructive: 348 89% 63%;
     --destructive-foreground: 210 40% 98%;
@@ -50,13 +52,15 @@
   }
 
   .dark {
-    --background: 208 100% 7%; /* Deep Logo Navy */
+    --background: 208 100% 7%;
+    /* Deep Logo Navy */
     --foreground: 208 20% 98%;
     --card: 208 80% 10%;
     --card-foreground: 208 20% 98%;
     --popover: 208 80% 10%;
     --popover-foreground: 208 20% 98%;
-    --primary: 20 100% 50%; /* Brand Orange */
+    --primary: 20 100% 50%;
+    /* Brand Orange */
     --primary-foreground: 0 0% 100%;
     --secondary: 208 60% 15%;
     --secondary-foreground: 208 20% 98%;
@@ -84,8 +88,10 @@
       radial-gradient(at 50% 0%, rgba(57, 181, 74, 0.03) 0px, transparent 50%),
       radial-gradient(at 100% 0%, rgba(251, 192, 45, 0.03) 0px, transparent 50%);
     background-attachment: fixed;
-    zoom: 0.90; /* Zoom out the entire layout */
-    min-height: 100vh; /* Stretch to fill browser height */
+    zoom: 1.05;
+    /* Zoom out the entire layout slightly less */
+    min-height: 100vh;
+    /* Stretch to fill browser height */
   }
 }
 
@@ -132,4 +138,19 @@
 .dark .theme-card {
   background: linear-gradient(180deg, rgba(0, 27, 51, 0.95) 0%, rgba(3, 40, 74, 0.95) 100%) !important;
   border: 1px solid rgba(242, 101, 34, 0.2) !important;
+}
+
+/* Modern scrollable table utility */
+.overflow-x-auto {
+  max-height: 480px;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  scrollbar-width: thin;
+}
+
+/* Sticky headers for scrollable tables */
+.overflow-x-auto table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }

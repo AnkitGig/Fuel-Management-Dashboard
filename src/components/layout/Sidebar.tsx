@@ -187,6 +187,7 @@ export function Sidebar() {
                         'fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 ease-in-out',
                         isOpen ? 'translate-x-0' : '-translate-x-full'
                     )}
+                    style={{ zoom: 0.90 }}
                 >
                     {sidebarContent}
                 </div>
@@ -198,9 +199,10 @@ export function Sidebar() {
     return (
         <div
             className={cn(
-                'hidden md:block border-r bg-background transition-all duration-300 h-[111.2vh] sticky top-0',
+                'hidden md:block border-r bg-background transition-all duration-300 h-[111.2vh] sticky top-0 shrink-0',
                 isCollapsed ? 'w-16' : 'w-64'
             )}
+            style={{ zoom: 0.90 }}
         >
             {sidebarContent}
         </div>
