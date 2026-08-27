@@ -10,11 +10,11 @@ export interface ClientConfig {
 }
 
 export const CLIENTS: ClientConfig[] = [
-  { name: 'Client Name 1', clientid: '2591', userid: 2094, divisionid: 845 },
-  { name: 'Client Name 2', clientid: '2591', userid: 2094, divisionid: 845 },
-  { name: 'Client Name 4', clientid: '2591', userid: 2094, divisionid: 845 },
-  { name: 'Client Name 5', clientid: '2591', userid: 2094, divisionid: 845 },
-  { name: 'Client Name 6', clientid: '2591', userid: 2094, divisionid: 845 },
+  { name: 'St Johns Pom', clientid: '2591', userid: 2094, divisionid: 845 }
+  // { name: 'Client Name 2', clientid: '2591', userid: 2094, divisionid: 845 },
+  // { name: 'Client Name 4', clientid: '2591', userid: 2094, divisionid: 845 },
+  // { name: 'Client Name 5', clientid: '2591', userid: 2094, divisionid: 845 },
+  // { name: 'Client Name 6', clientid: '2591', userid: 2094, divisionid: 845 },
 ];
 
 interface ClientStore {
