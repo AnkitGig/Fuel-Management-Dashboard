@@ -85,9 +85,9 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen w-full flex bg-white font-sans overflow-x-hidden">
+        <div className="min-h-screen w-full flex flex-col md:flex-row bg-white font-sans overflow-x-hidden">
             {/* Left Column - Dark branding and illustration section */}
-            <div className="hidden md:flex w-1/2 bg-zinc-900 flex-col justify-between p-12 text-white relative overflow-hidden">
+            <div className="flex w-full md:w-1/2 bg-zinc-900 flex-col justify-between p-8 md:p-12 min-h-[340px] md:min-h-screen text-white relative overflow-hidden shrink-0">
                 {/* Background Image with overlay */}
                 <div className="absolute inset-0">
                     <Image
@@ -109,33 +109,33 @@ export default function LoginPage() {
                         width={240}
                         height={80}
                         priority
-                        className="object-contain h-[70px] w-auto"
+                        className="object-contain h-[56px] md:h-[70px] w-auto"
                     />
                 </div>
 
                 {/* Big typography and message block */}
-                <div className="relative z-10 space-y-6 my-auto max-w-lg">
-                    <span className="text-[#f26522] tracking-wider text-xs font-extrabold uppercase block">
+                <div className="relative z-10 space-y-4 md:space-y-6 my-6 md:my-auto max-w-lg">
+                    <span className="text-[#f26522] tracking-wider text-[11px] font-extrabold uppercase block">
                         FLEET INTELLIGENCE PLATFORM
                     </span>
-                    <h1 className="text-5xl font-black tracking-tight leading-[1.15] text-white">
+                    <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-[1.15] text-white">
                         Every litre.<br />
                         <span className="text-white/95">Better managed.</span>
                     </h1>
-                    <p className="text-zinc-400 text-sm font-medium leading-relaxed max-w-sm">
+                    <p className="text-zinc-300 text-xs md:text-sm font-medium leading-relaxed max-w-sm">
                         Bring fuel levels, deliveries and fleet efficiency into one clear operational view.
                     </p>
                 </div>
 
                 {/* Bottom status indicator */}
-                <div className="relative z-10 flex items-center gap-2 text-xs font-semibold text-zinc-500">
+                <div className="relative z-10 flex items-center gap-2 text-xs font-semibold text-zinc-400">
                     <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                     Secure operations dashboard
                 </div>
             </div>
 
             {/* Right Column - Account Sign In form */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center px-6 py-12 sm:px-16 md:px-20 lg:px-24">
+            <div className="w-full md:w-1/2 flex flex-col justify-center px-6 py-8 md:py-12 sm:px-16 md:px-20 lg:px-24">
                 <div className="w-full max-w-[400px] mx-auto space-y-6">
                     <div className="space-y-2">
                         <div className="inline-flex items-center gap-1.5 text-[#f26522]">
