@@ -26,9 +26,6 @@ export function Header() {
                 >
                     <Menu className="h-5 w-5 text-white" />
                 </Button>
-                <div className="hidden sm:block">
-                    <Breadcrumbs />
-                </div>
             </div>
 
             <div className="flex items-center gap-4">

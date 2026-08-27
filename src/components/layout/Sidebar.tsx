@@ -74,7 +74,7 @@ export function Sidebar() {
                         className="h-10 w-auto object-contain transition-all duration-300"
                     />
                 </Link>
-                {!isMobile && (
+                {/* {!isMobile && (
                     <Button
                         variant="ghost"
                         size="sm"
@@ -83,7 +83,7 @@ export function Sidebar() {
                     >
                         {isCollapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-4 w-4" />}
                     </Button>
-                )}
+                )} */}
                 {isMobile && (
                     <Button
                         variant="ghost"
@@ -200,7 +200,8 @@ export function Sidebar() {
     return (
         <div
             className={cn(
-                'hidden md:block border-r bg-[#111111] border-zinc-900 transition-all duration-300 h-screen sticky top-0 shrink-0',
+                'transition-all duration-300 h-screen sticky top-0 shrink-0 border-r bg-[#111111] border-zinc-900',
+                isOpen ? 'hidden md:block' : 'hidden',
                 isCollapsed ? 'w-16' : 'w-56'
             )}
         >
