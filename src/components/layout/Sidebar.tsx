@@ -30,14 +30,14 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSidebar } from '@/hooks/useSidebar';
 
 const navigationItems = [
-    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    // { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Fuel Levels', href: '/fuel-levels', icon: Droplet },
     { name: 'Deliveries', href: '/deliveries', icon: Truck },
-    { name: 'Transactions', href: '/fuel-issues', icon: FileText },
-    { name: 'Fuel Efficiency', href: '/vehicles', icon: Fuel },
-    { name: 'Fuel Efficiency Summary', href: '/fuel-efficiency-summary', icon: FileBarChart },
-    { name: 'Fuel Limits', href: '/fuel-limits', icon: Sliders },
-    { name: 'Reconciliation', href: '/reconciliation', icon: RefreshCw },
+    { name: 'Transactions', href: '/fuel-issues', icon: FileText }
+    // { name: 'Fuel Efficiency', href: '/vehicles', icon: Fuel },
+    // { name: 'Fuel Efficiency Summary', href: '/fuel-efficiency-summary', icon: FileBarChart },
+    // { name: 'Fuel Limits', href: '/fuel-limits', icon: Sliders },
+    // { name: 'Reconciliation', href: '/reconciliation', icon: RefreshCw },
 ];
 
 const adminItems = [
@@ -117,7 +117,7 @@ export function Sidebar() {
                     );
                 })}
 
-                {user?.role === 'Administrator' && adminItems.map((item) => {
+                {/* {user?.role === 'Administrator' && adminItems.map((item) => {
                     const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
                     return (
                         <Link
@@ -136,7 +136,7 @@ export function Sidebar() {
                             {!isCollapsed && <span className="whitespace-nowrap">{item.name}</span>}
                         </Link>
                     );
-                })}
+                })} */}
             </nav>
 
             <div className="border-t border-zinc-900 p-4 space-y-3 bg-[#0c0c0d]">
