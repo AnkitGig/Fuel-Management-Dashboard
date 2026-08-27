@@ -3,30 +3,30 @@ import { AuthUser, LoginCredentials, AuthSession } from '@/types/auth';
 
 // Mock user credentials
 const MOCK_CREDENTIALS: Record<string, { password: string; user: AuthUser }> = {
-  'admin@example.com': {
+  'admin@fuelmaster.com': {
     password: 'admin123',
     user: {
       id: '1',
       name: 'Admin User',
-      email: 'admin@example.com',
+      email: 'admin@fuelmaster.com',
       role: 'Administrator',
     },
   },
-  'manager@example.com': {
+  'manager@fuelmaster.com': {
     password: 'manager123',
     user: {
       id: '2',
       name: 'Manager User',
-      email: 'manager@example.com',
+      email: 'manager@fuelmaster.com',
       role: 'Manager',
     },
   },
-  'viewer@example.com': {
+  'viewer@fuelmaster.com': {
     password: 'viewer123',
     user: {
       id: '3',
       name: 'Viewer User',
-      email: 'viewer@example.com',
+      email: 'viewer@fuelmaster.com',
       role: 'Viewer',
     },
   },
