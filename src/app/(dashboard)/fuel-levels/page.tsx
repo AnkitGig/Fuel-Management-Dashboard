@@ -30,8 +30,8 @@ export default function FuelLevelsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [search, setSearch] = useState('');
-    const [startDate, setStartDate] = useState('2026-08-01');
-    const [endDate, setEndDate] = useState('2026-08-20');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -156,7 +156,7 @@ export default function FuelLevelsPage() {
                                     />
                                 </div>
                                 <Button
-                                    onClick={() => {}}
+                                    onClick={() => { }}
                                     className="bg-[#f26522] hover:bg-[#d94f12] text-[11px] font-bold text-white px-4 rounded-r rounded-l-none h-9 border border-[#f26522] transition-colors duration-200 shrink-0"
                                 >
                                     Search
@@ -202,7 +202,7 @@ export default function FuelLevelsPage() {
                                     <RefreshCw className="h-3.5 w-3.5" />
                                 </Button>
                                 <Button
-                                    onClick={() => {}}
+                                    onClick={() => { }}
                                     className="h-9 w-9 p-0 bg-[#f26522] hover:bg-[#d94f12] text-white rounded border border-[#f26522] transition-colors duration-200 shrink-0"
                                 >
                                     <Download className="h-3.5 w-3.5" />
