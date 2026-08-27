@@ -144,9 +144,9 @@ export default function FuelIssuesPage() {
             <div className="bg-white border border-slate-200 shadow-sm rounded p-3 mb-4">
                 {/* Filter bar container matching the bootstrap grid structure */}
                 <div className="mb-3 py-2 px-3 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full">
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
-                        {/* Search Input Group (col-md-4 equivalent) */}
-                        <div className="md:col-span-4">
+                    <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
+                        {/* Search Input Group */}
+                        <div className="flex-1 min-w-[200px] max-w-sm">
                             <div className="flex h-9">
                                 <div className="relative flex-1 flex items-stretch">
                                     <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-white rounded-l text-slate-400">
@@ -170,69 +170,60 @@ export default function FuelIssuesPage() {
                             </div>
                         </div>
 
-                        {/* FROM Date Selector (col-md-2 equivalent) */}
-                        <div className="md:col-span-2 flex items-center h-9">
-                            <div className="flex items-center gap-2 w-full">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider shrink-0">FROM:</label>
-                                <input
-                                    type="date"
-                                    value={startDate}
-                                    onChange={(e) => setStartDate(e.target.value)}
-                                    className="flex-1 rounded border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-9 shadow-xs"
-                                />
-                            </div>
+                        {/* FROM Date Selector */}
+                        <div className="flex items-center gap-2 shrink-0">
+                            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider shrink-0">FROM:</label>
+                            <input
+                                type="date"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                                className="rounded border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-9 shadow-xs w-36 shrink-0"
+                            />
                         </div>
 
-                        {/* TO Date Selector (col-md-2 equivalent) */}
-                        <div className="md:col-span-2 flex items-center h-9">
-                            <div className="flex items-center gap-2 w-full">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider shrink-0">TO:</label>
-                                <input
-                                    type="date"
-                                    value={endDate}
-                                    onChange={(e) => setEndDate(e.target.value)}
-                                    className="flex-1 rounded border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-9 shadow-xs"
-                                />
-                            </div>
+                        {/* TO Date Selector */}
+                        <div className="flex items-center gap-2 shrink-0">
+                            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider shrink-0">TO:</label>
+                            <input
+                                type="date"
+                                value={endDate}
+                                onChange={(e) => setEndDate(e.target.value)}
+                                className="rounded border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-9 shadow-xs w-36 shrink-0"
+                            />
                         </div>
 
-                        {/* DEM METHOD Dropdown Selector (col-md-3 equivalent) */}
-                        <div className="md:col-span-3 flex items-center h-9">
-                            <div className="flex items-center gap-2 w-full">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider shrink-0">DEM METHOD:</label>
-                                <select
-                                    value={selectedStatus}
-                                    onChange={(e) => setSelectedStatus(e.target.value)}
-                                    className="flex-1 rounded border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-9 cursor-pointer"
-                                >
-                                    <option value="">All methods</option>
-                                    <option value="Matched">Matched</option>
-                                    <option value="Unmatched">Unmatched</option>
-                                    <option value="Exception">Exception</option>
-                                </select>
-                            </div>
+                        {/* DEM METHOD Dropdown Selector */}
+                        <div className="flex items-center gap-2 shrink-0">
+                            <select
+                                value={selectedStatus}
+                                onChange={(e) => setSelectedStatus(e.target.value)}
+                                className="rounded border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-9 cursor-pointer w-[140px] shrink-0"
+                            >
+                                <option value="">All methods</option>
+                                <option value="Matched">Matched</option>
+                                <option value="Unmatched">Unmatched</option>
+                                <option value="Exception">Exception</option>
+                            </select>
                         </div>
 
-                        {/* Action Buttons (col-md-1 equivalent) */}
-                        <div className="md:col-span-1 flex items-center justify-end h-9">
-                            <div className="flex items-center gap-2">
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={handleReset}
-                                    className="h-9 w-9 p-0 rounded border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors shrink-0"
-                                    title="Reset filters"
-                                >
-                                    <RotateCcw className="h-3.5 w-3.5" />
-                                </Button>
-                                <Button
-                                    onClick={() => {}}
-                                    className="h-9 w-9 p-0 bg-[#f26522] hover:bg-[#d94f12] text-white rounded border border-[#f26522] transition-colors duration-200 shrink-0"
-                                    title="Export fuel levels"
-                                >
-                                    <Download className="h-3.5 w-3.5" />
-                                </Button>
-                            </div>
+                        {/* Action Buttons */}
+                        <div className="flex items-center gap-2 ml-auto shrink-0">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={handleReset}
+                                className="h-9 w-9 p-0 rounded border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors shrink-0"
+                                title="Reset filters"
+                            >
+                                <RotateCcw className="h-3.5 w-3.5" />
+                            </Button>
+                            <Button
+                                onClick={() => { }}
+                                className="h-9 w-9 p-0 bg-[#f26522] hover:bg-[#d94f12] text-white rounded border border-[#f26522] transition-colors duration-200 shrink-0"
+                                title="Export fuel levels"
+                            >
+                                <Download className="h-3.5 w-3.5" />
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -275,11 +266,10 @@ export default function FuelIssuesPage() {
                                         <td className="py-2 px-3 text-slate-600 align-middle">{issue.odometer}</td>
                                         <td className="py-2 px-3 text-slate-600 align-middle">{issue.engineHours}</td>
                                         <td className="py-2 px-3 align-middle">
-                                            <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold border ${
-                                                issue.status === 'Matched'
-                                                    ? 'bg-[#eefcf2] border-[#d6f2e1] text-[#138024]'
-                                                    : 'bg-[#fff6f0] border-[#ffe3d1] text-[#f26522]'
-                                            }`}>
+                                            <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold border ${issue.status === 'Matched'
+                                                ? 'bg-[#eefcf2] border-[#d6f2e1] text-[#138024]'
+                                                : 'bg-[#fff6f0] border-[#ffe3d1] text-[#f26522]'
+                                                }`}>
                                                 <span className={`h-1.5 w-1.5 rounded-full bg-current`} />
                                                 {issue.dem || issue.status}
                                             </span>
