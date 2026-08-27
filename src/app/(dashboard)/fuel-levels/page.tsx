@@ -120,112 +120,151 @@ export default function FuelLevelsPage() {
 
     return (
         <PageContainer>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            {/* Header section matching bootstrap layout exactly */}
+            <div className="flex justify-between items-center mb-3">
                 <div>
-                    <h1 className="text-xl font-bold tracking-tight text-slate-900">Fuel Levels</h1>
-                    <p className="text-slate-500 text-xs">Monitor tank levels and historical data</p>
+                    <h4 className="font-bold text-zinc-900 text-lg leading-none m-0">Fuel Levels</h4>
+                    <span className="text-xs text-zinc-500 mt-0.5 inline-block">Monitor tank levels and historical data</span>
                 </div>
-                <Button variant="outline" size="sm" onClick={loadData}>
-                    <RefreshCw className="mr-2 h-4 w-4" />
+                <Button
+                    onClick={loadData}
+                    className="bg-[#3c8e75] hover:bg-[#317561] text-white text-xs font-semibold rounded px-3 py-1.5 flex items-center gap-1 transition-colors duration-200 border-0 h-8 shadow-sm"
+                >
+                    <RefreshCw className="h-3.5 w-3.5 mr-0.5" />
                     Refresh
                 </Button>
             </div>
 
-            {/* Historical Data */}
-            <Card className="rounded-none border border-slate-200 shadow-xs">
-                <CardContent className="px-0 pb-6 mt-4">
-                    <div className="flex flex-col sm:flex-row gap-2 mb-2 px-6">
-                        <div className="relative flex-1">
-                            <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
-                            <input
-                                type="text"
-                                placeholder="Search by date or status..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="w-full rounded-none border border-slate-300 bg-white pl-8 pr-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-xs"
-                            />
+            {/* Filters & Chart Card wrapper */}
+            <div className="bg-white border border-slate-200 shadow-sm rounded p-3 mb-4">
+                {/* Filter bar container matching the bootstrap grid structure */}
+                <div className="mb-3 py-2 px-3 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+                        {/* Search Input Group (col-md-5 equivalent) */}
+                        <div className="md:col-span-5">
+                            <div className="flex h-9">
+                                <div className="relative flex-1 flex items-stretch">
+                                    <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-white rounded-l text-slate-400">
+                                        <Search className="h-3.5 w-3.5" />
+                                    </span>
+                                    <input
+                                        type="text"
+                                        placeholder="Search by date or status..."
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        className="flex-1 border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-9 rounded-none"
+                                    />
+                                </div>
+                                <Button
+                                    onClick={() => {}}
+                                    className="bg-[#f26522] hover:bg-[#d94f12] text-[11px] font-bold text-white px-4 rounded-r rounded-l-none h-9 border border-[#f26522] transition-colors duration-200 shrink-0"
+                                >
+                                    Search
+                                </Button>
+                            </div>
                         </div>
-                        <Button className="h-7 text-xs px-3" size="sm">Search</Button>
-                        <div className="flex items-center gap-2 flex-wrap">
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">FROM:</span>
+
+                        {/* FROM Date Selector (col-md-3 equivalent) */}
+                        <div className="md:col-span-3 flex items-center h-9">
+                            <div className="flex items-center gap-2 w-full">
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider shrink-0">FROM:</label>
                                 <input
                                     type="date"
                                     value={startDate}
                                     onChange={(e) => setStartDate(e.target.value)}
-                                    className="rounded-none border border-slate-300 bg-white px-2.5 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-xs h-7"
+                                    className="flex-1 rounded border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-9 shadow-xs"
                                 />
                             </div>
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">TO:</span>
+                        </div>
+
+                        {/* TO Date Selector (col-md-3 equivalent) */}
+                        <div className="md:col-span-3 flex items-center h-9">
+                            <div className="flex items-center gap-2 w-full">
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider shrink-0">TO:</label>
                                 <input
                                     type="date"
                                     value={endDate}
                                     onChange={(e) => setEndDate(e.target.value)}
-                                    className="rounded-none border border-slate-300 bg-white px-2.5 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-xs h-7"
+                                    className="flex-1 rounded border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-9 shadow-xs"
                                 />
                             </div>
-                            <Button variant="outline" size="sm" className="h-7 text-xs px-2.5">
-                                <Download className="h-3.5 w-3.5" />
-                            </Button>
+                        </div>
+
+                        {/* Action Buttons (col-md-1 equivalent) */}
+                        <div className="md:col-span-1 flex items-center justify-end h-9">
+                            <div className="flex items-center gap-2">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={loadData}
+                                    className="h-9 w-9 p-0 rounded border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors shrink-0"
+                                >
+                                    <RefreshCw className="h-3.5 w-3.5" />
+                                </Button>
+                                <Button
+                                    onClick={() => {}}
+                                    className="h-9 w-9 p-0 bg-[#f26522] hover:bg-[#d94f12] text-white rounded border border-[#f26522] transition-colors duration-200 shrink-0"
+                                >
+                                    <Download className="h-3.5 w-3.5" />
+                                </Button>
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    {/* Area Chart matching the screenshot exactly */}
-                    <div className="h-[350px] mb-6 px-6">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
-                                <defs>
-                                    <linearGradient id="colorFuel" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#74b9ff" stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor="#74b9ff" stopOpacity={0.1} />
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#f0f0f0" />
-                                <XAxis
-                                    dataKey="createdAt"
-                                    tickFormatter={formatDateTick}
-                                    tick={{ fill: '#666', fontSize: 11 }}
-                                    axisLine={{ stroke: '#ccc' }}
-                                />
-                                <YAxis
-                                    tickFormatter={(val) => formatNumber(val)}
-                                    tick={{ fill: '#666', fontSize: 11 }}
-                                    axisLine={{ stroke: '#ccc' }}
-                                />
-                                <Tooltip
-                                    content={({ active, payload }) => {
-                                        if (active && payload && payload.length) {
-                                            const val = Number(payload[0].value);
-                                            const date = payload[0].payload.date;
-                                            const time = payload[0].payload.time;
+                {/* Area Chart matching the bootstrap design */}
+                <div style={{ height: '380px' }} className="w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
+                            <defs>
+                                <linearGradient id="colorFuel" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#3498db" stopOpacity={0.4} />
+                                    <stop offset="95%" stopColor="#3498db" stopOpacity={0.0} />
+                                </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#f0f0f0" />
+                            <XAxis
+                                dataKey="createdAt"
+                                tickFormatter={formatDateTick}
+                                tick={{ fill: '#666', fontSize: 11 }}
+                                axisLine={{ stroke: '#ccc' }}
+                            />
+                            <YAxis
+                                tickFormatter={(val) => formatNumber(val)}
+                                tick={{ fill: '#666', fontSize: 11 }}
+                                axisLine={{ stroke: '#ccc' }}
+                            />
+                            <Tooltip
+                                content={({ active, payload }) => {
+                                    if (active && payload && payload.length) {
+                                        const val = Number(payload[0].value);
+                                        const date = payload[0].payload.date;
+                                        const time = payload[0].payload.time;
 
-                                            // Render exact custom tooltip from screenshot style
-                                            return (
-                                                <div className="bg-white border border-[#3498db]/40 p-3 rounded shadow-lg text-xs">
-                                                    <p className="font-bold text-slate-800">{formatDateTick(date)} {time}</p>
-                                                    <div className="flex items-center gap-1.5 mt-1 font-semibold text-[#2980b9]">
-                                                        <span>🛢️ {formatNumber(val)} L</span>
-                                                    </div>
+                                        return (
+                                            <div className="bg-white border border-[#3498db]/40 p-3 rounded shadow-lg text-xs">
+                                                <p className="font-bold text-slate-800">{formatDateTick(date)} {time}</p>
+                                                <div className="flex items-center gap-1.5 mt-1 font-semibold text-[#2980b9]">
+                                                    <span>🛢️ {formatNumber(val)} L</span>
                                                 </div>
-                                            );
-                                        }
-                                        return null;
-                                    }}
-                                />
-                                <Area
-                                    type="monotone"
-                                    dataKey="fuelLevel"
-                                    stroke="#3498db"
-                                    strokeWidth={2.5}
-                                    fillOpacity={1}
-                                    fill="url(#colorFuel)"
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
-                    </div>
-                </CardContent>
-            </Card>
+                                            </div>
+                                        );
+                                    }
+                                    return null;
+                                }}
+                            />
+                            <Area
+                                type="monotone"
+                                dataKey="fuelLevel"
+                                stroke="#3498db"
+                                strokeWidth={2.5}
+                                fillOpacity={1}
+                                fill="url(#colorFuel)"
+                            />
+                        </AreaChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
         </PageContainer>
     );
 }
