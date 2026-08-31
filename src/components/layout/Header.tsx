@@ -16,7 +16,7 @@ export function Header() {
     const { user } = useAuth();
 
     return (
-        <header className="sticky top-0 z-40 flex h-16 items-center justify-between gap-4 bg-gradient-to-r from-[#f26522] to-[#e25c00] text-white px-6 shadow-md">
+        <header className="sticky top-0 z-40 flex h-20 items-center justify-between gap-4 bg-gradient-to-r from-[#f26522] to-[#e25c00] text-white px-6 shadow-md">
             <div className="flex items-center gap-4">
                 <Button
                     variant="ghost"

@@ -66,12 +66,12 @@ export function Sidebar() {
 
     const sidebarContent = (
         <div className="flex h-full flex-col bg-[#111111] text-zinc-300 border-r border-zinc-900">
-            <div className={cn("flex h-16 items-center border-b border-zinc-900 transition-all duration-300", isCollapsed ? "flex-col justify-center gap-1 py-1 px-1" : "justify-between px-6")}>
+            <div className={cn("flex h-20 items-center border-b border-zinc-900 transition-all duration-300", isCollapsed ? "flex-col justify-center gap-1 py-1 px-1" : "justify-between px-6")}>
                 <Link href="/dashboard" className="flex items-center justify-center shrink-0">
                     <img
                         src={isCollapsed ? "/assests/imagecrop.png" : "/assests/image.png"}
                         alt="Fuel Master Logo"
-                        className="h-10 w-auto object-contain transition-all duration-300"
+                        className="h-14 w-auto object-contain transition-all duration-300"
                     />
                 </Link>
                 {/* {!isMobile && (
