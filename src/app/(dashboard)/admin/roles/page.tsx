@@ -122,10 +122,13 @@ export default function RolesPage() {
                         <h1 className="font-semibold text-zinc-900 text-2xl leading-tight m-0">Roles & Permissions</h1>
                         <p className="text-sm text-zinc-500 mt-1 inline-block">Manage role-based access control</p>
                     </div>
-                    <Button variant="outline" size="sm" className="h-7 text-xs px-2.5">
-                        <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="bg-[#3c8e75] hover:bg-[#317561] text-sm font-semibold rounded px-4 py-2 flex items-center gap-1.5 transition-colors duration-200 border-0 h-10 shadow-sm text-white"
+                    >
+                        <RefreshCw className="h-4 w-4" />
                         Refresh
-                    </Button>
+                    </button>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-3">

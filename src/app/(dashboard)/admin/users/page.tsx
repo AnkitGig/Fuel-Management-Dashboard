@@ -171,16 +171,16 @@ export default function UsersPage() {
                     </div>
 
                     <div className="overflow-x-auto border border-slate-200 shadow-xs rounded mb-4">
-                        <table className="w-full text-xs border-collapse">
+                        <table className="w-full text-sm border-collapse">
                             <thead>
                                 <tr>
-                                    <th className="bg-[#f26522] text-white py-2.5 px-3 text-left font-semibold">Name</th>
-                                    <th className="bg-[#137e19] text-white py-2.5 px-3 text-left font-semibold">Email</th>
-                                    <th className="bg-[#137e19] text-white py-2.5 px-3 text-left font-semibold">Role</th>
-                                    <th className="bg-[#137e19] text-white py-2.5 px-3 text-left font-semibold">Status</th>
-                                    <th className="bg-[#137e19] text-white py-2.5 px-3 text-left font-semibold">Last Login</th>
-                                    <th className="bg-[#001b33] text-white py-2.5 px-3 text-left font-semibold">Created Date</th>
-                                    <th className="bg-[#001b33] text-white py-2.5 px-3 text-left font-semibold">Actions</th>
+                                    <th className="bg-[#f26522] text-white py-2 px-3 text-left font-semibold">Name</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Email</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Role</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Status</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Last Login</th>
+                                    <th className="bg-[#001b33] text-white py-2 px-3 text-left font-semibold">Created Date</th>
+                                    <th className="bg-[#001b33] text-white py-2 px-3 text-left font-semibold">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -193,14 +193,14 @@ export default function UsersPage() {
                                 ) : (
                                     users.map((user) => (
                                         <tr key={user.id} className="border-b border-slate-200 last:border-0 odd:bg-white even:bg-[#fff9f5] hover:bg-slate-50 transition-colors">
-                                            <td className="py-2.5 px-3 font-bold text-slate-900 align-middle">{user.name}</td>
-                                            <td className="py-2.5 px-3 text-slate-700 align-middle">{user.email}</td>
-                                            <td className="py-2.5 px-3 align-middle">
+                                            <td className="py-2 px-3 font-bold text-slate-900 align-middle">{user.name}</td>
+                                            <td className="py-2 px-3 text-slate-700 align-middle">{user.email}</td>
+                                            <td className="py-2 px-3 align-middle">
                                                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#e0f0ff] text-[#0066cc]">
                                                     <span className="text-[#3b82f6] font-bold mr-0.5">•</span> {user.role}
                                                 </span>
                                             </td>
-                                            <td className="py-2.5 px-3 align-middle">
+                                            <td className="py-2 px-3 align-middle">
                                                 {user.status === 'Active' ? (
                                                     <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#e2f5ea] text-[#137e19]">
                                                         <span className="text-[#137e19] font-bold mr-0.5">•</span> Active
@@ -211,9 +211,9 @@ export default function UsersPage() {
                                                     </span>
                                                 )}
                                             </td>
-                                            <td className="py-2.5 px-3 text-slate-700 align-middle">{user.lastLogin || 'Never'}</td>
-                                            <td className="py-2.5 px-3 text-slate-700 align-middle">{formatDate(user.createdAt)}</td>
-                                            <td className="py-2.5 px-3 align-middle">
+                                            <td className="py-2 px-3 text-slate-700 align-middle">{user.lastLogin || 'Never'}</td>
+                                            <td className="py-2 px-3 text-slate-700 align-middle">{formatDate(user.createdAt)}</td>
+                                            <td className="py-2 px-3 align-middle">
                                                 <div className="flex gap-2 justify-start items-center">
                                                     <button
                                                         title="View Details"
