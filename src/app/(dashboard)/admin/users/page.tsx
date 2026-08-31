@@ -132,7 +132,7 @@ export default function UsersPage() {
                 <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
                     <AlertTriangle className="h-12 w-12 text-destructive" />
                     <p className="text-lg text-muted-foreground">{error}</p>
-                    <Button onClick={loadData}>Try Again</Button>
+                    <Button onClick={() => loadData()}>Try Again</Button>
                 </div>
             </PageContainer>
         );
@@ -147,7 +147,7 @@ export default function UsersPage() {
                 </div>
                 <div className="flex gap-2">
                     <button
-                        onClick={loadData}
+                        onClick={() => loadData()}
                         className="bg-[#3c8e75] hover:bg-[#317561] text-sm font-semibold rounded px-4 py-2 flex items-center gap-1.5 transition-colors duration-200 border-0 h-10 shadow-sm text-white"
                     >
                         <RefreshCw className="h-4 w-4" />
