@@ -143,7 +143,7 @@ export default function DeliveriesPage() {
                         <div className="flex flex-col sm:flex-row flex-1 gap-3 items-stretch sm:items-end">
                             {/* Search Input Group */}
                             <div className="flex-1 min-w-[200px] flex flex-col gap-1.5">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search transactions</label>
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search Deliveries</label>
                                 <div className="flex h-8">
                                     <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-slate-50 rounded-l text-slate-400">
                                         <Search className="h-3 w-3" />

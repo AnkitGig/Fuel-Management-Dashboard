@@ -189,7 +189,7 @@ export default function VehiclesPage() {
                         <div className="grid grid-cols-12 gap-2 items-end">
                             {/* Search Input Group */}
                             <div className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3 flex flex-col gap-1.5">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search transactions</label>
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search vehicles </label>
                                 <div className="flex h-8">
                                     <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-slate-50 rounded-l text-slate-400">
                                         <Search className="h-3 w-3" />
