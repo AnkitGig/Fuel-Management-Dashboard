@@ -26,6 +26,7 @@ export default function FuelLimitsPage() {
     const [limits, setLimits] = useState<FuelLimitRecord[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
+    const [searchInput, setSearchInput] = useState('');
     const [selectedDepartment, setSelectedDepartment] = useState('');
     const [selectedLimitType, setSelectedLimitType] = useState('');
 
@@ -97,14 +98,14 @@ export default function FuelLimitsPage() {
     };
 
     const handleSearch = () => {
-        loadLimitsAndUsage();
+        setSearch(searchInput);
     };
 
     const handleReset = () => {
+        setSearchInput('');
         setSearch('');
         setSelectedDepartment('');
         setSelectedLimitType('');
-        loadLimitsAndUsage();
     };
 
     const handleExport = () => {
@@ -187,8 +188,8 @@ export default function FuelLimitsPage() {
                                         <input
                                             type="text"
                                             placeholder="Search asset or driver name..."
-                                            value={search}
-                                            onChange={(e) => setSearch(e.target.value)}
+                                            value={searchInput}
+                                            onChange={(e) => setSearchInput(e.target.value)}
                                             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                                             className="flex-1 border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 rounded-r rounded-l-none"
                                         />

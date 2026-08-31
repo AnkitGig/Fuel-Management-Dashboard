@@ -29,6 +29,7 @@ export default function FuelEfficiencySummaryPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [search, setSearch] = useState('');
+    const [searchInput, setSearchInput] = useState('');
     const [selectedEfficiency, setSelectedEfficiency] = useState('');
 
     useEffect(() => {
@@ -110,13 +111,13 @@ export default function FuelEfficiencySummaryPage() {
     };
 
     const handleSearch = () => {
-        loadData();
+        setSearch(searchInput);
     };
 
     const handleReset = () => {
+        setSearchInput('');
         setSearch('');
         setSelectedEfficiency('');
-        loadData();
     };
 
     const handleExport = () => {
@@ -200,8 +201,8 @@ export default function FuelEfficiencySummaryPage() {
                                         <input
                                             type="text"
                                             placeholder="Search by vehicle..."
-                                            value={search}
-                                            onChange={(e) => setSearch(e.target.value)}
+                                            value={searchInput}
+                                            onChange={(e) => setSearchInput(e.target.value)}
                                             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                                             className="flex-1 border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 rounded-r rounded-l-none"
                                         />

@@ -70,15 +70,19 @@ export default function DeliveriesPage() {
         checkAuth();
     }, [router, page, selectedClient, startDate, endDate]);
 
-    const loadData = async () => {
+    const loadData = async (
+        overrideSearch?: string,
+        overrideStart?: string,
+        overrideEnd?: string
+    ) => {
         try {
             setLoading(true);
             const response = await deliveryService.getDeliveries({
                 page,
                 pageSize,
-                search: search || undefined,
-                startDate,
-                endDate,
+                search: overrideSearch !== undefined ? overrideSearch || undefined : search || undefined,
+                startDate: overrideStart !== undefined ? overrideStart : startDate,
+                endDate: overrideEnd !== undefined ? overrideEnd : endDate,
             });
             setDeliveries(response.data);
             setTotal(response.total);
@@ -94,6 +98,14 @@ export default function DeliveriesPage() {
     const handleSearch = () => {
         setPage(1);
         loadData();
+    };
+
+    const handleReset = () => {
+        setSearch('');
+        setStartDate('');
+        setEndDate('');
+        setPage(1);
+        loadData('', '', '');
     };
 
     const handleExport = async () => {
@@ -209,9 +221,16 @@ export default function DeliveriesPage() {
                         {/* Action Buttons */}
                         <div className="flex gap-2 justify-start md:justify-end h-8 shrink-0">
                             <Button
+                                onClick={handleSearch}
+                                className="bg-[#f26522] hover:bg-[#d94f12] text-xs font-semibold text-white px-4 rounded h-8 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
+                            >
+                                <Sliders className="h-3.5 w-3.5" />
+                                Search
+                            </Button>
+                            <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={loadData}
+                                onClick={handleReset}
                                 className="h-8 px-4 rounded border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors flex items-center justify-center gap-1.5 text-xs font-semibold"
                                 title="Reset filters"
                             >

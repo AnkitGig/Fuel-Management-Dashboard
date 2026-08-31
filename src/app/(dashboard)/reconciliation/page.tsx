@@ -100,8 +100,8 @@ export default function ReconciliationPage() {
     const [totalPages, setTotalPages] = useState(1);
 
     // Date range filters
-    const [startDate, setStartDate] = useState('2026-08-01');
-    const [endDate, setEndDate] = useState('2026-08-19');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -196,7 +196,7 @@ export default function ReconciliationPage() {
 
     const handleExport = () => {
         if (records.length === 0) return;
-        
+
         const headers = ['Date', 'Opening Balance', 'Deliveries', 'Fuel Issues', 'Expected Closing', 'Actual Closing', 'Variance', 'Variance %', 'Status'];
         const rows = records.map(record => {
             const vPercent = record.expectedClosing > 0 ? (record.variance / record.expectedClosing) * 100 : 0;
@@ -212,12 +212,12 @@ export default function ReconciliationPage() {
                 record.status
             ];
         });
-        
+
         const csvContent = [
             headers.join(','),
             ...rows.map(row => row.map(val => typeof val === 'string' ? `"${val}"` : val).join(','))
         ].join('\n');
-        
+
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -258,7 +258,7 @@ export default function ReconciliationPage() {
                     <h2 className="font-semibold text-zinc-900 text-2xl leading-tight m-0">Reconciliation</h2>
                     <span className="text-sm text-zinc-500 mt-1 inline-block">Daily fuel reconciliation and variance tracking</span>
                 </div>
-                
+
                 <div className="flex flex-wrap items-end gap-3 w-full lg:w-auto">
                     <div className="flex flex-col gap-1 w-full sm:w-auto">
                         <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Date From</label>
