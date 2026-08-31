@@ -82,6 +82,10 @@ export const vehicleService = {
         data = data.filter(item => item.status === params.status);
       }
 
+      if (params.vehicleType) {
+        data = data.filter(item => item.vehicleType === params.vehicleType);
+      }
+
       // Sort by vehicleId
       data.sort((a, b) => a.vehicleId.localeCompare(b.vehicleId));
 

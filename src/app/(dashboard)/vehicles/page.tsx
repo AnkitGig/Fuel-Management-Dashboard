@@ -83,6 +83,7 @@ export default function VehiclesPage() {
     // Filter states
     const [search, setSearch] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
+    const [selectedVehicleType, setSelectedVehicleType] = useState('');
     const [startDate, setStartDate] = useState('2026-08-01');
     const [endDate, setEndDate] = useState('2026-08-19');
 
@@ -106,6 +107,7 @@ export default function VehiclesPage() {
     const loadData = async (
         overrideSearch?: string,
         overrideStatus?: string,
+        overrideVehicleType?: string,
         overrideStart?: string,
         overrideEnd?: string
     ) => {
@@ -116,6 +118,7 @@ export default function VehiclesPage() {
                 pageSize,
                 search: overrideSearch !== undefined ? overrideSearch || undefined : search || undefined,
                 status: overrideStatus !== undefined ? overrideStatus || undefined : selectedStatus || undefined,
+                vehicleType: overrideVehicleType !== undefined ? overrideVehicleType || undefined : selectedVehicleType || undefined,
                 startDate: overrideStart !== undefined ? overrideStart : startDate,
                 endDate: overrideEnd !== undefined ? overrideEnd : endDate,
             });
@@ -138,10 +141,11 @@ export default function VehiclesPage() {
     const handleReset = () => {
         setSearch('');
         setSelectedStatus('');
+        setSelectedVehicleType('');
         setStartDate('2026-08-01');
         setEndDate('2026-08-19');
         setPage(1);
-        loadData('', '', '2026-08-01', '2026-08-19');
+        loadData('', '', '', '2026-08-01', '2026-08-19');
     };
 
     if (loading && vehicles.length === 0) {
@@ -186,63 +190,60 @@ export default function VehiclesPage() {
                 <CardContent className="p-0">
                     {/* Filter bar container matching the bootstrap grid structure */}
                     <div className="mb-4 py-2.5 px-4 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full">
-                        <div className="grid grid-cols-12 gap-2 items-end">
-                            {/* Search Input Group */}
-                            <div className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3 flex flex-col gap-1.5">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search vehicles </label>
-                                <div className="flex h-8">
-                                    <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-slate-50 rounded-l text-slate-400">
-                                        <Search className="h-3 w-3" />
-                                    </span>
-                                    <input
-                                        type="text"
-                                        placeholder="Search by ID, type, or asset type..."
-                                        value={search}
-                                        onChange={(e) => setSearch(e.target.value)}
-                                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                        className="flex-1 border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 rounded-r rounded-l-none"
-                                    />
+                        <div className="flex flex-wrap items-end justify-between gap-4">
+                            {/* Left Filters Group */}
+                            <div className="flex flex-wrap items-end gap-3 flex-1 min-w-[280px]">
+                                {/* Search Input Group */}
+                                <div className="flex flex-col gap-1.5 min-w-[260px] flex-1 max-w-xs">
+                                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search vehicles</label>
+                                    <div className="flex h-8">
+                                        <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-slate-50 rounded-l text-slate-400">
+                                            <Search className="h-3 w-3" />
+                                        </span>
+                                        <input
+                                            type="text"
+                                            placeholder="Search by ID, type, or asset..."
+                                            value={search}
+                                            onChange={(e) => setSearch(e.target.value)}
+                                            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                                            className="flex-1 border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 rounded-r rounded-l-none"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Status Selector */}
+                                <div className="flex flex-col gap-1.5 min-w-[140px]">
+                                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Status</label>
+                                    <select
+                                        value={selectedStatus}
+                                        onChange={(e) => setSelectedStatus(e.target.value)}
+                                        className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 cursor-pointer w-full"
+                                    >
+                                        <option value="">All statuses</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                    </select>
+                                </div>
+
+                                {/* Vehicle Type Selector */}
+                                <div className="flex flex-col gap-1.5 min-w-[140px]">
+                                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Vehicle Type</label>
+                                    <select
+                                        value={selectedVehicleType}
+                                        onChange={(e) => setSelectedVehicleType(e.target.value)}
+                                        className="rounded border border-[#f26522] bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 cursor-pointer w-full"
+                                    >
+                                        <option value="">All types</option>
+                                        <option value="Car">Car</option>
+                                        <option value="Truck">Truck</option>
+                                        <option value="Bus">Bus</option>
+                                    </select>
                                 </div>
                             </div>
 
-                            {/* FROM Date Selector */}
-                            <div className="col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 flex flex-col gap-1.5">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">From date</label>
-                                <input
-                                    type="date"
-                                    value={startDate}
-                                    onChange={(e) => setStartDate(e.target.value)}
-                                    className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 shadow-xs w-full"
-                                />
-                            </div>
-
-                            {/* TO Date Selector */}
-                            <div className="col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 flex flex-col gap-1.5">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">To date</label>
-                                <input
-                                    type="date"
-                                    value={endDate}
-                                    onChange={(e) => setEndDate(e.target.value)}
-                                    className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 shadow-xs w-full"
-                                />
-                            </div>
-
-                            {/* DEM METHOD Dropdown Selector */}
-                            <div className="col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 flex flex-col gap-1.5">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Status</label>
-                                <select
-                                    value={selectedStatus}
-                                    onChange={(e) => setSelectedStatus(e.target.value)}
-                                    className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 cursor-pointer w-full"
-                                >
-                                    <option value="">All Statuses</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                </select>
-                            </div>
-
-                            {/* Action Buttons */}
-                            <div className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-3 flex gap-2 justify-start xl:justify-end h-8">
+                            {/* Right Action Buttons Group */}
+                            <div className="flex items-end gap-2">
+                                {/* Search Button */}
                                 <Button
                                     onClick={handleSearch}
                                     className="bg-[#f26522] hover:bg-[#d94f12] text-xs font-semibold text-white px-4 rounded h-8 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
@@ -250,16 +251,20 @@ export default function VehiclesPage() {
                                     <Sliders className="h-3.5 w-3.5" />
                                     Search
                                 </Button>
+
+                                {/* Reset Button */}
                                 <Button
                                     variant="outline"
                                     size="sm"
                                     onClick={handleReset}
-                                    className="h-8 px-4 rounded border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors flex items-center justify-center gap-1.5 text-xs font-semibold"
+                                    className="h-8 px-4 rounded border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors flex items-center justify-center gap-1.5 text-xs font-semibold"
                                     title="Reset filters"
                                 >
                                     <RotateCcw className="h-3.5 w-3.5" />
                                     Reset
                                 </Button>
+
+                                {/* Export Button */}
                                 <Button
                                     onClick={() => { }}
                                     className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"

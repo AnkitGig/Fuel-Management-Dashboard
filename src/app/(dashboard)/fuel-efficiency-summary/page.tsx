@@ -29,6 +29,7 @@ export default function FuelEfficiencySummaryPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [search, setSearch] = useState('');
+    const [selectedEfficiency, setSelectedEfficiency] = useState('');
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -108,9 +109,27 @@ export default function FuelEfficiencySummaryPage() {
         }
     };
 
-    const filteredData = data.filter(item =>
-        item.description.toLowerCase().includes(search.toLowerCase())
-    );
+    const handleSearch = () => {
+        loadData();
+    };
+
+    const handleReset = () => {
+        setSearch('');
+        setSelectedEfficiency('');
+        loadData();
+    };
+
+    const filteredData = data.filter(item => {
+        const matchesSearch = item.description.toLowerCase().includes(search.toLowerCase());
+        
+        if (selectedEfficiency === 'Normal') {
+            return matchesSearch && item.ltrsPer100Km > 0 && item.ltrsPer100Km <= 15;
+        }
+        if (selectedEfficiency === 'Poor') {
+            return matchesSearch && item.ltrsPer100Km > 15;
+        }
+        return matchesSearch;
+    });
 
     if (loading) {
         return (
@@ -154,33 +173,66 @@ export default function FuelEfficiencySummaryPage() {
                 <CardContent className="p-0">
                     {/* Filter bar container matching the bootstrap grid structure */}
                     <div className="mb-4 py-2.5 px-4 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full">
-                        <div className="grid grid-cols-12 gap-2 items-end">
-                            {/* Search Input Group */}
-                            <div className="col-span-12 md:col-span-8 flex flex-col gap-1.5">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search vehicles</label>
-                                <div className="flex h-8">
-                                    <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-slate-50 rounded-l text-slate-400">
-                                        <Search className="h-3 w-3" />
-                                    </span>
-                                    <input
-                                        type="text"
-                                        placeholder="Search by vehicle..."
-                                        value={search}
-                                        onChange={(e) => setSearch(e.target.value)}
-                                        className="flex-1 border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 rounded-r rounded-l-none"
-                                    />
+                        <div className="flex flex-wrap items-end justify-between gap-4">
+                            {/* Left Filters Group */}
+                            <div className="flex flex-wrap items-end gap-3 flex-1 min-w-[280px]">
+                                {/* Search Input Group */}
+                                <div className="flex flex-col gap-1.5 min-w-[260px] flex-1 max-w-xs">
+                                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search vehicles</label>
+                                    <div className="flex h-8">
+                                        <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-slate-50 rounded-l text-slate-400">
+                                            <Search className="h-3 w-3" />
+                                        </span>
+                                        <input
+                                            type="text"
+                                            placeholder="Search by vehicle..."
+                                            value={search}
+                                            onChange={(e) => setSearch(e.target.value)}
+                                            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                                            className="flex-1 border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 rounded-r rounded-l-none"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Efficiency Result Selector */}
+                                <div className="flex flex-col gap-1.5 min-w-[200px]">
+                                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Efficiency Result</label>
+                                    <select
+                                        value={selectedEfficiency}
+                                        onChange={(e) => setSelectedEfficiency(e.target.value)}
+                                        className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 cursor-pointer w-full"
+                                    >
+                                        <option value="">All results</option>
+                                        <option value="Normal">Normal Efficiency (&le; 15 L/100Km)</option>
+                                        <option value="Poor">Poor Efficiency (&gt; 15 L/100Km)</option>
+                                    </select>
                                 </div>
                             </div>
 
-                            {/* Action Buttons */}
-                            <div className="col-span-12 md:col-span-4 flex gap-2 justify-start md:justify-end h-8">
+                            {/* Right Action Buttons Group */}
+                            <div className="flex items-end gap-2">
+                                {/* Search Button */}
                                 <Button
-                                    onClick={() => { }}
+                                    onClick={handleSearch}
                                     className="bg-[#f26522] hover:bg-[#d94f12] text-xs font-semibold text-white px-4 rounded h-8 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
                                 >
                                     <Sliders className="h-3.5 w-3.5" />
                                     Search
                                 </Button>
+
+                                {/* Reset Button */}
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={handleReset}
+                                    className="h-8 px-4 rounded border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors flex items-center justify-center gap-1.5 text-xs font-semibold"
+                                    title="Reset filters"
+                                >
+                                    <RotateCcw className="h-3.5 w-3.5" />
+                                    Reset
+                                </Button>
+
+                                {/* Export Button */}
                                 <Button
                                     onClick={() => { }}
                                     className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
