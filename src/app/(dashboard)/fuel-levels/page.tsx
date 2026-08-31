@@ -1,4 +1,3 @@
-// src/app/(dashboard)/fuel-levels/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -29,9 +28,18 @@ export default function FuelLevelsPage() {
     const [levels, setLevels] = useState<FuelLevel[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const getPastDateStr = (daysAgo: number) => {
+        const d = new Date();
+        d.setDate(d.getDate() - daysAgo);
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    };
+
+    const [startDate, setStartDate] = useState(getPastDateStr(6));
+    const [endDate, setEndDate] = useState(getPastDateStr(0));
     const [search, setSearch] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -43,14 +51,17 @@ export default function FuelLevelsPage() {
             loadData();
         };
         checkAuth();
-    }, [router, selectedClient]); // Reload when client changes
+    }, [router, selectedClient, startDate, endDate]);
 
     const loadData = async () => {
         try {
             setLoading(true);
-            const response = await fuelLevelService.getFuelLevels({ pageSize: 1000 });
+            const response = await fuelLevelService.getFuelLevels({
+                pageSize: 10000,
+                startDate: startDate || undefined,
+                endDate: endDate || undefined
+            });
 
-            // Sort chronologically by BOTH Date and Time for correct area chart trend line mapping
             const sortedData = [...response.data].sort((a, b) => {
                 const timeA = new Date(`${a.date}T${a.time}Z`).getTime();
                 const timeB = new Date(`${b.date}T${b.time}Z`).getTime();
@@ -82,12 +93,32 @@ export default function FuelLevelsPage() {
         return matchesSearch && matchesDateRange;
     });
 
+    const getChartData = () => {
+        if (startDate || endDate) {
+            return filteredLevels;
+        }
+        if (filteredLevels.length === 0) {
+            return [];
+        }
+        const latestDateStr = filteredLevels[filteredLevels.length - 1].date;
+        const latestDate = new Date(latestDateStr);
+        const sevenDaysAgo = new Date(latestDate);
+        sevenDaysAgo.setDate(latestDate.getDate() - 7);
+        const sevenDaysAgoStr = sevenDaysAgo.toISOString().split('T')[0];
+
+        return filteredLevels.filter(level => level.date >= sevenDaysAgoStr);
+    };
+
+    const chartData = getChartData();
+
     const formatDateTick = (tickItem: string) => {
         try {
-            const date = new Date(tickItem);
+            const dateStr = tickItem.split('T')[0];
+            const parts = dateStr.split('-');
+            const month = parseInt(parts[1], 10) - 1;
+            const day = parseInt(parts[2], 10);
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            const day = String(date.getDate()).padStart(2, '0');
-            return `${months[date.getMonth()]} ${day}`;
+            return `${months[month]} ${String(day).padStart(2, '0')}`;
         } catch {
             return tickItem;
         }
@@ -114,9 +145,6 @@ export default function FuelLevelsPage() {
             </PageContainer>
         );
     }
-
-    // Prepare chart data (slice to latest 60 points for better readability)
-    const chartData = filteredLevels.slice(-60);
 
     return (
         <PageContainer>
@@ -186,7 +214,11 @@ export default function FuelLevelsPage() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={loadData}
+                                onClick={() => {
+                                    setSearch('');
+                                    setStartDate(getPastDateStr(6));
+                                    setEndDate(getPastDateStr(0));
+                                }}
                                 className="h-8 px-4 rounded border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors flex items-center justify-center gap-1.5 text-xs font-semibold"
                                 title="Reset filters"
                             >
