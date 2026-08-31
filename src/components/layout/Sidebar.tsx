@@ -33,11 +33,11 @@ const navigationItems = [
     // { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Fuel Levels', href: '/fuel-levels', icon: Droplet },
     { name: 'Deliveries', href: '/deliveries', icon: Truck },
-    { name: 'Transactions', href: '/fuel-issues', icon: FileText }
-    // { name: 'Fuel Efficiency', href: '/vehicles', icon: Fuel },
-    // { name: 'Fuel Efficiency Summary', href: '/fuel-efficiency-summary', icon: FileBarChart },
-    // { name: 'Fuel Limits', href: '/fuel-limits', icon: Sliders },
-    // { name: 'Reconciliation', href: '/reconciliation', icon: RefreshCw },
+    { name: 'Transactions', href: '/fuel-issues', icon: FileText },
+    { name: 'Fuel Efficiency', href: '/vehicles', icon: Fuel },
+    { name: 'Fuel Efficiency Summary', href: '/fuel-efficiency-summary', icon: FileBarChart },
+    { name: 'Fuel Limits', href: '/fuel-limits', icon: Sliders },
+    { name: 'Reconciliation', href: '/reconciliation', icon: RefreshCw }
 ];
 
 const adminItems = [
@@ -65,13 +65,19 @@ export function Sidebar() {
     };
 
     const sidebarContent = (
-        <div className="flex h-full flex-col bg-[#111111] text-zinc-300 border-r border-zinc-900">
-            <div className={cn("flex h-20 items-center border-b border-zinc-900 transition-all duration-300", isCollapsed ? "flex-col justify-center gap-1 py-1 px-1" : "justify-between px-6")}>
+        <div
+            className="flex h-full flex-col text-zinc-300 border-r border-zinc-900"
+            style={{ background: 'linear-gradient(180deg, #0d0000 0%, #2f1201 48%, #000000 100%)' }}
+        >
+            <div className={cn("flex h-18 items-center border-b border-[#f26522] transition-all duration-300", isCollapsed ? "flex-col justify-center gap-1 py-1 px-1" : "justify-between px-6")}>
                 <Link href="/dashboard" className="flex items-center justify-center shrink-0">
                     <img
                         src={isCollapsed ? "/assests/imagecrop.png" : "/assests/image.png"}
                         alt="Fuel Master Logo"
-                        className="h-14 w-auto object-contain transition-all duration-300"
+                        className={cn(
+                            "object-contain transition-all duration-300",
+                            isCollapsed ? "h-10 w-auto" : "w-[174px] h-[45px]"
+                        )}
                     />
                 </Link>
                 {/* {!isMobile && (
@@ -139,7 +145,7 @@ export function Sidebar() {
                 })} */}
             </nav>
 
-            <div className="border-t border-zinc-900 p-4 space-y-3 bg-[#0c0c0d]">
+            <div className="border-t border-zinc-900 p-4 space-y-3 bg-black/20">
                 {!isCollapsed && (
                     <div className="flex items-center gap-2.5 px-1 py-1">
                         <div className="h-9 w-9 rounded-full bg-amber-500 text-black flex items-center justify-center font-bold shrink-0 text-sm">
@@ -178,7 +184,7 @@ export function Sidebar() {
                 )}
                 <div
                     className={cn(
-                        'fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 ease-in-out' +
+                        'fixed inset-y-0 left-0 z-50 w-60 transform transition-transform duration-300 ease-in-out' +
                         (isOpen ? ' translate-x-0' : ' -translate-x-full')
                     )}
                 >
@@ -192,7 +198,7 @@ export function Sidebar() {
     return (
         <div
             className={cn(
-                'transition-all duration-300 h-screen sticky top-0 shrink-0 border-r bg-[#111111] border-zinc-900',
+                'transition-all duration-300 h-screen sticky top-0 shrink-0 border-r bg-transparent border-zinc-900',
                 isOpen ? 'hidden md:block' : 'hidden',
                 isCollapsed ? 'w-16' : 'w-60'
             )}

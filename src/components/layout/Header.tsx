@@ -16,13 +16,16 @@ export function Header() {
     const { user } = useAuth();
 
     return (
-        <header className="sticky top-0 z-40 flex h-20 items-center justify-between gap-4 bg-gradient-to-r from-[#f26522] to-[#e25c00] text-white px-6 shadow-md">
+        <header 
+            className="sticky top-0 z-40 flex h-18 items-center justify-between gap-4 text-white px-6 shadow-md"
+            style={{ background: 'linear-gradient(180deg, #ff9f1c 0%, #f26a21 100%)' }}
+        >
             <div className="flex items-center gap-4">
                 <Button
                     variant="ghost"
                     size="sm"
                     onClick={toggle}
-                    className="rounded-lg text-white bg-white/10 hover:bg-white/20 border border-white/10 h-9 w-9 p-0 flex items-center justify-center transition-colors duration-200"
+                    className="rounded-2xl text-white bg-white/20 hover:bg-white/35 h-[45px] w-[45px] p-0 flex items-center justify-center transition-all duration-200 hover:text-white"
                 >
                     <Menu className="h-5 w-5 text-white" />
                 </Button>
