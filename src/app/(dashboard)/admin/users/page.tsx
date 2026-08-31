@@ -170,7 +170,7 @@ export default function UsersPage() {
                         </div>
                     </div>
 
-                    <div className="overflow-x-auto border border-slate-200 rounded">
+                    <div className="overflow-x-auto border border-slate-200 shadow-xs rounded mb-4">
                         <table className="w-full text-xs border-collapse">
                             <thead>
                                 <tr>
@@ -192,7 +192,7 @@ export default function UsersPage() {
                                     </tr>
                                 ) : (
                                     users.map((user) => (
-                                        <tr key={user.id} className="border-b border-slate-200 last:border-0 odd:bg-[#fcf4eb] even:bg-white hover:bg-[#f5eae0] transition-colors">
+                                        <tr key={user.id} className="border-b border-slate-200 last:border-0 odd:bg-white even:bg-[#fff9f5] hover:bg-slate-50 transition-colors">
                                             <td className="py-2.5 px-3 font-bold text-slate-900 align-middle">{user.name}</td>
                                             <td className="py-2.5 px-3 text-slate-700 align-middle">{user.email}</td>
                                             <td className="py-2.5 px-3 align-middle">

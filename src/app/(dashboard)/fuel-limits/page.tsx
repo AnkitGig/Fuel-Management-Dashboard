@@ -165,7 +165,7 @@ export default function FuelLimitsPage() {
                         </div>
                     </div>
 
-                    <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
+                    <div className="overflow-x-auto border border-slate-200 shadow-xs rounded mb-4">
                         <table className="w-full text-sm border-collapse whitespace-nowrap">
                             <thead>
                                 <tr>
@@ -190,7 +190,7 @@ export default function FuelLimitsPage() {
                                         const limitVal = item.fuelLimit;
                                         const remaining = limitVal === 'No Limit' ? 'No Limit' : limitVal - item.monthlyFuelUsed;
                                         return (
-                                            <tr key={idx} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
+                                            <tr key={idx} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors odd:bg-white even:bg-[#fff9f5]">
                                                 <td className="py-2 px-3 font-semibold text-slate-800 align-middle">{item.asset}</td>
                                                 <td className="py-2 px-3 text-slate-600 align-middle">{item.vehicleName}</td>
                                                 <td className="py-2 px-3 text-slate-500 align-middle">{item.department}</td>

@@ -277,8 +277,7 @@ export default function VehiclesPage() {
                         columns={columns}
                         keyExtractor={(v) => v.id}
                         emptyStateText="No vehicles found"
-                        className="border-y border-x-0 border-slate-200 rounded-none shadow-none mb-0"
-                        rowClassName="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors"
+                        rowClassName="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors odd:bg-white even:bg-[#fff9f5]"
                     />
 
                     {/* Pagination */}
