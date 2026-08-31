@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Calendar, Download, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Search, Calendar, Download, AlertTriangle, RefreshCw, RotateCcw } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/common/StatusBadge';
@@ -229,6 +229,12 @@ export default function ReconciliationPage() {
         document.body.removeChild(link);
     };
 
+    const handleReset = () => {
+        setStartDate('');
+        setEndDate('');
+        setPage(1);
+    };
+
     if (loading && records.length === 0) {
         return (
             <PageContainer>
@@ -284,6 +290,13 @@ export default function ReconciliationPage() {
                     >
                         <RefreshCw className="h-4 w-4" />
                         Refresh
+                    </Button>
+                    <Button
+                        onClick={handleReset}
+                        className="bg-white hover:bg-zinc-50 text-sm font-semibold border border-zinc-200 rounded px-4 py-2 flex items-center gap-1.5 transition-colors duration-200 h-10 shadow-sm text-zinc-600 w-full sm:w-auto justify-center"
+                    >
+                        <RotateCcw className="h-4 w-4" />
+                        Reset
                     </Button>
                     <Button
                         onClick={handleExport}

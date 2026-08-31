@@ -13,6 +13,7 @@ import {
     UserPlus,
     Trash2,
     RotateCw,
+    RotateCcw,
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -53,13 +54,13 @@ export default function UsersPage() {
         checkAuth();
     }, [router, page]);
 
-    const loadData = async () => {
+    const loadData = async (overrideSearch?: string) => {
         try {
             setLoading(true);
             const response = await userService.getUsers({
                 page,
                 pageSize,
-                search: search || undefined,
+                search: overrideSearch !== undefined ? overrideSearch || undefined : search || undefined,
             });
             setUsers(response.data);
             setTotal(response.total);
@@ -75,6 +76,12 @@ export default function UsersPage() {
     const handleSearch = () => {
         setPage(1);
         loadData();
+    };
+
+    const handleReset = () => {
+        setSearch('');
+        setPage(1);
+        loadData('');
     };
 
     const handleExport = async () => {
@@ -179,13 +186,21 @@ export default function UsersPage() {
                         <div className="flex gap-2 justify-start sm:justify-end h-8 shrink-0 w-full sm:w-auto">
                             <button
                                 onClick={handleSearch}
-                                className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-6 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5 w-full sm:w-auto"
+                                className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-6 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5 w-full sm:w-auto cursor-pointer"
                             >
                                 Search
                             </button>
                             <button
+                                onClick={handleReset}
+                                className="h-8 px-4 rounded border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors flex items-center justify-center gap-1.5 text-xs font-semibold cursor-pointer"
+                                title="Reset filters"
+                            >
+                                <RotateCcw className="h-3.5 w-3.5" />
+                                Reset
+                            </button>
+                            <button
                                 onClick={handleExport}
-                                className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5 w-full sm:w-auto"
+                                className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5 w-full sm:w-auto cursor-pointer"
                             >
                                 <Download className="h-3.5 w-3.5" />
                                 Export

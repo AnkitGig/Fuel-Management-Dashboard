@@ -11,9 +11,9 @@ export const reconciliationService = {
     try {
       // Fetch data from endpoints
       const defaultStart = '2026-08-01';
-      const levelsRes = await fuelLevelService.getFuelLevels({ pageSize: 200, startDate: params.startDate || defaultStart, endDate: params.endDate });
-      const deliveriesRes = await deliveryService.getDeliveries({ pageSize: 200, startDate: params.startDate || defaultStart, endDate: params.endDate });
-      const issuesRes = await fuelIssueService.getFuelIssues({ pageSize: 500, startDate: params.startDate || defaultStart, endDate: params.endDate });
+      const levelsRes = await fuelLevelService.getFuelLevels({ pageSize: 100000, startDate: params.startDate || defaultStart, endDate: params.endDate });
+      const deliveriesRes = await deliveryService.getDeliveries({ pageSize: 100000, startDate: params.startDate || defaultStart, endDate: params.endDate });
+      const issuesRes = await fuelIssueService.getFuelIssues({ pageSize: 100000, startDate: params.startDate || defaultStart, endDate: params.endDate });
 
       const levels = levelsRes.data;
       const deliveries = deliveriesRes.data;
