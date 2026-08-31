@@ -111,9 +111,9 @@ export default function UsersPage() {
 
     return (
         <PageContainer>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1">
+            <div className="flex justify-between items-center mb-4">
                 <div>
-                    <h1 className="text-xl font-bold tracking-tight text-slate-900">User Management</h1>
+                    <h1 className="font-semibold text-zinc-900 text-2xl leading-tight m-0">User Management</h1>
                     <p className="text-slate-500 text-xs">Manage system users and access</p>
                 </div>
                 <div className="flex gap-2">

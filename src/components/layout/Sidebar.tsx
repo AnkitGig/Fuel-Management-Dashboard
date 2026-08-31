@@ -102,7 +102,7 @@ export function Sidebar() {
                 )}
             </div>
 
-            <nav className="flex-1 overflow-y-auto py-3 pl-3 pr-0 space-y-1">
+            <nav className="flex-1 overflow-y-auto py-3 px-0 space-y-0">
                 {navigationItems.map((item) => {
                     const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
                     return (
@@ -110,11 +110,11 @@ export function Sidebar() {
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                'flex items-center gap-3 py-2 px-4 text-[14px] font-semibold transition-all duration-200',
+                                'flex items-center gap-3 py-[8.8px] pl-4 pr-6 text-[14px] font-bold transition-all duration-200 h-[44px] my-[3.2px] ml-[12.8px] mr-0 rounded-l-2xl rounded-r-none',
                                 isActive
-                                    ? 'bg-[#f26522] text-white rounded-l-xl rounded-r-none shadow-md'
-                                    : 'text-zinc-300 hover:bg-white/5 hover:text-white rounded-l-xl rounded-r-none mr-3',
-                                isCollapsed && 'justify-center px-2 mr-0'
+                                    ? 'bg-[#f26522] text-white shadow-md'
+                                    : 'text-zinc-300 hover:bg-white/5 hover:text-white',
+                                isCollapsed && 'justify-center px-2 mx-0 my-1 rounded-none'
                             )}
                         >
                             <item.icon className={cn("h-[18px] w-[18px] shrink-0 transition-transform duration-200", !isActive && "group-hover:scale-110")} />
@@ -123,26 +123,26 @@ export function Sidebar() {
                     );
                 })}
 
-                {/* {user?.role === 'Administrator' && adminItems.map((item) => {
+                {user?.role === 'Administrator' && adminItems.map((item) => {
                     const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
                     return (
                         <Link
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                'flex items-center gap-3 py-2 px-4 text-[13px] font-semibold transition-all duration-200',
+                                'flex items-center gap-3 py-[8.8px] pl-4 pr-6 text-[14px] font-bold transition-all duration-200 h-[44px] my-[3.2px] ml-[12.8px] mr-0 rounded-l-2xl rounded-r-none',
                                 item.name === 'Users' && 'mt-3',
                                 isActive
-                                    ? 'bg-[#f26522] text-white font-semibold rounded-l-xl rounded-r-none shadow-md'
-                                    : 'text-zinc-300 hover:bg-white/5 hover:text-white rounded-l-xl rounded-r-none mr-3',
-                                isCollapsed && 'justify-center px-2 mr-0'
+                                    ? 'bg-[#f26522] text-white shadow-md'
+                                    : 'text-zinc-300 hover:bg-white/5 hover:text-white',
+                                isCollapsed && 'justify-center px-2 mx-0 my-1 rounded-none'
                             )}
                         >
                             <item.icon className="h-[18px] w-[18px] shrink-0" />
                             {!isCollapsed && <span className="whitespace-nowrap">{item.name}</span>}
                         </Link>
                     );
-                })} */}
+                })}
             </nav>
 
             <div className="border-t border-zinc-900 p-4 space-y-3 bg-black/20">
@@ -184,7 +184,7 @@ export function Sidebar() {
                 )}
                 <div
                     className={cn(
-                        'fixed inset-y-0 left-0 z-50 w-60 transform transition-transform duration-300 ease-in-out' +
+                        'fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 ease-in-out' +
                         (isOpen ? ' translate-x-0' : ' -translate-x-full')
                     )}
                 >
@@ -200,7 +200,7 @@ export function Sidebar() {
             className={cn(
                 'transition-all duration-300 h-screen sticky top-0 shrink-0 border-r bg-transparent border-zinc-900',
                 isOpen ? 'hidden md:block' : 'hidden',
-                isCollapsed ? 'w-16' : 'w-60'
+                isCollapsed ? 'w-16' : 'w-64'
             )}
         >
             {sidebarContent}

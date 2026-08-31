@@ -138,7 +138,7 @@ export default function FuelEfficiencySummaryPage() {
         <PageContainer>
             <div className="flex justify-between items-center mb-4">
                 <div>
-                    <h2 className="font-extrabold text-zinc-900 text-2xl leading-tight m-0">Fuel Efficiency Summary</h2>
+                    <h2 className="font-semibold text-zinc-900 text-2xl leading-tight m-0">Fuel Efficiency Summary</h2>
                     <span className="text-sm text-zinc-500 mt-1 inline-block">Detailed view of vehicle fuel burn rates and usage (Calculated from Live API)</span>
                 </div>
                 <Button

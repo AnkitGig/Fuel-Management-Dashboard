@@ -117,10 +117,10 @@ export default function RolesPage() {
     return (
         <PageContainer>
             <div className="space-y-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1">
+                <div className="flex justify-between items-center mb-4">
                     <div>
-                        <h1 className="text-xl font-bold tracking-tight text-slate-900">Roles & Permissions</h1>
-                        <p className="text-slate-500 text-xs">Manage role-based access control</p>
+                        <h1 className="font-semibold text-zinc-900 text-2xl leading-tight m-0">Roles & Permissions</h1>
+                        <p className="text-sm text-zinc-500 mt-1 inline-block">Manage role-based access control</p>
                     </div>
                     <Button variant="outline" size="sm" className="h-7 text-xs px-2.5">
                         <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
@@ -130,10 +130,10 @@ export default function RolesPage() {
 
                 <div className="grid gap-4 md:grid-cols-3">
                     {roleData.map((role) => {
-                        const headerBg = role.role === 'Administrator' 
-                            ? 'bg-primary' 
-                            : role.role === 'Manager' 
-                                ? 'bg-[#137e19]' 
+                        const headerBg = role.role === 'Administrator'
+                            ? 'bg-primary'
+                            : role.role === 'Manager'
+                                ? 'bg-[#137e19]'
                                 : 'bg-[#555555]';
 
                         return (

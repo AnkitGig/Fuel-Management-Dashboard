@@ -117,7 +117,7 @@ export default function FuelLimitsPage() {
         <PageContainer>
             <div className="flex justify-between items-center mb-4">
                 <div>
-                    <h2 className="font-extrabold text-zinc-900 text-2xl leading-tight m-0">Fuel Limits</h2>
+                    <h2 className="font-semibold text-zinc-900 text-2xl leading-tight m-0">Fuel Limits</h2>
                     <span className="text-sm text-zinc-500 mt-1 inline-block">Monitor vehicle limits & track monthly usage</span>
                 </div>
             </div>
