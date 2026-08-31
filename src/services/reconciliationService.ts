@@ -10,9 +10,10 @@ export const reconciliationService = {
   async getReconciliationRecords(params: FilterParams = {}): Promise<PaginatedResponse<Reconciliation>> {
     try {
       // Fetch data from endpoints
-      const levelsRes = await fuelLevelService.getFuelLevels({ pageSize: 200 });
-      const deliveriesRes = await deliveryService.getDeliveries({ pageSize: 200 });
-      const issuesRes = await fuelIssueService.getFuelIssues({ pageSize: 500 });
+      const defaultStart = '2026-08-01';
+      const levelsRes = await fuelLevelService.getFuelLevels({ pageSize: 200, startDate: params.startDate || defaultStart, endDate: params.endDate });
+      const deliveriesRes = await deliveryService.getDeliveries({ pageSize: 200, startDate: params.startDate || defaultStart, endDate: params.endDate });
+      const issuesRes = await fuelIssueService.getFuelIssues({ pageSize: 500, startDate: params.startDate || defaultStart, endDate: params.endDate });
 
       const levels = levelsRes.data;
       const deliveries = deliveriesRes.data;
