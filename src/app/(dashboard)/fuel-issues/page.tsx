@@ -138,6 +138,7 @@ export default function FuelIssuesPage() {
         overrideEnd?: string
     ) => {
         try {
+            console.log('loadData component state:', { startDate, endDate, overrideStart, overrideEnd });
             setLoading(true);
             const response = await fuelIssueService.getFuelIssues({
                 page,

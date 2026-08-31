@@ -8,15 +8,26 @@ export const fuelIssueService = {
     const client = useClientStore.getState().selectedClient;
     
     // Get start/end dates
-    const datefrom = params.startDate || '2026-08-01';
-    const dateto = params.endDate || '2026-08-19';
+    const today = new Date().toISOString().split('T')[0];
+    const datefrom = params.startDate;
+    const dateto = params.endDate || today;
+
+    // Add 1 day to dateto for the API call to ensure the backend database query includes all items on the end date
+    const apiDateTo = (() => {
+      const date = new Date(dateto + 'T00:00:00');
+      if (isNaN(date.getTime())) return dateto;
+      date.setDate(date.getDate() + 1);
+      return date.toISOString().split('T')[0];
+    })();
+
+    console.log('getFuelIssues params:', { params, datefrom, dateto, apiDateTo });
 
     const payload = {
       clientid: client.clientid, // Must be string
       userid: Number(client.userid),
       divisionid: Number(client.divisionid),
       datefrom,
-      dateto
+      dateto: apiDateTo
     };
 
     try {
@@ -57,6 +68,22 @@ export const fuelIssueService = {
 
       if (params.vehicleId) {
         data = data.filter(item => item.vehicleId === params.vehicleId);
+      }
+
+      // Filter by start and end date locally using timezone-independent YYYY-MM-DD string comparison
+      if (params.startDate) {
+        const start = params.startDate.split('T')[0].split(' ')[0];
+        data = data.filter(item => {
+          const itemDate = item.date.split('T')[0].split(' ')[0];
+          return itemDate >= start;
+        });
+      }
+      if (params.endDate) {
+        const end = params.endDate.split('T')[0].split(' ')[0];
+        data = data.filter(item => {
+          const itemDate = item.date.split('T')[0].split(' ')[0];
+          return itemDate <= end;
+        });
       }
 
       // Sort by date descending
