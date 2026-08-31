@@ -139,49 +139,51 @@ export default function DeliveriesPage() {
             <div className="bg-white border border-slate-200 shadow-sm rounded p-4 mb-4">
                 {/* Filter bar container matching the bootstrap grid structure */}
                 <div className="mb-4 py-2.5 px-4 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full">
-                    <div className="grid grid-cols-12 gap-2 items-end">
-                        {/* Search Input Group */}
-                        <div className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-4 flex flex-col gap-1.5">
-                            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search transactions</label>
-                            <div className="flex h-8">
-                                <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-slate-50 rounded-l text-slate-400">
-                                    <Search className="h-3 w-3" />
-                                </span>
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
+                        <div className="flex flex-col sm:flex-row flex-1 gap-3 items-stretch sm:items-end">
+                            {/* Search Input Group */}
+                            <div className="flex-1 min-w-[200px] flex flex-col gap-1.5">
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search transactions</label>
+                                <div className="flex h-8">
+                                    <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-slate-50 rounded-l text-slate-400">
+                                        <Search className="h-3 w-3" />
+                                    </span>
+                                    <input
+                                        type="text"
+                                        placeholder="Search by ID..."
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                                        className="flex-1 border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 rounded-r rounded-l-none"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* FROM Date Selector */}
+                            <div className="w-full sm:w-[150px] flex flex-col gap-1.5">
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">From date</label>
                                 <input
-                                    type="text"
-                                    placeholder="Search by ID..."
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                    className="flex-1 border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 rounded-r rounded-l-none"
+                                    type="date"
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                    className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 shadow-xs w-full"
+                                />
+                            </div>
+
+                            {/* TO Date Selector */}
+                            <div className="w-full sm:w-[150px] flex flex-col gap-1.5">
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">To date</label>
+                                <input
+                                    type="date"
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                    className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 shadow-xs w-full"
                                 />
                             </div>
                         </div>
 
-                        {/* FROM Date Selector */}
-                        <div className="col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 flex flex-col gap-1.5">
-                            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">From date</label>
-                            <input
-                                type="date"
-                                value={startDate}
-                                onChange={(e) => setStartDate(e.target.value)}
-                                className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 shadow-xs w-full"
-                            />
-                        </div>
-
-                        {/* TO Date Selector */}
-                        <div className="col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 flex flex-col gap-1.5">
-                            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">To date</label>
-                            <input
-                                type="date"
-                                value={endDate}
-                                onChange={(e) => setEndDate(e.target.value)}
-                                className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 shadow-xs w-full"
-                            />
-                        </div>
-
                         {/* Action Buttons */}
-                        <div className="col-span-12 md:col-span-6 lg:col-span-2 xl:col-span-2 flex gap-2 justify-start lg:justify-end h-8">
+                        <div className="flex gap-2 justify-start md:justify-end h-8 shrink-0">
                             <Button
                                 variant="outline"
                                 size="sm"
