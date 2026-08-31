@@ -14,6 +14,7 @@ import { authService } from '@/lib/auth';
 import { formatFuel, formatNumber } from '@/lib/utils';
 import { Reconciliation } from '@/types/reconciliation';
 import { useClientStore } from '@/services/api';
+import { CustomTable } from '@/components/ui/table';
 
 export default function ReconciliationPage() {
     const router = useRouter();
@@ -24,6 +25,77 @@ export default function ReconciliationPage() {
     const [selectedStatus, setSelectedStatus] = useState('');
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
+
+    const columns = [
+        {
+            key: "date",
+            header: "Date",
+            headerClassName: "bg-[#001b33] text-white",
+            cellClassName: "py-2 px-3 font-semibold text-slate-855 align-middle",
+        },
+        {
+            key: "openingBalance",
+            header: "Opening Balance",
+            headerClassName: "bg-[#001b33] text-white",
+            cellClassName: "py-2 px-3 text-slate-600 align-middle",
+            render: (record: Reconciliation) => formatFuel(record.openingBalance),
+        },
+        {
+            key: "deliveries",
+            header: "Deliveries",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: "py-2 px-3 text-green-600 align-middle",
+            render: (record: Reconciliation) => `+${formatFuel(record.deliveries)}`,
+        },
+        {
+            key: "fuelIssues",
+            header: "Fuel Issues",
+            headerClassName: "bg-[#f26522] text-white",
+            cellClassName: "py-2 px-3 text-red-600 align-middle",
+            render: (record: Reconciliation) => `-${formatFuel(record.fuelIssues)}`,
+        },
+        {
+            key: "expectedClosing",
+            header: "Expected Closing",
+            headerClassName: "bg-[#001b33] text-white",
+            cellClassName: "py-2 px-3 text-slate-600 align-middle",
+            render: (record: Reconciliation) => formatFuel(record.expectedClosing),
+        },
+        {
+            key: "actualClosing",
+            header: "Actual Closing",
+            headerClassName: "bg-[#001b33] text-white",
+            cellClassName: "py-2 px-3 text-slate-600 align-middle",
+            render: (record: Reconciliation) => formatFuel(record.actualClosing),
+        },
+        {
+            key: "variance",
+            header: "Variance",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: (record: Reconciliation) => `py-2 px-3 font-bold align-middle ${record.variance >= 0 ? 'text-green-600' : 'text-red-650'}`,
+            render: (record: Reconciliation) => `${record.variance >= 0 ? '+' : ''}${formatFuel(record.variance)}`,
+        },
+        {
+            key: "variancePercent",
+            header: "Variance %",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: (record: Reconciliation) => {
+                const vPercent = record.expectedClosing > 0 ? (record.variance / record.expectedClosing) * 100 : 0;
+                return `py-2 px-3 font-bold align-middle ${vPercent >= 0 ? 'text-green-600' : 'text-red-650'}`;
+            },
+            render: (record: Reconciliation) => {
+                const vPercent = record.expectedClosing > 0 ? (record.variance / record.expectedClosing) * 100 : 0;
+                return `${vPercent >= 0 ? '+' : ''}${vPercent.toFixed(1)}%`;
+            },
+        },
+        {
+            key: "status",
+            header: "Status",
+            headerClassName: "bg-[#555555] text-white",
+            cellClassName: "py-2 px-3 align-middle",
+            render: (record: Reconciliation) => <StatusBadge status={record.status} />,
+        },
+    ];
     const [pageSize] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
 
@@ -122,6 +194,41 @@ export default function ReconciliationPage() {
         selectedStatus ? record.status === selectedStatus : true
     );
 
+    const handleExport = () => {
+        if (records.length === 0) return;
+        
+        const headers = ['Date', 'Opening Balance', 'Deliveries', 'Fuel Issues', 'Expected Closing', 'Actual Closing', 'Variance', 'Variance %', 'Status'];
+        const rows = records.map(record => {
+            const vPercent = record.expectedClosing > 0 ? (record.variance / record.expectedClosing) * 100 : 0;
+            return [
+                record.date,
+                record.openingBalance,
+                record.deliveries,
+                record.fuelIssues,
+                record.expectedClosing,
+                record.actualClosing,
+                record.variance,
+                `${vPercent.toFixed(1)}%`,
+                record.status
+            ];
+        });
+        
+        const csvContent = [
+            headers.join(','),
+            ...rows.map(row => row.map(val => typeof val === 'string' ? `"${val}"` : val).join(','))
+        ].join('\n');
+        
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `reconciliation_export_${startDate}_to_${endDate}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     if (loading && records.length === 0) {
         return (
             <PageContainer>
@@ -146,56 +253,84 @@ export default function ReconciliationPage() {
 
     return (
         <PageContainer>
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-4">
                 <div>
                     <h2 className="font-semibold text-zinc-900 text-2xl leading-tight m-0">Reconciliation</h2>
                     <span className="text-sm text-zinc-500 mt-1 inline-block">Daily fuel reconciliation and variance tracking</span>
                 </div>
-                <Button
-                    onClick={loadData}
-                    className="bg-[#3c8e75] hover:bg-[#317561] text-sm font-semibold rounded px-4 py-2 flex items-center gap-1.5 transition-colors duration-200 border-0 h-10 shadow-sm"
-                >
-                    <RefreshCw className="h-4 w-4 mr-0.5" />
-                    Refresh
-                </Button>
+                
+                <div className="flex flex-wrap items-end gap-3 w-full lg:w-auto">
+                    <div className="flex flex-col gap-1 w-full sm:w-auto">
+                        <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Date From</label>
+                        <input
+                            type="date"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            className="bg-white border border-zinc-200 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-400 h-10 text-zinc-700 w-full sm:w-40"
+                        />
+                    </div>
+                    <div className="flex flex-col gap-1 w-full sm:w-auto">
+                        <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Date To</label>
+                        <input
+                            type="date"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                            className="bg-white border border-zinc-200 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-400 h-10 text-zinc-700 w-full sm:w-40"
+                        />
+                    </div>
+                    <Button
+                        onClick={loadData}
+                        className="bg-[#3c8e75] hover:bg-[#317561] text-sm font-semibold rounded px-4 py-2 flex items-center gap-1.5 transition-colors duration-200 border-0 h-10 shadow-sm text-white w-full sm:w-auto justify-center"
+                    >
+                        <RefreshCw className="h-4 w-4" />
+                        Refresh
+                    </Button>
+                    <Button
+                        onClick={handleExport}
+                        className="bg-[#f26522] hover:bg-[#d45316] text-sm font-semibold rounded px-4 py-2 flex items-center gap-1.5 transition-colors duration-200 border-0 h-10 shadow-sm text-white w-full sm:w-auto justify-center"
+                    >
+                        <Download className="h-4 w-4" />
+                        Export
+                    </Button>
+                </div>
             </div>
 
             {/* Dynamic Summary Cards */}
             {summaryData && (
                 <div className="grid gap-6 md:grid-cols-12 items-start">
                     {/* Stock Reconciliation Summary (Span 4) */}
-                    <div className="md:col-span-4 border border-slate-200 rounded-none overflow-hidden shadow-xs">
+                    <div className="md:col-span-4 border border-slate-200 rounded-xl overflow-hidden shadow-xs">
                         <div className="bg-primary py-2 px-3 text-center border-b border-white/20">
                             <span className="text-xs font-bold text-white uppercase tracking-wider">Stock Reconciliation Summary</span>
                         </div>
                         <table className="w-full text-xs border-collapse">
                             <tbody>
                                 <tr className="border-b border-slate-200 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Opening Dip</td>
+                                    <td className="p-2 font-bold text-slate-900">Opening Dip</td>
                                     <td className="p-2 text-right text-slate-900">{formatNumber(summaryData.openingDip)}</td>
                                 </tr>
                                 <tr className="border-b border-slate-200 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Fuel Issues</td>
+                                    <td className="p-2 font-bold text-slate-900">Fuel Issues</td>
                                     <td className="p-2 text-right text-slate-900">{formatNumber(summaryData.totalIssues)}</td>
                                 </tr>
                                 <tr className="border-b border-slate-200 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Fuel Receipts</td>
+                                    <td className="p-2 font-bold text-slate-900">Fuel Receipts</td>
                                     <td className="p-2 text-right text-slate-900">{formatNumber(summaryData.totalDeliveries)}</td>
                                 </tr>
                                 <tr className="border-b border-slate-200 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Closing Dip</td>
+                                    <td className="p-2 font-bold text-slate-900">Closing Dip</td>
                                     <td className="p-2 text-right text-slate-900">{formatNumber(summaryData.closingDip)}</td>
                                 </tr>
                                 <tr className="border-b border-slate-200 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Closing Stock</td>
+                                    <td className="p-2 font-bold text-slate-900">Closing Stock</td>
                                     <td className="p-2 text-right text-slate-900">{formatNumber(summaryData.closingStock)}</td>
                                 </tr>
                                 <tr className="border-b border-slate-200 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Variance</td>
+                                    <td className="p-2 font-bold text-slate-900">Variance</td>
                                     <td className="p-2 text-right text-slate-900 font-bold">{formatNumber(Number(summaryData.variance.toFixed(2)))}</td>
                                 </tr>
                                 <tr className="bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">%</td>
+                                    <td className="p-2 font-bold text-slate-900">%</td>
                                     <td className="p-2 text-right text-slate-900 font-bold">{summaryData.variancePercent.toFixed(1)}%</td>
                                 </tr>
                             </tbody>
@@ -203,45 +338,45 @@ export default function ReconciliationPage() {
                     </div>
 
                     {/* Stock Demand Plan (Span 8) */}
-                    <div className="md:col-span-8 border border-slate-200 rounded-none overflow-hidden shadow-xs">
+                    <div className="md:col-span-8 border border-slate-200 rounded-xl overflow-hidden shadow-xs">
                         <div className="bg-[#137e19] py-2 px-3 text-center border-b border-white/20">
                             <span className="text-xs font-bold text-white uppercase tracking-wider">Stock Demand Plan</span>
                         </div>
                         <table className="w-full text-xs border-collapse">
                             <tbody>
                                 <tr className="border-b border-slate-200 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200 w-1/4">Stock</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200 w-1/5">{formatNumber(summaryData.closingDip)}</td>
+                                    <td className="p-2 font-bold text-slate-900 w-1/4">Stock</td>
+                                    <td className="p-2 text-center text-slate-900 w-1/5">{formatNumber(summaryData.closingDip)}</td>
                                     <td className="p-2 text-slate-700">Balance remaining in the Tank.</td>
                                 </tr>
                                 <tr className="border-b border-slate-200 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Av Daily Cons.</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200">{formatNumber(Math.round(summaryData.avDailyCons))}</td>
+                                    <td className="p-2 font-bold text-slate-900">Av Daily Cons.</td>
+                                    <td className="p-2 text-center text-slate-900">{formatNumber(Math.round(summaryData.avDailyCons))}</td>
                                     <td className="p-2 text-slate-700">Average Fuel Consumption/Day MTD.</td>
                                 </tr>
                                 <tr className="border-b border-slate-200 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Days Stock</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200">{summaryData.daysStock}</td>
+                                    <td className="p-2 font-bold text-slate-900">Days Stock</td>
+                                    <td className="p-2 text-center text-slate-900">{summaryData.daysStock}</td>
                                     <td className="p-2 text-slate-700">Days left before Stock run Out based on Rated Use.</td>
                                 </tr>
                                 <tr className="border-b border-slate-200 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Min Stock</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200">{formatNumber(summaryData.minStock)}</td>
+                                    <td className="p-2 font-bold text-slate-900">Min Stock</td>
+                                    <td className="p-2 text-center text-slate-900">{formatNumber(summaryData.minStock)}</td>
                                     <td className="p-2 text-slate-700">Critical Tank Level for Main Tank.</td>
                                 </tr>
                                 <tr className="border-b border-slate-200 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Re-Order</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200">{summaryData.reorderDays}</td>
+                                    <td className="p-2 font-bold text-slate-900">Re-Order</td>
+                                    <td className="p-2 text-center text-slate-900">{summaryData.reorderDays}</td>
                                     <td className="p-2 text-slate-700">Days to prepare for New Purchase.</td>
                                 </tr>
                                 <tr className="border-b border-slate-200 bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Re-Order</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200 font-semibold text-amber-600">{summaryData.reorderDate}</td>
+                                    <td className="p-2 font-bold text-slate-900">Re-Order</td>
+                                    <td className="p-2 text-center text-slate-900 font-semibold text-amber-600">{summaryData.reorderDate}</td>
                                     <td className="p-2 text-slate-700">Placing Of order Date</td>
                                 </tr>
                                 <tr className="bg-white">
-                                    <td className="p-2 font-bold text-slate-900 border-r border-slate-200">Stock Arrival</td>
-                                    <td className="p-2 text-center text-slate-900 border-r border-slate-200 font-semibold text-emerald-600">{summaryData.arrivalDate}</td>
+                                    <td className="p-2 font-bold text-slate-900">Stock Arrival</td>
+                                    <td className="p-2 text-center text-slate-900 font-semibold text-emerald-600">{summaryData.arrivalDate}</td>
                                     <td className="p-2 text-slate-700">Delivery of stock Date</td>
                                 </tr>
                             </tbody>
@@ -251,120 +386,17 @@ export default function ReconciliationPage() {
             )}
 
             {/* Historical Records */}
-            <Card className="rounded-none border border-slate-200 shadow-xs">
-                <CardContent className="px-0 pb-2 mt-4">
-                    {/* Filter bar container matching the bootstrap grid structure */}
-                    <div className="mb-4 py-2.5 px-4 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full">
-                        <div className="grid grid-cols-12 gap-2 items-end">
-                            {/* FROM Date Selector */}
-                            <div className="col-span-12 md:col-span-4 flex flex-col gap-1.5">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Date From</label>
-                                <input
-                                    type="date"
-                                    value={startDate}
-                                    onChange={(e) => {
-                                        setStartDate(e.target.value);
-                                        setPage(1);
-                                    }}
-                                    className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 shadow-xs w-full"
-                                />
-                            </div>
-
-                            {/* TO Date Selector */}
-                            <div className="col-span-12 md:col-span-4 flex flex-col gap-1.5">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Date To</label>
-                                <input
-                                    type="date"
-                                    value={endDate}
-                                    onChange={(e) => {
-                                        setEndDate(e.target.value);
-                                        setPage(1);
-                                    }}
-                                    className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 shadow-xs w-full"
-                                />
-                            </div>
-
-                            {/* Status Selector */}
-                            <div className="col-span-12 md:col-span-3 flex flex-col gap-1.5">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Status</label>
-                                <select
-                                    value={selectedStatus}
-                                    onChange={(e) => {
-                                        setSelectedStatus(e.target.value);
-                                        setPage(1);
-                                    }}
-                                    className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 cursor-pointer w-full"
-                                >
-                                    <option value="">All Statuses</option>
-                                    <option value="Reconciled">Reconciled</option>
-                                    <option value="Warning">Warning</option>
-                                    <option value="Exception">Exception</option>
-                                </select>
-                            </div>
-
-                            {/* Action Buttons */}
-                            <div className="col-span-12 md:col-span-1 flex gap-2 justify-start md:justify-end h-8">
-                                <Button
-                                    onClick={() => { }}
-                                    className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5 w-full md:w-auto"
-                                    title="Export"
-                                >
-                                    <Download className="h-3.5 w-3.5" />
-                                    Export
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
-                        <table className="w-full text-sm border-collapse whitespace-nowrap">
-                            <thead>
-                                <tr>
-                                    <th className="bg-[#001b33] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Date</th>
-                                    <th className="bg-[#001b33] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Opening Balance</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Deliveries</th>
-                                    <th className="bg-[#f26522] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Fuel Issues</th>
-                                    <th className="bg-[#001b33] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Expected Closing</th>
-                                    <th className="bg-[#001b33] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Actual Closing</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Variance</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Variance %</th>
-                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold last:border-r-0">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredRecords.length === 0 ? (
-                                    <tr>
-                                        <td colSpan={9} className="p-8 text-center text-slate-400 bg-slate-50">
-                                            No reconciliation records found
-                                        </td>
-                                    </tr>
-                                ) : (
-                                    filteredRecords.map((record) => {
-                                        const vPercent = record.expectedClosing > 0 ? (record.variance / record.expectedClosing) * 100 : 0;
-                                        return (
-                                            <tr key={record.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
-                                                <td className="py-2 px-3 font-semibold text-slate-855 align-middle border-r border-slate-200">{record.date}</td>
-                                                <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(record.openingBalance)}</td>
-                                                <td className="py-2 px-3 text-green-600 align-middle border-r border-slate-200">+{formatFuel(record.deliveries)}</td>
-                                                <td className="py-2 px-3 text-red-600 align-middle border-r border-slate-200">-{formatFuel(record.fuelIssues)}</td>
-                                                <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(record.expectedClosing)}</td>
-                                                <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(record.actualClosing)}</td>
-                                                <td className={`py-2 px-3 font-bold align-middle border-r border-slate-200 ${record.variance >= 0 ? 'text-green-600' : 'text-red-650'}`}>
-                                                    {record.variance >= 0 ? '+' : ''}{formatFuel(record.variance)}
-                                                </td>
-                                                <td className={`py-2 px-3 font-bold align-middle border-r border-slate-200 ${vPercent >= 0 ? 'text-green-600' : 'text-red-650'}`}>
-                                                    {vPercent >= 0 ? '+' : ''}{vPercent.toFixed(1)}%
-                                                </td>
-                                                <td className="py-2 px-3 align-middle">
-                                                    <StatusBadge status={record.status} />
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+            <Card className="rounded-xl border border-slate-200 shadow-sm p-4">
+                <CardContent className="p-0">
+                    <CustomTable
+                        data={filteredRecords}
+                        columns={columns}
+                        keyExtractor={(record) => record.id}
+                        emptyStateText="No reconciliation records found"
+                        className="border border-slate-200 rounded-none shadow-none mb-0"
+                        rowClassName="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors"
+                        headerRowClassName="divide-x-0"
+                    />
 
                     {/* Pagination */}
                     {totalPages > 1 && (

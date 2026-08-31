@@ -169,13 +169,13 @@ export default function FuelLimitsPage() {
                         <table className="w-full text-sm border-collapse whitespace-nowrap">
                             <thead>
                                 <tr>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Asset (Rego)</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Vehicle Name</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Department</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Limit Type</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">FUEL LIMIT (L)</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">MONTHLY FUEL USED (L)</th>
-                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold last:border-r-0">FUEL BALANCE REMAINING</th>
+                                    <th className="bg-[#f26522] text-white py-2 px-3 text-left font-semibold">Asset (Rego)</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Vehicle Name</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Department</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Limit Type</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">FUEL LIMIT (L)</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">MONTHLY FUEL USED (L)</th>
+                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold">FUEL BALANCE REMAINING</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -191,14 +191,14 @@ export default function FuelLimitsPage() {
                                         const remaining = limitVal === 'No Limit' ? 'No Limit' : limitVal - item.monthlyFuelUsed;
                                         return (
                                             <tr key={idx} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
-                                                <td className="py-2 px-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{item.asset}</td>
-                                                <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{item.vehicleName}</td>
-                                                <td className="py-2 px-3 text-slate-500 align-middle border-r border-slate-200">{item.department}</td>
-                                                <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{item.limitType}</td>
-                                                <td className="py-2 px-3 font-semibold text-slate-800 align-middle border-r border-slate-200">
+                                                <td className="py-2 px-3 font-semibold text-slate-800 align-middle">{item.asset}</td>
+                                                <td className="py-2 px-3 text-slate-600 align-middle">{item.vehicleName}</td>
+                                                <td className="py-2 px-3 text-slate-500 align-middle">{item.department}</td>
+                                                <td className="py-2 px-3 text-slate-600 align-middle">{item.limitType}</td>
+                                                <td className="py-2 px-3 font-semibold text-slate-800 align-middle">
                                                     {typeof limitVal === 'number' ? `${formatNumber(limitVal)} L` : limitVal}
                                                 </td>
-                                                <td className="py-2 px-3 font-semibold text-[#138024] align-middle border-r border-slate-200">{formatNumber(item.monthlyFuelUsed)} L</td>
+                                                <td className="py-2 px-3 font-semibold text-[#138024] align-middle">{formatNumber(item.monthlyFuelUsed)} L</td>
                                                 <td className={`py-2 px-3 font-bold align-middle ${typeof remaining === 'number' && remaining < 20 ? 'text-rose-600' : 'text-emerald-600'}`}>
                                                     {typeof remaining === 'number' ? `${formatNumber(Number(remaining.toFixed(2)))} L` : remaining}
                                                 </td>

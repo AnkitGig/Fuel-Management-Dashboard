@@ -103,6 +103,13 @@ export const reconciliationService = {
         filteredRecords = filteredRecords.filter(r => r.status === params.status);
       }
 
+      if (params.startDate) {
+        filteredRecords = filteredRecords.filter(r => r.date >= params.startDate!);
+      }
+      if (params.endDate) {
+        filteredRecords = filteredRecords.filter(r => r.date <= params.endDate!);
+      }
+
       const page = params.page || 1;
       const pageSize = params.pageSize || 10;
       const start = (page - 1) * pageSize;

@@ -119,61 +119,68 @@ export default function UsersPage() {
                 <div className="flex gap-2">
                     <button
                         onClick={loadData}
-                        className="inline-flex items-center justify-center rounded-none border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 transition-colors gap-1.5"
+                        className="bg-[#3c8e75] hover:bg-[#317561] text-sm font-semibold rounded px-4 py-2 flex items-center gap-1.5 transition-colors duration-200 border-0 h-10 shadow-sm text-white"
                     >
-                        <RefreshCw className="h-3.5 w-3.5" />
+                        <RefreshCw className="h-4 w-4" />
                         Refresh
                     </button>
                     {hasPermission(currentUser, PERMISSIONS.USERS.MANAGE) && (
                         <button
-                            className="inline-flex items-center justify-center rounded-none bg-primary px-3 py-1 text-xs font-medium text-white shadow-sm hover:bg-primary/90 transition-colors gap-1.5"
+                            className="bg-[#f26522] hover:bg-[#d45316] text-sm font-semibold rounded px-4 py-2 flex items-center gap-1.5 transition-colors duration-200 border-0 h-10 shadow-sm text-white"
                         >
-                            <UserPlus className="h-3.5 w-3.5" />
+                            <UserPlus className="h-4 w-4" />
                             Add User
                         </button>
                     )}
                 </div>
             </div>
 
-            <Card className="border border-slate-200 shadow-xs rounded-none">
-                <CardContent className="px-0 pb-2 mt-4">
-                    <div className="flex flex-col sm:flex-row gap-2 mb-2 px-4">
-                        <div className="relative flex-1">
-                            <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
-                            <input
-                                type="text"
-                                placeholder="Search by name or email..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                className="w-full rounded-none border border-slate-300 bg-white pl-8 pr-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-xs"
-                            />
+            <Card className="rounded-xl border border-slate-200 shadow-sm p-4">
+                <CardContent className="px-0 pb-2">
+                    <div className="mb-4 py-2.5 px-4 bg-[#eaf6f1] border border-[#d3ebd6] rounded w-full flex flex-col sm:flex-row gap-3 items-end">
+                        <div className="flex-1 min-w-[200px] flex flex-col gap-1.5 w-full">
+                            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search users</label>
+                            <div className="flex h-8">
+                                <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-slate-50 rounded-l text-slate-400">
+                                    <Search className="h-3 w-3" />
+                                </span>
+                                <input
+                                    type="text"
+                                    placeholder="Search by name or email..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                                    className="flex-1 border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 rounded-r rounded-l-none"
+                                />
+                            </div>
                         </div>
-                        <button
-                            onClick={handleSearch}
-                            className="inline-flex items-center justify-center rounded-none bg-primary px-3 py-1 text-xs font-medium text-white hover:bg-primary/90 transition-colors"
-                        >
-                            Search
-                        </button>
-                        <button
-                            className="inline-flex items-center justify-center rounded-none border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors gap-1.5 shadow-xs"
-                        >
-                            <Download className="h-3.5 w-3.5" />
-                            Export
-                        </button>
+                        <div className="flex gap-2 justify-start sm:justify-end h-8 shrink-0 w-full sm:w-auto">
+                            <button
+                                onClick={handleSearch}
+                                className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-6 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5 w-full sm:w-auto"
+                            >
+                                Search
+                            </button>
+                            <button
+                                className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5 w-full sm:w-auto"
+                            >
+                                <Download className="h-3.5 w-3.5" />
+                                Export
+                            </button>
+                        </div>
                     </div>
 
-                    <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
+                    <div className="overflow-x-auto border border-slate-200 rounded">
                         <table className="w-full text-xs border-collapse">
                             <thead>
                                 <tr>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Name</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Email</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Role</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Status</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Last Login</th>
-                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Created Date</th>
-                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold last:border-r-0">Actions</th>
+                                    <th className="bg-[#f26522] text-white py-2.5 px-3 text-left font-semibold">Name</th>
+                                    <th className="bg-[#137e19] text-white py-2.5 px-3 text-left font-semibold">Email</th>
+                                    <th className="bg-[#137e19] text-white py-2.5 px-3 text-left font-semibold">Role</th>
+                                    <th className="bg-[#137e19] text-white py-2.5 px-3 text-left font-semibold">Status</th>
+                                    <th className="bg-[#137e19] text-white py-2.5 px-3 text-left font-semibold">Last Login</th>
+                                    <th className="bg-[#001b33] text-white py-2.5 px-3 text-left font-semibold">Created Date</th>
+                                    <th className="bg-[#001b33] text-white py-2.5 px-3 text-left font-semibold">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -185,32 +192,32 @@ export default function UsersPage() {
                                     </tr>
                                 ) : (
                                     users.map((user) => (
-                                        <tr key={user.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
-                                            <td className="py-1.5 px-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{user.name}</td>
-                                            <td className="py-1.5 px-3 text-slate-600 align-middle border-r border-slate-200">{user.email}</td>
-                                            <td className="py-1.5 px-3 align-middle border-r border-slate-200">
-                                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-50 border border-blue-200 text-blue-700">
-                                                    <span className="text-blue-500 font-bold">•</span> {user.role}
+                                        <tr key={user.id} className="border-b border-slate-200 last:border-0 odd:bg-[#fcf4eb] even:bg-white hover:bg-[#f5eae0] transition-colors">
+                                            <td className="py-2.5 px-3 font-bold text-slate-900 align-middle">{user.name}</td>
+                                            <td className="py-2.5 px-3 text-slate-700 align-middle">{user.email}</td>
+                                            <td className="py-2.5 px-3 align-middle">
+                                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#e0f0ff] text-[#0066cc]">
+                                                    <span className="text-[#3b82f6] font-bold mr-0.5">•</span> {user.role}
                                                 </span>
                                             </td>
-                                            <td className="py-1.5 px-3 align-middle border-r border-slate-200">
+                                            <td className="py-2.5 px-3 align-middle">
                                                 {user.status === 'Active' ? (
-                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-green-50 border border-green-200 text-green-700">
-                                                        <span className="text-green-500 font-bold">•</span> Active
+                                                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#e2f5ea] text-[#137e19]">
+                                                        <span className="text-[#137e19] font-bold mr-0.5">•</span> Active
                                                     </span>
                                                 ) : (
-                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 border border-slate-300 text-slate-700">
-                                                        <span className="text-slate-400 font-bold">•</span> Inactive
+                                                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#f1f3f5] text-[#777777]">
+                                                        <span className="text-[#777777] font-bold mr-0.5">•</span> Inactive
                                                     </span>
                                                 )}
                                             </td>
-                                            <td className="py-1.5 px-3 text-slate-600 align-middle border-r border-slate-200">{user.lastLogin || 'Never'}</td>
-                                            <td className="py-1.5 px-3 text-slate-600 align-middle border-r border-slate-200">{formatDate(user.createdAt)}</td>
-                                            <td className="py-1.5 px-3 align-middle">
-                                                <div className="flex gap-2 justify-start">
+                                            <td className="py-2.5 px-3 text-slate-700 align-middle">{user.lastLogin || 'Never'}</td>
+                                            <td className="py-2.5 px-3 text-slate-700 align-middle">{formatDate(user.createdAt)}</td>
+                                            <td className="py-2.5 px-3 align-middle">
+                                                <div className="flex gap-2 justify-start items-center">
                                                     <button
                                                         title="View Details"
-                                                        className="p-1 rounded hover:bg-slate-100 text-slate-700 transition-colors"
+                                                        className="text-slate-400 hover:text-slate-600 transition-colors p-0.5"
                                                     >
                                                         <Eye className="h-4 w-4" />
                                                     </button>
@@ -218,19 +225,19 @@ export default function UsersPage() {
                                                         <>
                                                             <button
                                                                 title="Edit User"
-                                                                className="p-1 rounded hover:bg-slate-100 text-slate-700 transition-colors"
+                                                                className="text-slate-400 hover:text-slate-600 transition-colors p-0.5"
                                                             >
                                                                 <Edit className="h-4 w-4" />
                                                             </button>
                                                             <button
                                                                 title={user.status === 'Active' ? 'Deactivate User' : 'Reactivate User'}
                                                                 onClick={() => handleToggleStatus(user.id, user.status)}
-                                                                className="p-1 rounded hover:bg-slate-100 transition-colors"
+                                                                className="text-slate-400 hover:text-slate-600 transition-colors p-0.5"
                                                             >
                                                                 {user.status === 'Active' ? (
-                                                                    <Trash2 className="h-4 w-4 text-red-500 hover:text-red-700" />
+                                                                    <Trash2 className="h-4 w-4 text-slate-400 hover:text-red-500" />
                                                                 ) : (
-                                                                    <RotateCw className="h-4 w-4 text-green-600 hover:text-green-800" />
+                                                                    <RefreshCw className="h-4 w-4 text-slate-400 hover:text-green-600" />
                                                                 )}
                                                             </button>
                                                         </>

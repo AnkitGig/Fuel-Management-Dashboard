@@ -197,12 +197,12 @@ export default function FuelEfficiencySummaryPage() {
                         <table className="w-full text-sm border-collapse">
                             <thead>
                                 <tr>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Vehicle Description</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Ltrs</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">No. of Transactions</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Distance (KM)</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Fuel Burn (Km/L)</th>
-                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold last:border-r-0">Fuel Burn (L/100Km)</th>
+                                    <th className="bg-[#f26522] text-white py-2 px-3 text-left font-semibold">Vehicle Description</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Ltrs</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">No. of Transactions</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Distance (KM)</th>
+                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Fuel Burn (Km/L)</th>
+                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold">Fuel Burn (L/100Km)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -215,11 +215,11 @@ export default function FuelEfficiencySummaryPage() {
                                 ) : (
                                     filteredData.map((item, idx) => (
                                         <tr key={idx} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
-                                            <td className="py-2 px-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{item.description}</td>
-                                            <td className="py-2 px-3 font-semibold text-[#138024] align-middle border-r border-slate-200">{formatNumber(item.ltrs)} L</td>
-                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{item.transactions}</td>
-                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{item.distance > 0 ? formatNumber(item.distance) : '—'}</td>
-                                            <td className="py-2 px-3 font-medium text-slate-600 align-middle border-r border-slate-200">{item.kmPerLtr > 0 ? item.kmPerLtr.toFixed(2) : '—'}</td>
+                                            <td className="py-2 px-3 font-semibold text-slate-800 align-middle">{item.description}</td>
+                                            <td className="py-2 px-3 font-semibold text-[#138024] align-middle">{formatNumber(item.ltrs)} L</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle">{item.transactions}</td>
+                                            <td className="py-2 px-3 text-slate-600 align-middle">{item.distance > 0 ? formatNumber(item.distance) : '—'}</td>
+                                            <td className="py-2 px-3 font-medium text-slate-600 align-middle">{item.kmPerLtr > 0 ? item.kmPerLtr.toFixed(2) : '—'}</td>
                                             <td className={`py-2 px-3 font-bold align-middle ${item.ltrsPer100Km > 15 ? 'text-rose-600' : 'text-emerald-600'}`}>
                                                 {item.ltrsPer100Km > 0 ? `${item.ltrsPer100Km.toFixed(1)} L/100Km` : '—'}
                                             </td>

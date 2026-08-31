@@ -39,7 +39,7 @@ export function CustomTable<T>({
         <div className={cn("overflow-x-auto border border-slate-200 shadow-xs rounded mb-4", className)}>
             <table className={cn("w-full text-sm border-collapse whitespace-nowrap", tableClassName)}>
                 <thead>
-                    <tr className={cn("divide-x divide-white/10", headerRowClassName)}>
+                    <tr className={cn("", headerRowClassName)}>
                         {columns.map((column, idx) => (
                             <th
                                 key={column.key || idx}
