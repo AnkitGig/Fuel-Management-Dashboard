@@ -160,9 +160,9 @@ export default function DeliveriesPage() {
             </div>
 
             {/* Filters & Table Card wrapper */}
-            <div className="bg-white border border-slate-200 shadow-sm rounded p-4 mb-4">
+            <div className="flex-1 flex flex-col bg-white border border-slate-200 shadow-sm rounded p-4 mb-4">
                 {/* Filter bar container matching the bootstrap grid structure */}
-                <div className="mb-4 py-2.5 px-4 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full">
+                <div className="mb-4 py-2.5 px-4 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full shrink-0">
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
                         <div className="flex flex-col sm:flex-row flex-1 gap-3 items-stretch sm:items-end">
                             {/* Search Input Group */}
@@ -235,11 +235,12 @@ export default function DeliveriesPage() {
                     columns={columns}
                     keyExtractor={(d) => d.id}
                     emptyStateText="No deliveries found"
+                    className="flex-1"
                 />
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="flex items-center justify-between mt-4 px-6">
+                    <div className="flex items-center justify-between mt-auto pt-4 px-6 shrink-0">
                         <p className="text-sm text-muted-foreground">
                             Showing {deliveries.length} of {total} deliveries
                         </p>

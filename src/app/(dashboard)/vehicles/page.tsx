@@ -216,10 +216,10 @@ export default function VehiclesPage() {
                 </Button>
             </div>
 
-            <Card className="rounded border border-slate-200 shadow-sm p-4 mb-4">
-                <CardContent className="p-0">
+            <Card className="flex-1 flex flex-col rounded border border-slate-200 shadow-sm p-4 mb-4">
+                <CardContent className="flex-1 flex flex-col p-0">
                     {/* Filter bar container matching the bootstrap grid structure */}
-                    <div className="mb-4 py-2.5 px-4 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full">
+                    <div className="mb-4 py-2.5 px-4 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full shrink-0">
                         <div className="flex flex-wrap items-end justify-between gap-4">
                             {/* Left Filters Group */}
                             <div className="flex flex-wrap items-end gap-3 flex-1 min-w-[280px]">
@@ -313,11 +313,12 @@ export default function VehiclesPage() {
                         keyExtractor={(v) => v.id}
                         emptyStateText="No vehicles found"
                         rowClassName="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors odd:bg-white even:bg-[#fff9f5]"
+                        className="flex-1"
                     />
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="flex items-center justify-between mt-4 px-6">
+                        <div className="flex items-center justify-between mt-auto pt-4 px-6 shrink-0">
                             <p className="text-sm text-slate-500">
                                 Showing {vehicles.length} of {total} vehicles
                             </p>

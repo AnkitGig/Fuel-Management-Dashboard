@@ -128,7 +128,7 @@ export default function RolesPage() {
 
     return (
         <PageContainer>
-            <div className="space-y-6">
+            <div className="space-y-6 flex-1 flex flex-col min-h-0">
                 {/* Header */}
                 <div className="flex justify-between items-center">
                     <div>
@@ -145,7 +145,7 @@ export default function RolesPage() {
                 </div>
 
                 {/* Role Cards */}
-                <div className="grid gap-6 md:grid-cols-3">
+                <div className="grid gap-6 md:grid-cols-3 shrink-0">
                     {roleData.map((role) => {
                         const Icon = role.icon;
                         const allowedCount = Object.values(role.permissions).filter(Boolean).length;
@@ -214,13 +214,13 @@ export default function RolesPage() {
                 </div>
 
                 {/* Matrix Table */}
-                <Card className="border border-zinc-200 shadow-sm overflow-hidden rounded-xl bg-white">
-                    <CardHeader className="py-4 px-6 border-b border-zinc-100 bg-white">
+                <Card className="flex-1 flex flex-col border border-zinc-200 shadow-sm overflow-hidden rounded-xl bg-white">
+                    <CardHeader className="py-4 px-6 border-b border-zinc-100 bg-white shrink-0">
                         <CardTitle className="text-base font-bold text-zinc-800">Permission Matrix</CardTitle>
                         <CardDescription className="text-zinc-500 text-xs">Detailed view of all role permissions</CardDescription>
                     </CardHeader>
-                    <CardContent className="p-0">
-                        <div className="overflow-x-auto">
+                    <CardContent className="flex-1 flex flex-col p-0">
+                        <div className="flex-1 overflow-x-auto">
                             <table className="w-full text-xs border-collapse">
                                 <thead>
                                     <tr className="border-b border-zinc-200">

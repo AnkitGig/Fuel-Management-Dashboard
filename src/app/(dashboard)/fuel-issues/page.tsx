@@ -258,9 +258,9 @@ export default function FuelIssuesPage() {
             </div>
 
             {/* Filters & Table Card wrapper */}
-            <div className="bg-white border border-slate-200 shadow-sm rounded p-4 mb-4">
+            <div className="flex-1 flex flex-col bg-white border border-slate-200 shadow-sm rounded p-4 mb-4">
                 {/* Filter bar container matching the bootstrap grid structure */}
-                <div className="mb-4 py-2.5 px-4 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full">
+                <div className="mb-4 py-2.5 px-4 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full shrink-0">
                     <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
                         <div className="flex flex-col sm:flex-row flex-wrap flex-1 gap-3 items-stretch sm:items-end">
                             {/* Search Input Group */}
@@ -355,11 +355,12 @@ export default function FuelIssuesPage() {
                     columns={columns}
                     keyExtractor={(issue) => issue.id}
                     emptyStateText="No transactions found"
+                    className="flex-1"
                 />
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="flex items-center justify-between mt-4 px-6">
+                    <div className="flex items-center justify-between mt-auto pt-4 px-6 shrink-0">
                         <p className="text-sm text-muted-foreground">
                             Showing {issues.length} of {total} transactions
                         </p>

@@ -386,21 +386,21 @@ export default function ReconciliationPage() {
             )}
 
             {/* Historical Records */}
-            <Card className="rounded-xl border border-slate-200 shadow-sm p-4">
-                <CardContent className="p-0">
+            <Card className="flex-1 flex flex-col rounded-xl border border-slate-200 shadow-sm p-4 mt-4">
+                <CardContent className="flex-1 flex flex-col p-0">
                     <CustomTable
                         data={filteredRecords}
                         columns={columns}
                         keyExtractor={(record) => record.id}
                         emptyStateText="No reconciliation records found"
-                        className="border border-slate-200 rounded-none shadow-none mb-0"
+                        className="flex-1 border border-slate-200 rounded-none shadow-none mb-0"
                         rowClassName="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors"
                         headerRowClassName="divide-x-0"
                     />
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="flex items-center justify-between mt-4 px-6">
+                        <div className="flex items-center justify-between mt-auto pt-4 px-6 shrink-0">
                             <p className="text-sm text-muted-foreground">
                                 Showing {filteredRecords.length} of {total} records
                             </p>
