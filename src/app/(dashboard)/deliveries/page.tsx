@@ -14,6 +14,8 @@ import { formatDate, formatFuel } from '@/lib/utils';
 import { FuelDelivery } from '@/types/fuel';
 import { useClientStore } from '@/services/api';
 
+import { CustomTable } from '@/components/ui/table';
+
 export default function DeliveriesPage() {
     const router = useRouter();
     const selectedClient = useClientStore((state) => state.selectedClient);
@@ -27,6 +29,34 @@ export default function DeliveriesPage() {
     const [totalPages, setTotalPages] = useState(1);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+
+    const columns = [
+        {
+            key: "deliveryId",
+            header: "Delivery ID",
+            headerClassName: "bg-primary text-white",
+            cellClassName: "font-bold text-slate-900",
+        },
+        {
+            key: "date",
+            header: "Date",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: "text-slate-600",
+        },
+        {
+            key: "time",
+            header: "Time",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: "text-slate-600",
+        },
+        {
+            key: "quantity",
+            header: "Quantity",
+            headerClassName: "bg-[#222] text-white",
+            cellClassName: "font-bold text-slate-900",
+            render: (delivery: FuelDelivery) => formatFuel(delivery.quantity),
+        },
+    ];
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -174,36 +204,12 @@ export default function DeliveriesPage() {
                     </div>
                 </div>
 
-                <div className="overflow-x-auto border border-slate-200 shadow-xs rounded mb-4">
-                    <table className="w-full text-sm border-collapse whitespace-nowrap">
-                        <thead>
-                            <tr className="divide-x divide-white/10">
-                                <th className="bg-primary text-white py-2 px-3 text-left font-semibold">Delivery ID</th>
-                                <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Date</th>
-                                <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Time</th>
-                                <th className="bg-[#222] text-white py-2 px-3 text-left font-semibold">Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {deliveries.length === 0 ? (
-                                <tr>
-                                    <td colSpan={4} className="p-8 text-center text-slate-400 bg-slate-50">
-                                        No deliveries found
-                                    </td>
-                                </tr>
-                            ) : (
-                                deliveries.map((delivery) => (
-                                    <tr key={delivery.id} className="border-b border-slate-100 last:border-0 odd:bg-white even:bg-[#fff9f5] hover:bg-slate-50/80 transition-colors">
-                                        <td className="py-2 px-3 font-bold text-slate-900 align-middle">{delivery.deliveryId}</td>
-                                        <td className="py-2 px-3 text-slate-600 align-middle">{delivery.date}</td>
-                                        <td className="py-2 px-3 text-slate-600 align-middle">{delivery.time}</td>
-                                        <td className="py-2 px-3 font-bold text-slate-900 align-middle">{formatFuel(delivery.quantity)}</td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                <CustomTable
+                    data={deliveries}
+                    columns={columns}
+                    keyExtractor={(d) => d.id}
+                    emptyStateText="No deliveries found"
+                />
 
                 {/* Pagination */}
                 {totalPages > 1 && (

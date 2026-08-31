@@ -14,12 +14,94 @@ import { authService } from '@/lib/auth';
 import { formatFuel } from '@/lib/utils';
 import { useClientStore } from '@/services/api';
 
+import { CustomTable } from '@/components/ui/table';
+
 export default function FuelIssuesPage() {
     const router = useRouter();
     const selectedClient = useClientStore((state) => state.selectedClient);
     const [issues, setIssues] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const columns = [
+        {
+            key: "dateTime",
+            header: "Date / Time",
+            headerClassName: "bg-primary text-white",
+            cellClassName: "text-slate-600 align-middle",
+            render: (issue: any) => `${issue.date} ${issue.time}`,
+        },
+        {
+            key: "transactionId",
+            header: "ID",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: "font-bold text-slate-900 align-middle",
+        },
+        {
+            key: "vehicleId",
+            header: "Vehicle Req",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: "font-bold text-green-600 align-middle",
+        },
+        {
+            key: "fleetId",
+            header: "Fleet Id",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: "text-slate-600 align-middle",
+        },
+        {
+            key: "driverAttendant",
+            header: "Vehicle Detail",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: "text-slate-600 align-middle",
+        },
+        {
+            key: "depot",
+            header: "Site",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: "text-slate-600 align-middle",
+        },
+        {
+            key: "fuelQuantity",
+            header: "Litres",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: "font-bold text-slate-900 align-middle",
+            render: (issue: any) => formatFuel(issue.fuelQuantity),
+        },
+        {
+            key: "pump",
+            header: "Pump",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: "text-slate-600 align-middle",
+        },
+        {
+            key: "odometer",
+            header: "Odo Meter",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: "text-slate-600 align-middle",
+        },
+        {
+            key: "engineHours",
+            header: "Hour Meter",
+            headerClassName: "bg-[#137e19] text-white",
+            cellClassName: "text-slate-600 align-middle",
+        },
+        {
+            key: "dem",
+            header: "DEM",
+            headerClassName: "bg-[#222] text-white",
+            cellClassName: "align-middle",
+            render: (issue: any) => (
+                <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold border ${issue.status === 'Matched'
+                    ? 'bg-[#eefcf2] border-[#d6f2e1] text-[#138024]'
+                    : 'bg-[#fff6f0] border-[#ffe3d1] text-[#f26522]'
+                    }`}>
+                    <span className={`h-1.5 w-1.5 rounded-full bg-current`} />
+                    {issue.dem || issue.status}
+                </span>
+            ),
+        },
+    ];
 
     // Filter states
     const [search, setSearch] = useState('');
@@ -231,58 +313,12 @@ export default function FuelIssuesPage() {
                     </div>
                 </div>
 
-                <div className="overflow-x-auto border border-slate-200 shadow-xs rounded mb-4">
-                    <table className="w-full text-sm border-collapse whitespace-nowrap">
-                        <thead>
-                            <tr className="divide-x divide-white/10">
-                                <th className="bg-primary text-white py-2 px-3 text-left font-semibold">Date / Time</th>
-                                <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">ID</th>
-                                <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Vehicle Req</th>
-                                <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Fleet Id</th>
-                                <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Vehicle Detail</th>
-                                <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Site</th>
-                                <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Litres</th>
-                                <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Pump</th>
-                                <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Odo Meter</th>
-                                <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold">Hour Meter</th>
-                                <th className="bg-[#222] text-white py-2 px-3 text-left font-semibold">DEM</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {issues.length === 0 ? (
-                                <tr>
-                                    <td colSpan={11} className="p-8 text-center text-slate-400 bg-slate-50">
-                                        No transactions found
-                                    </td>
-                                </tr>
-                            ) : (
-                                issues.map((issue) => (
-                                    <tr key={issue.id} className="border-b border-slate-100 last:border-0 odd:bg-white even:bg-[#fff9f5] hover:bg-slate-50/80 transition-colors">
-                                        <td className="py-2 px-3 text-slate-600 align-middle">{issue.date} {issue.time}</td>
-                                        <td className="py-2 px-3 font-bold text-slate-900 align-middle">{issue.transactionId}</td>
-                                        <td className="py-2 px-3 font-bold text-green-600 align-middle">{issue.vehicleId}</td>
-                                        <td className="py-2 px-3 text-slate-600 align-middle">{issue.fleetId}</td>
-                                        <td className="py-2 px-3 text-slate-600 align-middle">{issue.driverAttendant}</td>
-                                        <td className="py-2 px-3 text-slate-600 align-middle">{issue.depot}</td>
-                                        <td className="py-2 px-3 font-bold text-slate-900 align-middle">{formatFuel(issue.fuelQuantity)}</td>
-                                        <td className="py-2 px-3 text-slate-600 align-middle">{issue.pump}</td>
-                                        <td className="py-2 px-3 text-slate-600 align-middle">{issue.odometer}</td>
-                                        <td className="py-2 px-3 text-slate-600 align-middle">{issue.engineHours}</td>
-                                        <td className="py-2 px-3 align-middle">
-                                            <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold border ${issue.status === 'Matched'
-                                                ? 'bg-[#eefcf2] border-[#d6f2e1] text-[#138024]'
-                                                : 'bg-[#fff6f0] border-[#ffe3d1] text-[#f26522]'
-                                                }`}>
-                                                <span className={`h-1.5 w-1.5 rounded-full bg-current`} />
-                                                {issue.dem || issue.status}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                <CustomTable
+                    data={issues}
+                    columns={columns}
+                    keyExtractor={(issue) => issue.id}
+                    emptyStateText="No transactions found"
+                />
 
                 {/* Pagination */}
                 {totalPages > 1 && (

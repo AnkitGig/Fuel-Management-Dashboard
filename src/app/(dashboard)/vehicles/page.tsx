@@ -15,12 +15,70 @@ import { formatFuel, formatNumber } from '@/lib/utils';
 import { Vehicle } from '@/types/vehicle';
 import { useClientStore } from '@/services/api';
 
+import { CustomTable } from '@/components/ui/table';
+
 export default function VehiclesPage() {
     const router = useRouter();
     const selectedClient = useClientStore((state) => state.selectedClient);
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const columns = [
+        {
+            key: "vehicleId",
+            header: "Vehicle ID",
+            headerClassName: "bg-primary text-white border-r border-white/20 last:border-r-0",
+            cellClassName: "py-2 px-3 font-semibold text-slate-800 align-middle border-r border-slate-200",
+        },
+        {
+            key: "vehicleType",
+            header: "Vehicle Type",
+            headerClassName: "bg-[#137e19] text-white border-r border-white/20 last:border-r-0",
+            cellClassName: "py-2 px-3 text-slate-600 align-middle border-r border-slate-200",
+        },
+        {
+            key: "assetType",
+            header: "Asset Type",
+            headerClassName: "bg-[#137e19] text-white border-r border-white/20 last:border-r-0",
+            cellClassName: "py-2 px-3 text-slate-600 align-middle border-r border-slate-200",
+        },
+        {
+            key: "odometer",
+            header: "Odometer",
+            headerClassName: "bg-[#137e19] text-white border-r border-white/20 last:border-r-0",
+            cellClassName: "py-2 px-3 text-slate-600 align-middle border-r border-slate-200",
+            render: (vehicle: Vehicle) => formatNumber(vehicle.odometer),
+        },
+        {
+            key: "distanceTraveled",
+            header: "Distance",
+            headerClassName: "bg-[#137e19] text-white border-r border-white/20 last:border-r-0",
+            cellClassName: "py-2 px-3 text-slate-600 align-middle border-r border-slate-200",
+            render: (vehicle: Vehicle) => `${formatNumber(vehicle.distanceTraveled)} km`,
+        },
+        {
+            key: "fuelIssued",
+            header: "Fuel Issued",
+            headerClassName: "bg-[#137e19] text-white border-r border-white/20 last:border-r-0",
+            cellClassName: "py-2 px-3 text-slate-600 align-middle border-r border-slate-200",
+            render: (vehicle: Vehicle) => formatFuel(vehicle.fuelIssued),
+        },
+        {
+            key: "fuelConsumption",
+            header: "Consumption",
+            headerClassName: "bg-[#137e19] text-white border-r border-white/20 last:border-r-0",
+            cellClassName: "py-2 px-3 font-medium text-slate-800 align-middle border-r border-slate-200",
+            render: (vehicle: Vehicle) => `${vehicle.fuelConsumption.toFixed(1)} L/100km`,
+        },
+        {
+            key: "status",
+            header: "Status",
+            headerClassName: "bg-[#555555] text-white last:border-r-0",
+            cellClassName: "py-2 px-3 align-middle",
+            render: (vehicle: Vehicle) => <StatusBadge status={vehicle.status} />,
+        },
+    ];
 
     // Filter states
     const [search, setSearch] = useState('');
@@ -214,46 +272,14 @@ export default function VehiclesPage() {
                         </div>
                     </div>
 
-                    <div className="overflow-x-auto border-y border-slate-200 shadow-xs">
-                        <table className="w-full text-sm border-collapse">
-                            <thead>
-                                <tr>
-                                    <th className="bg-primary text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Vehicle ID</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Vehicle Type</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Asset Type</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Odometer</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Distance</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Fuel Issued</th>
-                                    <th className="bg-[#137e19] text-white py-2 px-3 text-left font-semibold border-r border-white/20 last:border-r-0">Consumption</th>
-                                    <th className="bg-[#555555] text-white py-2 px-3 text-left font-semibold last:border-r-0">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {vehicles.length === 0 ? (
-                                    <tr>
-                                        <td colSpan={8} className="p-8 text-center text-slate-400 bg-slate-50">
-                                            No vehicles found
-                                        </td>
-                                    </tr>
-                                ) : (
-                                    vehicles.map((vehicle) => (
-                                        <tr key={vehicle.id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors">
-                                            <td className="py-2 px-3 font-semibold text-slate-800 align-middle border-r border-slate-200">{vehicle.vehicleId}</td>
-                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{vehicle.vehicleType}</td>
-                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{vehicle.assetType}</td>
-                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatNumber(vehicle.odometer)}</td>
-                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatNumber(vehicle.distanceTraveled)} km</td>
-                                            <td className="py-2 px-3 text-slate-600 align-middle border-r border-slate-200">{formatFuel(vehicle.fuelIssued)}</td>
-                                            <td className="py-2 px-3 font-medium text-slate-800 align-middle border-r border-slate-200">{vehicle.fuelConsumption.toFixed(1)} L/100km</td>
-                                            <td className="py-2 px-3 align-middle">
-                                                <StatusBadge status={vehicle.status} />
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                    <CustomTable
+                        data={vehicles}
+                        columns={columns}
+                        keyExtractor={(v) => v.id}
+                        emptyStateText="No vehicles found"
+                        className="border-y border-x-0 border-slate-200 rounded-none shadow-none mb-0"
+                        rowClassName="border-b border-slate-200 last:border-0 hover:bg-slate-50 transition-colors"
+                    />
 
                     {/* Pagination */}
                     {totalPages > 1 && (
