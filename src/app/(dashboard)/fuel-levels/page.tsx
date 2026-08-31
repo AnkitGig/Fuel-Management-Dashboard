@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Download, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Search, Download, AlertTriangle, RefreshCw, RotateCcw } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
@@ -121,93 +121,84 @@ export default function FuelLevelsPage() {
     return (
         <PageContainer>
             {/* Header section matching bootstrap layout exactly */}
-            <div className="flex justify-between items-center mb-3">
+            <div className="flex justify-between items-center mb-4">
                 <div>
-                    <h4 className="font-bold text-zinc-900 text-lg leading-none m-0">Fuel Levels</h4>
-                    <span className="text-xs text-zinc-500 mt-0.5 inline-block">Monitor tank levels and historical data</span>
+                    <h2 className="font-semibold text-zinc-900 text-2xl leading-tight m-0">Fuel Levels</h2>
+                    <span className="text-sm text-zinc-500 mt-1 inline-block">Monitor tank levels and historical data</span>
                 </div>
                 <Button
                     onClick={loadData}
-                    className="bg-[#3c8e75] hover:bg-[#317561] text-white text-xs font-semibold rounded px-3 py-1.5 flex items-center gap-1 transition-colors duration-200 border-0 h-8 shadow-sm"
+                    className="bg-[#3c8e75] hover:bg-[#317561] text-sm font-semibold rounded px-4 py-2 flex items-center gap-1.5 transition-colors duration-200 border-0 h-10 shadow-sm"
                 >
-                    <RefreshCw className="h-3.5 w-3.5 mr-0.5" />
+                    <RefreshCw className="h-4 w-4 mr-0.5" />
                     Refresh
                 </Button>
             </div>
 
             {/* Filters & Chart Card wrapper */}
-            <div className="bg-white border border-slate-200 shadow-sm rounded p-3 mb-4">
+            <div className="bg-white border border-slate-200 shadow-sm rounded p-4 mb-4">
                 {/* Filter bar container matching the bootstrap grid structure */}
-                <div className="mb-3 py-2 px-3 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full">
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
-                        {/* Search Input Group (col-md-5 equivalent) */}
-                        <div className="md:col-span-5">
-                            <div className="flex h-9">
-                                <div className="relative flex-1 flex items-stretch">
-                                    <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-white rounded-l text-slate-400">
-                                        <Search className="h-3.5 w-3.5" />
-                                    </span>
-                                    <input
-                                        type="text"
-                                        placeholder="Search by date or status..."
-                                        value={search}
-                                        onChange={(e) => setSearch(e.target.value)}
-                                        className="flex-1 border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-9 rounded-none"
-                                    />
-                                </div>
-                                <Button
-                                    onClick={() => { }}
-                                    className="bg-[#f26522] hover:bg-[#d94f12] text-[11px] font-bold text-white px-4 rounded-r rounded-l-none h-9 border border-[#f26522] transition-colors duration-200 shrink-0"
-                                >
-                                    Search
-                                </Button>
-                            </div>
-                        </div>
-
-                        {/* FROM Date Selector (col-md-3 equivalent) */}
-                        <div className="md:col-span-3 flex items-center h-9">
-                            <div className="flex items-center gap-2 w-full">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider shrink-0">FROM:</label>
+                <div className="mb-4 py-2.5 px-4 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full">
+                    <div className="grid grid-cols-12 gap-2 items-end">
+                        {/* Search Input Group */}
+                        <div className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-4 flex flex-col gap-1.5">
+                            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search transactions</label>
+                            <div className="flex h-8">
+                                <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-slate-50 rounded-l text-slate-400">
+                                    <Search className="h-3 w-3" />
+                                </span>
                                 <input
-                                    type="date"
-                                    value={startDate}
-                                    onChange={(e) => setStartDate(e.target.value)}
-                                    className="flex-1 rounded border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-9 shadow-xs"
+                                    type="text"
+                                    placeholder="Search by date or status..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    className="flex-1 border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 rounded-r rounded-l-none"
                                 />
                             </div>
                         </div>
 
-                        {/* TO Date Selector (col-md-3 equivalent) */}
-                        <div className="md:col-span-3 flex items-center h-9">
-                            <div className="flex items-center gap-2 w-full">
-                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider shrink-0">TO:</label>
-                                <input
-                                    type="date"
-                                    value={endDate}
-                                    onChange={(e) => setEndDate(e.target.value)}
-                                    className="flex-1 rounded border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-9 shadow-xs"
-                                />
-                            </div>
+                        {/* FROM Date Selector */}
+                        <div className="col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 flex flex-col gap-1.5">
+                            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">From date</label>
+                            <input
+                                type="date"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                                className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 shadow-xs w-full"
+                            />
                         </div>
 
-                        {/* Action Buttons (col-md-1 equivalent) */}
-                        <div className="md:col-span-1 flex items-center justify-end h-9">
-                            <div className="flex items-center gap-2">
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={loadData}
-                                    className="h-9 w-9 p-0 rounded border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors shrink-0"
-                                >
-                                    <RefreshCw className="h-3.5 w-3.5" />
-                                </Button>
-                                <Button
-                                    onClick={() => { }}
-                                    className="h-9 w-9 p-0 bg-[#f26522] hover:bg-[#d94f12] text-white rounded border border-[#f26522] transition-colors duration-200 shrink-0"
-                                >
-                                    <Download className="h-3.5 w-3.5" />
-                                </Button>
-                            </div>
+                        {/* TO Date Selector */}
+                        <div className="col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 flex flex-col gap-1.5">
+                            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">To date</label>
+                            <input
+                                type="date"
+                                value={endDate}
+                                onChange={(e) => setEndDate(e.target.value)}
+                                className="rounded border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 shadow-xs w-full"
+                            />
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="col-span-12 md:col-span-6 lg:col-span-2 xl:col-span-2 flex gap-2 justify-start lg:justify-end h-8">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={loadData}
+                                className="h-8 px-4 rounded border border-slate-300 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors flex items-center justify-center gap-1.5 text-xs font-semibold"
+                                title="Reset filters"
+                            >
+                                <RotateCcw className="h-3.5 w-3.5" />
+                                Reset
+                            </Button>
+                            <Button
+                                onClick={() => { }}
+                                className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
+                                title="Export fuel levels"
+                            >
+                                <Download className="h-3.5 w-3.5" />
+                                Export
+                            </Button>
                         </div>
                     </div>
                 </div>

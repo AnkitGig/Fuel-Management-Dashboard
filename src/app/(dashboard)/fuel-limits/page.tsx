@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Download, AlertTriangle } from 'lucide-react';
+import { Search, Download, AlertTriangle, Sliders } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PageContainer } from '@/components/layout/PageContainer';
@@ -115,31 +115,54 @@ export default function FuelLimitsPage() {
 
     return (
         <PageContainer>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1">
+            <div className="flex justify-between items-center mb-4">
                 <div>
-                    <h1 className="text-xl font-bold tracking-tight text-slate-900">Fuel Limits</h1>
-                    <p className="text-slate-500 text-xs">Monitor vehicle limits & track monthly usage</p>
+                    <h2 className="font-extrabold text-zinc-900 text-2xl leading-tight m-0">Fuel Limits</h2>
+                    <span className="text-sm text-zinc-500 mt-1 inline-block">Monitor vehicle limits & track monthly usage</span>
                 </div>
             </div>
 
-            <Card className="rounded-none border border-slate-200 shadow-xs">
-                <CardContent className="px-0 pb-2 mt-4">
-                    <div className="flex flex-col sm:flex-row gap-2 mb-2 px-4">
-                        <div className="relative flex-1">
-                            <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
-                            <input
-                                type="text"
-                                placeholder="Search by asset, vehicle, or department..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="w-full rounded-none border border-slate-300 bg-white pl-8 pr-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary shadow-xs"
-                            />
+            <Card className="rounded border border-slate-200 shadow-sm p-4 mb-4">
+                <CardContent className="p-0">
+                    {/* Filter bar container matching the bootstrap grid structure */}
+                    <div className="mb-4 py-2.5 px-4 bg-[#eefcf2] border border-[#d6f2e1] rounded w-full">
+                        <div className="grid grid-cols-12 gap-2 items-end">
+                            {/* Search Input Group */}
+                            <div className="col-span-12 md:col-span-8 flex flex-col gap-1.5">
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Search transactions</label>
+                                <div className="flex h-8">
+                                    <span className="flex items-center px-3 border border-r-0 border-slate-200 bg-slate-50 rounded-l text-slate-400">
+                                        <Search className="h-3 w-3" />
+                                    </span>
+                                    <input
+                                        type="text"
+                                        placeholder="Search by asset, vehicle, or department..."
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        className="flex-1 border border-slate-200 bg-white px-3 py-1 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-[#f26522] focus:border-[#f26522] h-8 rounded-r rounded-l-none"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="col-span-12 md:col-span-4 flex gap-2 justify-start md:justify-end h-8">
+                                <Button
+                                    onClick={() => { }}
+                                    className="bg-[#f26522] hover:bg-[#d94f12] text-xs font-semibold text-white px-4 rounded h-8 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
+                                >
+                                    <Sliders className="h-3.5 w-3.5" />
+                                    Search
+                                </Button>
+                                <Button
+                                    onClick={() => { }}
+                                    className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
+                                    title="Export"
+                                >
+                                    <Download className="h-3.5 w-3.5" />
+                                    Export
+                                </Button>
+                            </div>
                         </div>
-                        <Button className="bg-primary hover:bg-primary/90 text-white rounded-none h-7 text-xs px-3" size="sm">Search</Button>
-                        <Button variant="outline" size="sm" className="h-7 text-xs px-2.5">
-                            <Download className="mr-1.5 h-3.5 w-3.5" />
-                            Export
-                        </Button>
                     </div>
 
                     <div className="overflow-x-auto border-y border-slate-200 shadow-xs">

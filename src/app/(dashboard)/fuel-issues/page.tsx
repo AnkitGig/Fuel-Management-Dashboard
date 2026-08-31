@@ -128,7 +128,7 @@ export default function FuelIssuesPage() {
             {/* Header section matching bootstrap layout exactly */}
             <div className="flex justify-between items-center mb-4">
                 <div>
-                    <h2 className="font-extrabold text-zinc-900 text-2xl leading-tight m-0">Transactions</h2>
+                    <h2 className="font-semibold text-zinc-900 text-2xl leading-tight m-0">Transactions</h2>
                     <span className="text-sm text-zinc-500 mt-1 inline-block">Track fuel dispensing and transactions</span>
                 </div>
                 <Button
