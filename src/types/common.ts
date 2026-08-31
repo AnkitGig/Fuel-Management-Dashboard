@@ -21,6 +21,7 @@ export interface FilterParams {
   endDate?: string;
   status?: string;
   vehicleId?: string;
+  vehicleType?: string;
 }
 
 export type Status = 'Normal' | 'Warning' | 'Exception' | 'Reconciled' | 'Matched' | 'Unmatched' | 'Active' | 'Inactive';
