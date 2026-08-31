@@ -20,7 +20,7 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { userService } from '@/services/userService';
 import { authService, hasPermission, PERMISSIONS } from '@/lib/auth';
-import { formatDate } from '@/lib/utils';
+import { formatDate, exportToCSV } from '@/lib/utils';
 import { User } from '@/types/common';
 
 export default function UsersPage() {
@@ -75,6 +75,28 @@ export default function UsersPage() {
     const handleSearch = () => {
         setPage(1);
         loadData();
+    };
+
+    const handleExport = async () => {
+        try {
+            const response = await userService.getUsers({
+                page: 1,
+                pageSize: 100000,
+                search: search || undefined,
+            });
+            const allUsers = response.data;
+            if (allUsers.length === 0) return;
+            const headers = ['Name', 'Email', 'Role', 'Status'];
+            const rows = allUsers.map(user => [
+                user.name,
+                user.email,
+                user.role,
+                user.status
+            ]);
+            exportToCSV('users_list.csv', headers, rows);
+        } catch (err) {
+            console.error('Failed to export users:', err);
+        }
     };
 
     const handleToggleStatus = async (userId: string, currentStatus: string) => {
@@ -162,6 +184,7 @@ export default function UsersPage() {
                                 Search
                             </button>
                             <button
+                                onClick={handleExport}
                                 className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5 w-full sm:w-auto"
                             >
                                 <Download className="h-3.5 w-3.5" />

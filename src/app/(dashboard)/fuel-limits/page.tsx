@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { fuelIssueService } from '@/services/fuelIssueService';
-import { formatNumber } from '@/lib/utils';
+import { formatNumber, exportToCSV } from '@/lib/utils';
 import { useClientStore } from '@/services/api';
 
 interface FuelLimitRecord {
@@ -107,6 +107,20 @@ export default function FuelLimitsPage() {
         loadLimitsAndUsage();
     };
 
+    const handleExport = () => {
+        if (filteredData.length === 0) return;
+        const headers = ['Asset (Rego)', 'Vehicle Name', 'Department', 'Limit Type', 'Fuel Limit (L)', 'Monthly Fuel Used (L)'];
+        const rows = filteredData.map(item => [
+            item.asset,
+            item.vehicleName,
+            item.department,
+            item.limitType,
+            item.fuelLimit,
+            item.monthlyFuelUsed
+        ]);
+        exportToCSV('fuel_limits.csv', headers, rows);
+    };
+
     const filteredData = limits.filter((item) => {
         const query = search.toLowerCase();
         const matchesSearch = item.asset.toLowerCase().includes(query) ||
@@ -147,7 +161,7 @@ export default function FuelLimitsPage() {
                         Refresh
                     </Button>
                     <Button
-                        onClick={() => { }}
+                        onClick={handleExport}
                         className="bg-[#f26522] hover:bg-[#d94f12] text-sm font-semibold rounded px-4 py-2 flex items-center gap-1.5 transition-colors duration-200 border-0 h-10 shadow-sm text-white"
                     >
                         <Download className="h-4 w-4" />
@@ -236,7 +250,7 @@ export default function FuelLimitsPage() {
 
                                 {/* Export Button */}
                                 <Button
-                                    onClick={() => { }}
+                                    onClick={handleExport}
                                     className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
                                     title="Export"
                                 >

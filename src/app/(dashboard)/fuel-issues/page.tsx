@@ -11,7 +11,7 @@ import { PageContainer } from '@/components/layout/PageContainer';
 import { fuelIssueService } from '@/services/fuelIssueService';
 import { vehicleService } from '@/services/vehicleService';
 import { authService } from '@/lib/auth';
-import { formatFuel } from '@/lib/utils';
+import { formatFuel, exportToCSV } from '@/lib/utils';
 import { useClientStore } from '@/services/api';
 
 import { CustomTable } from '@/components/ui/table';
@@ -184,6 +184,40 @@ export default function FuelIssuesPage() {
         loadData('', '', '', '', '');
     };
 
+    const handleExport = async () => {
+        try {
+            const response = await fuelIssueService.getFuelIssues({
+                page: 1,
+                pageSize: 100000,
+                search: search || undefined,
+                status: selectedStatus || undefined,
+                vehicleId: selectedVehicle || undefined,
+                startDate,
+                endDate,
+            });
+            const allIssues = response.data;
+            if (allIssues.length === 0) return;
+            const headers = ['Date', 'Time', 'ID', 'Vehicle Req', 'Fleet Id', 'Vehicle Detail', 'Site', 'Litres', 'Pump', 'Odo Meter', 'Hour Meter', 'DEM/Status'];
+            const rows = allIssues.map(issue => [
+                issue.date,
+                issue.time,
+                issue.transactionId,
+                issue.vehicleId,
+                issue.fleetId,
+                issue.driverAttendant,
+                issue.depot,
+                issue.fuelQuantity,
+                issue.pump,
+                issue.odometer,
+                issue.engineHours,
+                issue.dem || issue.status
+            ]);
+            exportToCSV(`fuel_issues_${startDate || 'all'}_to_${endDate || 'all'}.csv`, headers, rows);
+        } catch (err) {
+            console.error('Failed to export fuel issues:', err);
+        }
+    };
+
     if (loading && issues.length === 0) {
         return (
             <PageContainer>
@@ -305,7 +339,7 @@ export default function FuelIssuesPage() {
                                 Reset
                             </Button>
                             <Button
-                                onClick={() => { }}
+                                onClick={handleExport}
                                 className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
                                 title="Export fuel levels"
                             >

@@ -9,7 +9,7 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { fuelLevelService } from '@/services/fuelLevelService';
 import { authService } from '@/lib/auth';
-import { formatNumber } from '@/lib/utils';
+import { formatNumber, exportToCSV } from '@/lib/utils';
 import { FuelLevel } from '@/types/fuel';
 import { useClientStore } from '@/services/api';
 import {
@@ -110,6 +110,19 @@ export default function FuelLevelsPage() {
     };
 
     const chartData = getChartData();
+
+    const handleExport = () => {
+        if (filteredLevels.length === 0) return;
+        const headers = ['Date', 'Time', 'Fuel Level (L)', 'Percentage (%)', 'Status'];
+        const rows = filteredLevels.map(level => [
+            level.date,
+            level.time,
+            level.fuelLevel,
+            `${level.percentage}%`,
+            level.status
+        ]);
+        exportToCSV(`fuel_levels_${startDate}_to_${endDate}.csv`, headers, rows);
+    };
 
     const formatDateTick = (tickItem: string) => {
         try {
@@ -226,7 +239,7 @@ export default function FuelLevelsPage() {
                                 Reset
                             </Button>
                             <Button
-                                onClick={() => { }}
+                                onClick={handleExport}
                                 className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
                                 title="Export fuel levels"
                             >

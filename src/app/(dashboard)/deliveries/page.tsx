@@ -10,7 +10,7 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { deliveryService } from '@/services/deliveryService';
 import { authService } from '@/lib/auth';
-import { formatDate, formatFuel } from '@/lib/utils';
+import { formatDate, formatFuel, exportToCSV } from '@/lib/utils';
 import { FuelDelivery } from '@/types/fuel';
 import { useClientStore } from '@/services/api';
 
@@ -94,6 +94,30 @@ export default function DeliveriesPage() {
     const handleSearch = () => {
         setPage(1);
         loadData();
+    };
+
+    const handleExport = async () => {
+        try {
+            const response = await deliveryService.getDeliveries({
+                page: 1,
+                pageSize: 100000,
+                search: search || undefined,
+                startDate,
+                endDate,
+            });
+            const allDeliveries = response.data;
+            if (allDeliveries.length === 0) return;
+            const headers = ['Delivery ID', 'Date', 'Time', 'Quantity (L)'];
+            const rows = allDeliveries.map(d => [
+                d.deliveryId,
+                d.date,
+                d.time,
+                d.quantity
+            ]);
+            exportToCSV(`deliveries_${startDate || 'all'}_to_${endDate || 'all'}.csv`, headers, rows);
+        } catch (err) {
+            console.error('Failed to export deliveries:', err);
+        }
     };
 
     if (loading && deliveries.length === 0) {
@@ -195,7 +219,7 @@ export default function DeliveriesPage() {
                                 Reset
                             </Button>
                             <Button
-                                onClick={() => { }}
+                                onClick={handleExport}
                                 className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
                                 title="Export fuel levels"
                             >

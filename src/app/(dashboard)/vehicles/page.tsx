@@ -11,7 +11,7 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { vehicleService } from '@/services/vehicleService';
 import { authService } from '@/lib/auth';
-import { formatFuel, formatNumber } from '@/lib/utils';
+import { formatFuel, formatNumber, exportToCSV } from '@/lib/utils';
 import { Vehicle } from '@/types/vehicle';
 import { useClientStore } from '@/services/api';
 
@@ -148,6 +148,36 @@ export default function VehiclesPage() {
         loadData('', '', '', '2026-08-01', '2026-08-19');
     };
 
+    const handleExport = async () => {
+        try {
+            const response = await vehicleService.getVehicles({
+                page: 1,
+                pageSize: 100000,
+                search: search || undefined,
+                status: selectedStatus || undefined,
+                vehicleType: selectedVehicleType || undefined,
+                startDate,
+                endDate,
+            });
+            const allVehicles = response.data;
+            if (allVehicles.length === 0) return;
+            const headers = ['Vehicle ID', 'Vehicle Type', 'Asset Type', 'Odometer (km)', 'Distance (km)', 'Fuel Issued (L)', 'Consumption (L/100km)', 'Status'];
+            const rows = allVehicles.map(v => [
+                v.vehicleId,
+                v.vehicleType,
+                v.assetType,
+                v.odometer,
+                v.distanceTraveled,
+                v.fuelIssued,
+                v.fuelConsumption,
+                v.status
+            ]);
+            exportToCSV(`vehicles_${startDate || 'all'}_to_${endDate || 'all'}.csv`, headers, rows);
+        } catch (err) {
+            console.error('Failed to export vehicles:', err);
+        }
+    };
+
     if (loading && vehicles.length === 0) {
         return (
             <PageContainer>
@@ -266,7 +296,7 @@ export default function VehiclesPage() {
 
                                 {/* Export Button */}
                                 <Button
-                                    onClick={() => { }}
+                                    onClick={handleExport}
                                     className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
                                     title="Export fuel levels"
                                 >

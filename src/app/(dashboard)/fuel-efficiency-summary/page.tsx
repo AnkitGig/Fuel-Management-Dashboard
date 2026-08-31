@@ -10,7 +10,7 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { fuelIssueService } from '@/services/fuelIssueService';
 import { authService } from '@/lib/auth';
-import { formatFuel, formatNumber } from '@/lib/utils';
+import { formatFuel, formatNumber, exportToCSV } from '@/lib/utils';
 import { useClientStore } from '@/services/api';
 
 interface VehicleEfficiency {
@@ -117,6 +117,20 @@ export default function FuelEfficiencySummaryPage() {
         setSearch('');
         setSelectedEfficiency('');
         loadData();
+    };
+
+    const handleExport = () => {
+        if (filteredData.length === 0) return;
+        const headers = ['Vehicle Description', 'Ltrs', 'No. of Transactions', 'Distance (KM)', 'KM per Ltr', 'Ltrs per 100KM'];
+        const rows = filteredData.map(item => [
+            item.description,
+            item.ltrs,
+            item.transactions,
+            item.distance,
+            item.kmPerLtr,
+            item.ltrsPer100Km
+        ]);
+        exportToCSV('fuel_efficiency_summary.csv', headers, rows);
     };
 
     const filteredData = data.filter(item => {
@@ -234,7 +248,7 @@ export default function FuelEfficiencySummaryPage() {
 
                                 {/* Export Button */}
                                 <Button
-                                    onClick={() => { }}
+                                    onClick={handleExport}
                                     className="bg-[#f26522] hover:bg-[#d94f12] text-white text-xs font-semibold rounded h-8 px-4 border border-[#f26522] transition-colors duration-200 flex items-center justify-center gap-1.5"
                                     title="Export"
                                 >
