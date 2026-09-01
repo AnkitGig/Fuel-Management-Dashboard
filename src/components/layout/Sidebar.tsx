@@ -23,6 +23,8 @@ import {
     ChevronRight,
     Sliders,
     RefreshCw,
+    Gauge,
+    Smartphone,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { authService } from '@/lib/auth';
@@ -30,19 +32,19 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSidebar } from '@/hooks/useSidebar';
 
 const navigationItems = [
-    // { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Fuel Levels', href: '/fuel-levels', icon: Droplet },
     { name: 'Deliveries', href: '/deliveries', icon: Truck },
     { name: 'Transactions', href: '/fuel-issues', icon: FileText },
-    { name: 'Fuel Efficiency', href: '/vehicles', icon: Fuel },
+    { name: 'Fuel Efficiency', href: '/vehicles', icon: Gauge },
     { name: 'Fuel Efficiency Summary', href: '/fuel-efficiency-summary', icon: FileBarChart },
     { name: 'Fuel Limits', href: '/fuel-limits', icon: Sliders },
-    { name: 'Reconciliation', href: '/reconciliation', icon: RefreshCw }
+    { name: 'Reconciliation', href: '/reconciliation', icon: RefreshCw },
 ];
 
 const adminItems = [
     { name: 'Users', href: '/admin/users', icon: Users },
-    { name: 'Roles', href: '/admin/roles', icon: UserCog },
+    { name: 'Roles', href: '/admin/roles', icon: Smartphone },
 ];
 
 export function Sidebar() {
