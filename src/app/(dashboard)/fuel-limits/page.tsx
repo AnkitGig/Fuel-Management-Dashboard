@@ -94,6 +94,7 @@ export default function FuelLimitsPage() {
             console.error('Failed to load live limits usage:', err);
         } finally {
             setLoading(false);
+            useClientStore.getState().setClientLoading(false);
         }
     };
 

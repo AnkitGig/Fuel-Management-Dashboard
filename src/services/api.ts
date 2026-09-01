@@ -28,17 +28,28 @@ export const CLIENTS: ClientConfig[] = [
 
 interface ClientStore {
   selectedClient: ClientConfig;
+  isClientLoading: boolean;
   selectClient: (client: ClientConfig) => void;
+  setClientLoading: (loading: boolean) => void;
 }
 
 export const useClientStore = create<ClientStore>()(
   persist(
     (set) => ({
       selectedClient: CLIENTS[0],
-      selectClient: (client) => set({ selectedClient: client }),
+      isClientLoading: false,
+      selectClient: (client) => {
+        set({ selectedClient: client, isClientLoading: true });
+        // Fallback safety timeout in case network stalls
+        setTimeout(() => {
+          set((state) => (state.isClientLoading ? { isClientLoading: false } : {}));
+        }, 10000);
+      },
+      setClientLoading: (loading) => set({ isClientLoading: loading }),
     }),
     {
       name: 'client-settings-storage',
+      partialize: (state) => ({ selectedClient: state.selectedClient }),
     }
   )
 );

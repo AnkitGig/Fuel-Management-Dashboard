@@ -133,6 +133,7 @@ export default function ReconciliationPage() {
             setError('Failed to load reconciliation records');
         } finally {
             setLoading(false);
+            useClientStore.getState().setClientLoading(false);
         }
     };
 

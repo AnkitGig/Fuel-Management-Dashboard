@@ -157,6 +157,7 @@ export default function FuelIssuesPage() {
             setError('Failed to load transactions');
         } finally {
             setLoading(false);
+            useClientStore.getState().setClientLoading(false);
         }
     };
 

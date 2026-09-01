@@ -268,6 +268,7 @@ export default function DashboardPage() {
         } finally {
             setLoading(false);
             setRefreshing(false);
+            useClientStore.getState().setClientLoading(false);
         }
     }, []);
 

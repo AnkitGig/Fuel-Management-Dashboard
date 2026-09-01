@@ -74,6 +74,7 @@ export default function FuelLevelsPage() {
             setError('Failed to load fuel level data');
         } finally {
             setLoading(false);
+            useClientStore.getState().setClientLoading(false);
         }
     };
 

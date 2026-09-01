@@ -107,6 +107,7 @@ export default function FuelEfficiencySummaryPage() {
             setError('Failed to compute fuel efficiency metrics from live data.');
         } finally {
             setLoading(false);
+            useClientStore.getState().setClientLoading(false);
         }
     };
 

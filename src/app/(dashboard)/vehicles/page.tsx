@@ -130,6 +130,7 @@ export default function VehiclesPage() {
             setError('Failed to load vehicles');
         } finally {
             setLoading(false);
+            useClientStore.getState().setClientLoading(false);
         }
     };
 

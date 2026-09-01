@@ -92,6 +92,7 @@ export default function DeliveriesPage() {
             setError('Failed to load deliveries');
         } finally {
             setLoading(false);
+            useClientStore.getState().setClientLoading(false);
         }
     };
 
